@@ -1,0 +1,9 @@
+name = CKAN Module
+description = External CKAN data packages to Drupal Nodes
+package = Ebiz modules
+configure = admin/config/system/ckan
+version = "7.x-1.0"
+core = "7.x"
+dependencies[] = "path"
+dependencies[]="contenttypeckanextrafields"
+dependencies[]="contenttypeckanpackage"

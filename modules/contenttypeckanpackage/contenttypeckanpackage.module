@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the contenttypeckanpackage feature.
+ */
+
+include_once 'contenttypeckanpackage.features.inc';

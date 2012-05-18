@@ -1,0 +1,63 @@
+<?php
+
+
+
+/*function ckan_install() {
+	drupal_install_schema('ckan');
+}
+
+function ckane_uninstall() {
+	drupal_uninstall_schema('ckan');
+	
+}
+
+function ckan_schema() {
+  $schema = array();
+
+$schema['ckan_extra'] = array(
+  'description' => t('CKAN extras - onces that arent in the defaults provided by hooks'),
+  'fields' => array(
+    'id' => array(
+      'description' => t('Unique ID for ckan extras - not really used'),
+      'type' => 'serial',
+      'unsigned' => TRUE,
+      'not null' => TRUE,
+    ),
+    'nid' => array(
+      'description' => t('node id'),
+      'type' => 'int',
+      'unsigned' => TRUE,
+      'not null' => TRUE,
+    ),
+    'vid' => array(
+      'description' => t('node version id'),
+      'type' => 'int',
+      'unsigned' => TRUE,
+      'not null' => TRUE,
+      'default' => 0,
+    ),
+    'ckan_name' => array(
+      'description' => t('extra name'),
+      'type' => 'varchar',
+      'length' => '255',
+      'not null' => FALSE,
+    ),
+    'ckan_value' => array(
+      'description' => t('extra value'),
+      'type' => 'text',
+      'size' => 'big',
+      'not null' => FALSE,
+    ),
+    ),
+    'primary key' => array('id'),
+    'indexes'     => array(
+          'vid'      => array('vid'),
+          'nidvid'    => array('nid', 'vid'),
+          'name'     => array('ckan_name'),    
+    ),
+);
+
+
+
+return $schema;
+}*/

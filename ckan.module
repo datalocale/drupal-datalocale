@@ -1,0 +1,356 @@
+<?php
+/**
+ * @file
+ *
+ * A Module to Integrate CKAN and Drupal.
+ *
+ *
+ */
+
+module_load_include('inc', 'ckan', 'ckan.import');
+function ckan_menu(){
+	$items = array();
+
+	// link to the search form page
+	$items['ckan_search'] = array(
+    'title'           => t('Search CKAN'),
+    'page callback'   => 'drupal_get_form',
+    'page arguments'  => array('ckan_search_form'),
+    'access callback' => TRUE,
+	);
+
+	$items['ckan/search/%'] = array(
+    'page callback'     => 'ckan_search_results_page',
+    'page arguments'    => array(2),
+    'access arguments'  => array('access content'),
+    'type'              => MENU_CALLBACK,
+	);
+
+	$items['ckan/data/%'] = array(
+    'page callback'   => 'ckan_new',
+    'page arguments'  => array(2),
+    'access arguments' => array('access content'),
+    'type'            => MENU_CALLBACK,
+	);
+
+	$items['ckan/list'] = array(
+    'page callback'   => 'ckan_list',
+    'access arguments' => array('access content'),
+    'type'            => MENU_CALLBACK,
+	);
+	$items['ckan/groups'] = array(
+    'page callback'   => 'ckan_groups',
+    'access arguments' => array('access content'),
+    'type'            => MENU_CALLBACK,
+	);
+	$items['ckan/licenses'] = array(
+    'page callback'   => 'ckan_licenses',
+    'access arguments' => array('access content'),
+    'type'            => MENU_CALLBACK,
+	);
+	$items['admin/config/system/ckan'] = array(
+    'title' => 'Ckan',
+    'description' => 'Configure Ckan',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ckan_admin_settings_form'),
+    'access arguments' => array('administer Ckan'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'ckan.admin.inc',
+	);
+
+	return $items;
+}
+
+/**
+ * Initialize the ckan object
+ *
+ *
+ */
+
+function ckan_ckan(){
+	static $ckan=null;
+	if (!$ckan){
+		require_once(dirname(__FILE__) . '/ckan.php');
+		$ckan=new Ckan(variable_get('ckan_url', 'http://www.ckan.net/'),variable_get('ckan_api', ''));
+	}
+	return $ckan;
+}
+
+/**
+ * Th hook_cron
+ *
+ *
+ */
+function ckan_cron(){
+	ckan_list();
+	// Finally, save our term
+	/*       if($groups)foreach($groups as $k=>$g){
+	 if($tags && $ckanvocab)foreach ($tags as $key => $tag) {
+	 if ($term = taxonomy_get_term_by_name($tag)) {
+	 $terms_array = array_keys($term);
+	 if($terms_array['0']<>'')$node->field_tagsckan[LANGUAGE_NONE][$key]['tid'] = $terms_array['0'];
+	 } else {
+	 $term = new stdClass();
+	 $term->name = $tag;
+	 $term->vid = $ckanvocab;
+	 if (!empty($term->name)) {
+	 $test = taxonomy_term_save($term);
+	 $term = taxonomy_get_term_by_name($tag);
+	 if($term){$tid = key($term);
+	 if($tid<>'')$node->field_tagsckan[LANGUAGE_NONE][$key]['tid'] = $tid;
+	 }
+	 }
+	 }
+	 }
+	 }*/
+
+	// ckan_groups();
+}
+
+
+/**
+ * Implements hook_form
+ *
+ * @param Array $form_state
+ * @return Array $form
+ */
+function ckan_search_form(&$form_state){
+
+	$form = array();
+	$form['q'] = array(
+                   '#type'          => 'textfield',
+                   '#default_value' => '',
+	);
+	$form['submit'] = array(
+                   '#type'          => 'submit',
+                   '#value'         => t('Search CKAN'),
+	);
+
+	return $form;
+}
+
+
+function ckan_search_form_submit($form, &$form_state) {
+	// The search form relies on control of the redirect destination for its
+	// functionality, so we override any static destination set in the request,
+	// for example by drupal_access_denied() or drupal_not_found()
+	// (see http://drupal.org/node/292565).
+	if (isset($_REQUEST['destination'])) {
+		unset($_REQUEST['destination']);
+	}
+	if (isset($_REQUEST['edit']['destination'])) {
+		unset($_REQUEST['edit']['destination']);
+	}
+
+	$form_state['redirect'] = 'ckan/search/'. trim($form_state['values']['q']);
+
+}
+
+function ckan_search_results_page($search){
+	//	return $search;
+	try {
+		$ckan = ckan_ckan();
+
+		$results = $ckan->search(check_plain($search));
+		// print_r($results);
+	} catch (Exception $e){
+		return $e->getMessage();
+	}
+	// return theme('ckan_search_results', $results);
+}
+
+/**
+ * Create the node the first time this package is seen.
+ *
+ * This creates a specific URL which override the wildcard one subsequently
+ *
+ * @param String $ckan_name
+ */
+
+/////////////////////////////////////////// CKAN GROUPS/////////////////////////////////////////
+function ckan_checkgroup($id){
+	$query = db_select('field_data_field_ckan_id', 'c');
+	$query->fields('c', array('entity_id'))->condition('c.field_ckan_id_value', $id, '=');
+	$result = $query->execute();
+	$tid=key($result->fetchAllAssoc('entity_id'));
+	return $tid;
+}
+
+function ckan_groups(){
+	/* $groupsvocab=variable_get('ckan_groupsvocab');
+	 $ckan = ckan_ckan();
+	 try {
+	 $groups = $ckan->getGroupList();
+	 if($groups)foreach($groups as $k=>$g){
+	 $groupe= group_new($g);
+	 //if($i<=10)
+	 $tid=ckan_checkgroup($groupe->id);
+	 if($tid){
+	 $term=taxonomy_term_load($tid);
+	 $term->name = $g;
+	 $term->vid = $groupsvocab;
+
+	 }else{
+	 $term = new stdClass();
+	 $term->name = $g;
+	 $term->vid = $groupsvocab; // ‘1’ is a vocabulary id you wish this term to assign to
+	 $term->field_ckan_id[LANGUAGE_NONE][0]['value']=$groupe->id;
+
+	 }
+	 taxonomy_term_save($term);
+	 }
+	 }
+	 catch (CkanException $e){
+	 drupal_set_message($e->getMessage(), "error list groups");
+	 drupal_set_title("error list groups");
+	 return "error list groups";
+	 }
+	 */
+}
+function group_new($group_name){
+	$ckan = ckan_ckan();
+	try {
+		$group_data = $ckan->getGroup($group_name);
+	} catch (CkanException $e){
+		drupal_set_message($e->getMessage(),  "error getGroup creation");
+		drupal_set_title( "error getGroup creation");
+		return  "error getGroup creation";
+	}
+	return $group_data;
+
+}
+
+
+
+
+function ckan_create_group($group_data){
+	print_r($group_data);
+}
+///////////////////////////////////////////FIN CKan groups///////////////////////////////////////
+
+/////////////////////////////////////////// CKAN licenseS/////////////////////////////////////////
+function ckan_licenses(){
+
+	$ckan = ckan_ckan();
+	try {
+		$licenses = $ckan->getLicenseList();
+		// print_r($licenses);
+		if($licenses)foreach($licenses as $k=>$g){
+			//if($i<=10)
+			$arrlic[$g->id]['title']=$g->title;
+			$arrlic[$g->id]['url']=$g->url;
+			// echo ckan_create_license($g);$i++;
+
+		}
+		return $arrlic;
+	}
+	catch (CkanException $e){
+		drupal_set_message($e->getMessage(), "error list licenses");
+		drupal_set_title("error list licenses");
+		return "error list licenses";
+	}
+
+}
+/*
+ function license_new($license_name){
+ $ckan = ckan_ckan();
+ try {
+ $license_data = $ckan->getlicense($license_name);
+ } catch (CkanException $e){
+ drupal_set_message($e->getMessage(),  "error getlicense creation");
+ drupal_set_title( "error getlicense creation");
+ return  "error getlicense creation";
+ }
+ $node = ckan_create_license($license_data);
+ return 1;
+ }
+ */
+
+
+
+function ckan_create_license($license_data){
+	print_r($license_data);
+}
+///////////////////////////////////////////FIN CKan licenses///////////////////////////////////////
+/*
+ function ckan_node_info() {
+
+ return array(
+ 'ckan' => array(
+ 'name'           => t('CKAN Package'),
+ 'module'         => 'ckan',
+ 'description'    => t('A package of Open Data.'),
+ 'has_title'      => TRUE,
+ 'title_label'    => t('Title'),
+ 'has_body'       => TRUE,
+ 'body_label'     => t('Package Description'),
+ 'min_word_count' => 0,
+ 'locked'         => TRUE
+ )
+ );
+ }
+
+ function ckan_load($node){
+ $ckan = ckan_ckan();
+ try {
+ $node->ckan = $ckan->getPackage($node->body);
+ } catch(Exception $e){
+ drupal_set_message($e->getMessage(), 'error');
+ }
+ //	print_r($node->ckan);
+ return $node;
+ }
+
+ function ckan_view($node, $teaser = FALSE, $page = FALSE) {
+
+
+ $node = node_prepare($node, $teaser);
+ $node->content['title']['#value']  = check_plain($node->ckan->title);
+ $node->content['body']['#value'] = nl2br(check_plain($node->ckan->notes));
+
+ return $node;
+ }
+
+
+
+
+
+ */
+function ckan_theme() {
+	return array(
+    'ckan_search_results' => array('arguments' => array('results')),
+	);
+}
+
+
+
+
+function theme_ckan_search_results($results) {
+	//print_r($results);
+	$content = '';
+	$content .= "<p>" . $results->count . " Results found</p>";
+	foreach ($results->results as $package){
+		$content .= '<h2>' . l($package->title, 'ckan/data/' . urlencode(check_plain($package->name))) . '</h2>';
+		$content .= '<p>' . nl2br(check_plain($package->notes)) . '</p>';
+		$content .= '<p>';
+		foreach ($package->groups as $i => $group){
+			$content .= '<b>' . check_plain($group) . '</b> ';
+		}
+		$content .= '</p>';
+	}
+	return $content;
+
+}
+
+
+function ckan_permission() {
+	return array(
+    'administer Ckan' => array(
+      'title' => t('Administer Ckan'),
+      'description' => t('Administer Ckan'),
+	)
+	);
+}
+
+
+
