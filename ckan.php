@@ -1,7 +1,7 @@
 <?php
 class Ckan {
     private  $url = 'http://www.ckan.net/';
-    private $apikey = '';
+    private $apikey = 'a37d3691-312e-4d87-b95b-349f0ff31558';
 
 
   private $debugmode = FALSE;
@@ -87,6 +87,29 @@ class Ckan {
         return json_decode($result);
     }
 
+    private function test($url,$data){
+print_r($data);
+$data_string = json_encode($data);
+echo $data_string;
+$ch = curl_init($this->url. $url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) ;
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($data_string))
+);
+
+$result = curl_exec($ch);
+ $info = curl_getinfo($ch);print_r($info);
+        curl_close($ch);
+                echo "aaaaaaaaaaaaa";print_r(json_decode($result)); echo "xxxxxxxxx";//break;
+        return json_decode($result);
+
+    }
+
+
     public function search($keyword){
         $results = $this->transfer('api/search/package/?all_fields=1&q=' . urlencode($keyword));
         if (!$results->count){
@@ -136,6 +159,15 @@ class Ckan {
 	    throw new CkanException("License List Error");
 	  }
 	  return $list;
+	}
+
+	public function getUsersList($data){
+	  $users =  $this->test('api/action/user_list',$data);
+	  print_r($users);
+	  if (!is_array($users) && !is_object($users)){
+	    throw new CkanException("User List Error");
+	  }
+	  return $users;
 	}
 	public function getRevisionsSinceTime($time){
 

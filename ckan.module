@@ -177,6 +177,19 @@ function ckan_checkgroup($id){
 }
 
 function ckan_groups(){
+//print_r( json_decode(http_response('http://test.ckan.net/api/action/package_list')));
+
+$ckan = ckan_ckan();
+	 try {
+	 $data = array("q" => "1","order_by"=>"hhh");
+	 $groups = $ckan->getUsersList($data);
+	 print_r($groups);echo "sssssssss";
+	 }
+	 catch (CkanException $e){
+	 drupal_set_message($e->getMessage(), "error list groups");
+	 drupal_set_title("error list groups");
+	 return "error list groups";
+	 }
 	/* $groupsvocab=variable_get('ckan_groupsvocab');
 	 $ckan = ckan_ckan();
 	 try {
@@ -351,6 +364,26 @@ function ckan_permission() {
 	)
 	);
 }
+
+
+function http_response($url)
+{
+$data = array("q" => "1","order_by"=>"hhh");
+$data_string = json_encode($data);
+
+$ch = curl_init($url);
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($data_string))
+);
+
+$result = curl_exec($ch);
+$info = curl_getinfo($ch);print_r($info);
+print_r($result);
+    }
 
 
 
