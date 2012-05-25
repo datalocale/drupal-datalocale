@@ -26,12 +26,28 @@ $arrvoc=getallvocabularies();
 	'#default_value' => variable_get('ckan_tagsvocab')
 
   );
-    $form['groups'] = array(
+    $form['frequence'] = array(
     '#type' => 'select',
     '#title' => t('List of Vocabularies'),
     '#options' => $arrvoc,
     '#required' => TRUE,
-	'#default_value' => variable_get('ckan_groupsvocab')
+	'#default_value' => variable_get('ckan_frequencevocab')
+
+  );
+      $form['categorie'] = array(
+    '#type' => 'select',
+    '#title' => t('List of Vocabularies'),
+    '#options' => $arrvoc,
+    '#required' => TRUE,
+	'#default_value' => variable_get('ckan_categorievocab')
+
+  );
+      $form['concept'] = array(
+    '#type' => 'select',
+    '#title' => t('List of Vocabularies'),
+    '#options' => $arrvoc,
+    '#required' => TRUE,
+	'#default_value' => variable_get('ckan_conceptvocab')
 
   );
   $form['#submit'][] = 'ckan_admin_settings_form_submit';
@@ -58,6 +74,10 @@ $apikey=$form_state['values']['apikey'];
 variable_set('ckan_api', $apikey);
 $tags=$form_state['values']['tags'];
 variable_set('ckan_tagsvocab', $tags);
-$groups=$form_state['values']['groups'];
-variable_set('ckan_groupsvocab', $groups);
+$frequence=$form_state['values']['frequence'];
+variable_set('ckan_frequencevocab', $frequence);
+$concept=$form_state['values']['concept'];
+variable_set('ckan_conceptvocab', $concept);
+$categorie=$form_state['values']['categorie'];
+variable_set('ckan_categorievocab', $categorie);
 }

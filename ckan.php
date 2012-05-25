@@ -88,9 +88,9 @@ class Ckan {
     }
 
     private function test($url,$data){
-print_r($data);
+
 $data_string = json_encode($data);
-echo $data_string;
+
 $ch = curl_init($this->url. $url);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
@@ -102,9 +102,10 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 );
 
 $result = curl_exec($ch);
- $info = curl_getinfo($ch);print_r($info);
+
+ $info = curl_getinfo($ch);
         curl_close($ch);
-                echo "aaaaaaaaaaaaa";print_r(json_decode($result)); echo "xxxxxxxxx";//break;
+
         return json_decode($result);
 
     }
@@ -128,6 +129,14 @@ $result = curl_exec($ch);
     }
 
 
+
+	public function getckanusers($data){
+	  $users =  $this->test('api/action/user_list',$data);
+	  if (!is_array($users) && !is_object($users)){
+	    throw new CkanException("User List Error");
+	  }
+	  return $users;
+	}
     public function getPackageList(){
         $list =  $this->transfer('api/rest/package/');
         if (!is_array($list)){
@@ -162,8 +171,8 @@ $result = curl_exec($ch);
 	}
 
 	public function getUsersList($data){
+		$data['id']="eeeeeeeeee";
 	  $users =  $this->test('api/action/user_list',$data);
-	  print_r($users);
 	  if (!is_array($users) && !is_object($users)){
 	    throw new CkanException("User List Error");
 	  }

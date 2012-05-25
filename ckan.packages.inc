@@ -48,7 +48,7 @@ function ckan_create_node($ckan_data,$licenses){
 	$node->body[LANGUAGE_NONE][0]['summary'] = text_summary($body_text);
 	$node->body[LANGUAGE_NONE][0]['format']  = 'filtered_html';
 	$node->field_name[LANGUAGE_NONE][0]['value'] = $ckan_data->name;
-	$node->field_name[LANGUAGE_NONE][0]['format'] =$ckan_data->name;
+//	$node->field_name[LANGUAGE_NONE][0]['format'] =$ckan_data->name;
 	$node->field_url[LANGUAGE_NONE][0]['url'] = $ckan_data->url;
 	$node->field_url[LANGUAGE_NONE][0]['title'] = $ckan_data->name;
 	$node->field_notes[LANGUAGE_NONE][0]['value'] = $ckan_data->notes;
@@ -135,7 +135,8 @@ function ckan_new($ckan_name,$datelastimport){
 
 	$ckan = ckan_ckan();
 	try {
-		$ckan_data = $ckan->getPackage($ckan_name);
+		$data['id']=$ckan_name;
+		$ckan_data = $ckan->getPackage($data);
 		//print_r($ckan_data);
 	} catch (CkanException $e){
 		drupal_set_message($e->getMessage(),  "error node package creation");
@@ -180,37 +181,7 @@ function ckan_list(){
 
 }
 
-/**
- * create a node extrafield
- *
- */
-function ckan_createnodeextra($name,$value){
-	$nd = new stdClass(); // We create a new node object
-	$nd->type = "ckan_extrafields"; // Or any other content type you want
-	$nd->title = "Extra field  ".$name;
-	$node->uid = 1;
-	$nd->language = LANGUAGE_NONE;
-	//$nd->created =strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
-	//$nd->changed=strtotime(str_replace("T"," ",$ckan_data-> metadata_last_modified));
-	$nd->field_labelchamp[LANGUAGE_NONE][0]['value'] = $name;
-	$nd->field_valuechamp[LANGUAGE_NONE][0]['value'] = $value;
-	$ndextra = node_submit($nd); // Prepare node for a submit
-	node_save($ndextra);
-	$nidextra=$ndextra->nid;
-	return $nidextra;
-}
-/**
- * check if a node extrafield exists already
- *
- */
-function ckan_checkextra($name,$value){
-	$query = db_select('field_data_field_labelchamp', 'l');
-	$query->join('field_data_field_valuechamp', 'v', 'l.entity_id = v.entity_id'); // inner_join file_usage table against file_managed
-	$query->fields('l', array('entity_id'))->condition('l.field_labelchamp_value', $name, '=')->condition("v.field_valuechamp_value",$value,'=');
-	$result = $query->execute();
-	$nidextra=key($result->fetchAllAssoc('entity_id'));
-	return $nidextra;
-}
+
 /**
  * create or edit a node ckan_ressources
  *
@@ -273,3 +244,5 @@ function ckan_checkressource($id){
 	$nidres=key($result->fetchAllAssoc('entity_id'));
 	return $nidres;
 }
+
+
