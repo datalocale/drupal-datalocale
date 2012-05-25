@@ -101,44 +101,8 @@ function ckan_checkextra($name,$value){
  *
  */
 function ckan_cron(){
-	//ckan_users();
-	//ckan_groups();
-	//ckan_list();
-
-	 $myField_name = "my_new_field_name";
-    if(!field_info_field($myField_name)) // check if the field already exists.
-    {
-        $field = array(
-            'field_name'    => $myField_name,
-            'type'          => 'image',
-        );
-        field_create_field($field);
-
-        $field_instance = array(
-            'field_name'    => $myField_name,
-            'entity_type'   => 'node',
-            'bundle'        => 'user',
-            'label'         => t('Select an image'),
-            'description'   => t(''),
-            'widget'        => array(
-                'type'      => 'image_image',
-                'weight'    => 10,
-            ),
-            'formatter'     => array(
-                'label'     => t('label'),
-                'format'    => 'image'
-            ),
-            'settings'      => array(
-                'file_directory'        => 'photos', // save inside "public://photos"
-                'max_filesize'          => '4M',
-                'preview_image_style'   => 'thumbnail',
-                'title_field'           => TRUE,
-                'alt_field'             => FALSE,
-            )
-        );
-        field_create_instance($field_instance);
-        drupal_set_message("Field created successfully!");
-    }
+	ckan_users();
+	ckan_groups();
 
 
 
