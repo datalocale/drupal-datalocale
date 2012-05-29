@@ -11,6 +11,7 @@ function ckan_groups(){
 $ckan = ckan_ckan();
 	 try {
 	 $groups = $ckan->getGroupList();
+	 //print_r($groups);
  if($groups)foreach($groups as $k=>$g)
 	 $groupe= group_new($g);
 
@@ -94,7 +95,7 @@ function ckangroup_nid_from_id($pid){
 
 function ckan_create_group($group_data){
 	$nid=ckangroup_nid_from_id($group_data->id);
-  //print_r($ckan_data);
+  //print_r($group_data);
 	// if packaage exists then ->edit package ( creation of a new node revision)
 	if($nid){
 		$node=node_load($nid);
@@ -132,10 +133,10 @@ function ckan_create_group($group_data){
 
 
 	//adding or editingextra fields in content type ckan_extrafields/////////////////////////
-	$extras=array();
-	$extras=(array) $group_data->extras;
-if(isset($node->field_grextras[LANGUAGE_NONE]))foreach($node->field_grextras[LANGUAGE_NONE] as $k=>$ext)if(!in_array($ext,$extras))unset($node->field_grextras[LANGUAGE_NONE][$k]['nid']);
-	foreach ($extras as $name => $value) {
+	$arrextra=array();
+	foreach($group_data->extras as $ext)$arrextra[$ext->key]=$ext->value;
+if(isset($node->field_grextras[LANGUAGE_NONE]))foreach($node->field_grextras[LANGUAGE_NONE] as $k=>$ext)if(!in_array($ext,$arrextra))unset($node->field_grextras[LANGUAGE_NONE][$k]['nid']);
+	foreach ($arrextra as $name => $value) {
 		/// check if the field exists
 		$nidextra=ckan_checkextra($name,$value);
 		if($nidextra && $nidextra<>'' && (isset($node->field_grextras) && !in_array($nidextra,$node->field_grextras[LANGUAGE_NONE])))$node->field_grextras[LANGUAGE_NONE][]['nid']=$nidextra;
@@ -162,8 +163,13 @@ if(isset($node->field_grextras[LANGUAGE_NONE]))foreach($node->field_grextras[LAN
 
 	$node=node_submit($node);
 	node_save($node);
-	if($nid)drupal_set_message(t("Group @title edited",array("@title"=>$group_data->title)));
-	else drupal_set_message(t("Group @title added",array("@title"=>$group_data->title)));
+	if($nid){drupal_set_message(t("Group @title edited",array("@title"=>$group_data->title)));
+	echo t("Group @title edited",array("@title"=>$group_data->title))."<br/>";
+	}
+	else{
+		drupal_set_message(t("Group @title added",array("@title"=>$group_data->title)));
+		echo t("Group @title added",array("@title"=>$group_data->title))."<br/>";
+	}
 }
 
 

@@ -66,7 +66,7 @@ $account->field_about[LANGUAGE_NONE][0]['value'] = $u->about;
     }
 _user_mail_notify("register_admin_created",$usr);
 drupal_set_message(t("User @title added",array("title"=>$u->name)));
-
+echo t("User @title added",array("@title"=>$u->name))."<br/>";
 	}
 
 	/////////////// fin add////////
@@ -82,6 +82,7 @@ $edit['field_fullname']['und'][0]['value'] = $u->fullname;
 $edit['field_about']['und'][0]['value'] = $u->about;
 user_save($existing, $edit);
 drupal_set_message(t("User @title edited",array("@title"=>$u->name)));
+echo t("User @title edited",array("@title"=>$u->name))."<br/>";
 
 	}
 	}

@@ -6,8 +6,7 @@
  *
  *
  */
-
-//module_load_include('inc', 'ckan', 'ckan.import');
+module_load_include('inc', 'ckan', 'ckan.tags');
 module_load_include('inc', 'ckan', 'ckan.users');
 module_load_include('inc', 'ckan', 'ckan.groups');
 module_load_include('inc', 'ckan', 'ckan.licenses');
@@ -19,21 +18,31 @@ function ckan_menu(){
     'page callback'   => 'ckan_list',
     'access arguments' => array('access content'),
     'type'            => MENU_CALLBACK,
+		'file' => 'ckan.packages.inc',
+	);
+			$items['ckan/tags'] = array(
+    'page callback'   => 'ckan_tags',
+    'access arguments' => array('access content'),
+    'type'            => MENU_CALLBACK,
+			'file' => 'ckan.packages.inc',
 	);
 	$items['ckan/groups'] = array(
     'page callback'   => 'ckan_groups',
     'access arguments' => array('access content'),
     'type'            => MENU_CALLBACK,
+	'file' => 'ckan.groups.inc',
 	);
 	$items['ckan/users'] = array(
     'page callback'   => 'ckan_users',
     'access arguments' => array('access content'),
     'type'            => MENU_CALLBACK,
+	'file' => 'ckan.users.inc',
 	);
 	$items['ckan/licenses'] = array(
     'page callback'   => 'ckan_licenses',
     'access arguments' => array('access content'),
     'type'            => MENU_CALLBACK,
+	'file' => 'ckan.licenses.inc',
 	);
 	$items['admin/config/system/ckan'] = array(
     'title' => 'Ckan',
@@ -101,8 +110,18 @@ function ckan_checkextra($name,$value){
  *
  */
 function ckan_cron(){
+	echo "Debut tags import<br/>";
+	ckan_tags();
+	echo "fin tags import<br/>";
+	echo "Debut users import<br/>";
 	ckan_users();
+	echo "fin users import<br/>";
+	echo "Debut groupes import<br/>";
 	ckan_groups();
+	echo "fin groupes import<br/>";
+	echo "Debut packages import<br/>";
+	ckan_list();
+	echo "fin packages import<br/>";
 
 
 

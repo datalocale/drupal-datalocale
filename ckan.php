@@ -76,7 +76,7 @@ class Ckan {
 //print_r($result);
 
         $info = curl_getinfo($ch);
-// print_r($info);
+//print_r($info);
         curl_close($ch);
         if ($info['http_code'] != 200){
             throw new CkanException($this->error_codes["$info[http_code]"]);
@@ -119,13 +119,22 @@ $result = curl_exec($ch);
         return $results;
     }
 
-    public function getPackage($package){
-        $package = $this->transfer('api/rest/package/' . urlencode($package)."/");
+    public function getPackage($data){
+        $package =  $this->test('api/action/package_show',$data);
 
-        if (!$package->name){
+        if (!is_array($package) && !is_object($package)){
             throw new CkanException("Package Load Error");
         }
         return $package;
+    }
+    public function gettags(){
+    	$data['all_fields']=1;
+        $tags =  $this->test('api/action/tag_list',$data);
+
+        if (!is_array($tags) && !is_object($tags)){
+            throw new CkanException("Tags Load Error");
+        }
+        return $tags;
     }
 
 
