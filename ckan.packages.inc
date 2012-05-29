@@ -208,14 +208,12 @@ function ckan_create_node($ckan_data,$licenses){
 
 
 	//adding or editingextra fields in content type ckan_extrafields/////////////////////////
-	echo "teston";
-	print_r($node->field_extras[LANGUAGE_NONE]);
-	$extras=array();$arrex=array();
+		$extras=array();$arrex=array();
 	$arrex=array("dct:creator","dct:publisher","dct:temporal","maj","dct:contributor","dcterms:references","dc:source");
 	if($arrextra){
 	$extras=$arrextra;
 	if(isset($node->field_extras[LANGUAGE_NONE]))foreach($node->field_extras[LANGUAGE_NONE] as $k=>$ext)if(!in_array($ext,$extras))unset($node->field_extras[LANGUAGE_NONE][$k]['nid']);
-	$i=0;foreach ($extras as $name => $value) {
+	foreach ($extras as $name => $value) {
 		if(!in_array($name,$arrex)){
 		/// check if the field exists
 		$nidextra=ckan_checkextra($name,$value);
@@ -225,8 +223,8 @@ function ckan_create_node($ckan_data,$licenses){
 			$nidextra=ckan_createnodeextra($name,$value);
 			if($nidextra && $nidextra<>'')$node->field_extras[LANGUAGE_NONE][]['nid']=$nidextra;
 			}
-	}$i++;
-	} echo "iiiiii".$i;
+	}
+	}
 	}
 	/////////////////////////// fin fields extras///////////////////////////////////////////
 
