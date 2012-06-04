@@ -1,0 +1,13 @@
+<?php
+
+// $Id: sharedemail_pass_reset.install,v 1.1 2010/06/10 12:02:55 qandeel Exp $ 
+
+/**
+ *  Implementation of hook_install().
+ */
+
+function sharedemail_pass_reset_install() {
+  db_query("UPDATE {system} SET weight = 0 WHERE name = 'sharedemail_pass_reset'");
+  drupal_set_message(t('The Password Reset module has been installed'));
+}
+

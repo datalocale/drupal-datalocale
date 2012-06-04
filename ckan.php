@@ -87,7 +87,7 @@ class Ckan {
         return json_decode($result);
     }
 
-    private function test($url,$data){
+    private function actiontransfer($url,$data){
 
 $data_string = json_encode($data);
 
@@ -120,16 +120,32 @@ $result = curl_exec($ch);
     }
 
     public function getPackage($data){
-        $package =  $this->test('api/action/package_show',$data);
+        $package =  $this->actiontransfer('api/action/package_show',$data);
 
         if (!is_array($package) && !is_object($package)){
             throw new CkanException("Package Load Error");
         }
         return $package;
     }
-    public function gettags(){
-    	$data['all_fields']=1;
-        $tags =  $this->test('api/action/tag_list',$data);
+    public function gettags($data){
+            $tags =  $this->actiontransfer('api/action/tag_list',$data);
+
+        if (!is_array($tags) && !is_object($tags)){
+            throw new CkanException("Tags Load Error");
+        }
+        return $tags;
+    }
+
+    public function gettagsdatalocale($data){
+            $tags =  $this->actiontransfer('api/action/datalocale_tag_list',$data);
+
+        if (!is_array($tags) && !is_object($tags)){
+            throw new CkanException("Tags Load Error");
+        }
+        return $tags;
+    }
+        public function tagscat($data){
+            $tags =  $this->actiontransfer('api/action/datalocale_vocabulary_list',$data);
 
         if (!is_array($tags) && !is_object($tags)){
             throw new CkanException("Tags Load Error");
@@ -138,9 +154,8 @@ $result = curl_exec($ch);
     }
 
 
-
 	public function getckanusers($data){
-	  $users =  $this->test('api/action/user_list',$data);
+	  $users =  $this->actiontransfer('api/action/user_list',$data);
 	  if (!is_array($users) && !is_object($users)){
 	    throw new CkanException("User List Error");
 	  }
@@ -179,14 +194,6 @@ $result = curl_exec($ch);
 	  return $list;
 	}
 
-	public function getUsersList($data){
-		$data['id']="eeeeeeeeee";
-	  $users =  $this->test('api/action/user_list',$data);
-	  if (!is_array($users) && !is_object($users)){
-	    throw new CkanException("User List Error");
-	  }
-	  return $users;
-	}
 	public function getRevisionsSinceTime($time){
 
 	   $time = strftime("%Y-%m-%dT%H:%M:%S", $time);

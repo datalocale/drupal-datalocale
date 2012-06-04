@@ -10,6 +10,13 @@ function ckanpackage_nid_from_id($pid){
 	return key($result->fetchAllAssoc('entity_id'));
 }
 
+function ckan_taxonomy_get_term_by_value($v){
+	$query = db_select('field_data_field_value', 'l');
+	$query->fields('l', array('entity_id'))->condition('field_value_value', $v, '=');
+	$result = $query->execute();
+	return key($result->fetchAllAssoc('entity_id'));
+}
+
 /**
  * Create or edit the package node
  *
@@ -19,7 +26,7 @@ function ckanpackage_nid_from_id($pid){
 function ckan_create_node($ckan_data,$licenses){
 	$ckan_data=$ckan_data->result;
 	$nid=ckanpackage_nid_from_id($ckan_data->id);
-  //print_r($ckan_data);
+//print_r($ckan_data);
 	// if packaage exists then ->edit package ( creation of a new node revision)
 	if($nid){
 		$node=node_load($nid);
@@ -96,115 +103,39 @@ function ckan_create_node($ckan_data,$licenses){
 	}
 
 
-	///////////managing frequence
+
+	// managing frequencies
 	if($ckan_data->frequencies){
-	$fre =$ckan_data->frequencies[0];
-	$ckanvocabfr=variable_get('ckan_frequencevocab');
-
-		if ($term = taxonomy_get_term_by_name($fre)) {
-			$terms_array = array_keys($term);
-			if($terms_array['0']<>'')$node->field_frequence[LANGUAGE_NONE][0]['tid'] = $terms_array['0'];
-		} else {
-			$term = new stdClass();
-			$term->name = $fre;
-			$term->vid = $ckanvocabfr;
-			if (!empty($term->name)) {
-				$test = taxonomy_term_save($term);
-				$term = taxonomy_get_term_by_name($fre);
-				if($term){$tid = key($term);
-				if($tid<>'')$node->field_frequence[LANGUAGE_NONE][0]['tid'] = $tid;
-				}
-			}
-		}
+		$fre =$ckan_data->frequencies[0];
+		$tidf=key(taxonomy_term_load_multiple(array(), array('name' => $fre, 'vid' => variable_get('ckan_frequencevocab'))));
+		if($fre<>''&& $tidf<>'')$node->field_frequence[LANGUAGE_NONE][0]['tid']=$tidf;
 	}
 
-	///////////managing qualite
+	// managing qualite
 	if($ckan_data->dataQuality){
-	$ql =$ckan_data->dataQuality[0];
-	$ckanvocabql=variable_get('ckan_qualitevocab');
-
-		if ($term = taxonomy_get_term_by_name($ql)) {
-			$terms_array = array_keys($term);
-			if($terms_array['0']<>'')$node->field_qualite[LANGUAGE_NONE][0]['tid'] = $terms_array['0'];
-		} else {
-			$term = new stdClass();
-			$term->name = $ql;
-			$term->vid = $ckanvocabql;
-			if (!empty($term->name)) {
-				$test = taxonomy_term_save($term);
-				$term = taxonomy_get_term_by_name($ql);
-				if($term){$tid = key($term);
-				if($tid<>'')$node->field_qualite[LANGUAGE_NONE][0]['tid'] = $tid;
-				}
-			}
-		}
+		$ql =$ckan_data->dataQuality[0];
+			$tidq=key(taxonomy_term_load_multiple(array(), array('name' => $ql, 'vid' => variable_get('ckan_qualitevocab'))));
+		if($ql<>''&& $tidq<>'')$node->field_qualite[LANGUAGE_NONE][0]['tid']=$tidq;
 	}
-
-	///////////managing granualite
+	// managing granualite
 	if($ckan_data->granularity){
-	$gr =$ckan_data->granularity[0];
-	$ckanvocabgr=variable_get('ckan_granularitevocab');
-
-		if ($term = taxonomy_get_term_by_name($gr)) {
-			$terms_array = array_keys($term);
-			if($terms_array['0']<>'')$node->field_granularite[LANGUAGE_NONE][0]['tid'] = $terms_array['0'];
-		} else {
-			$term = new stdClass();
-			$term->name = $gr;
-			$term->vid = $ckanvocabgr;
-			if (!empty($term->name)) {
-				$test = taxonomy_term_save($term);
-				$term = taxonomy_get_term_by_name($gr);
-				if($term){$tid = key($term);
-				if($tid<>'')$node->field_granularite[LANGUAGE_NONE][0]['tid'] = $tid;
-				}
-			}
-		}
+		$gr =$ckan_data->granularity[0];
+			$tidg=key(taxonomy_term_load_multiple(array(), array('name' => $gr, 'vid' => variable_get('ckan_granularitevocab'))));
+		if($gr<>''&& $tidg<>'')$node->field_granularite[LANGUAGE_NONE][0]['tid']=$tidg;
 	}
-
-	///////////managing concept
+	// managing concept
 	if($ckan_data->themeTaxonomy){
-	$cp =$ckan_data->themeTaxonomy[0];
-	$ckanvocabcp=variable_get('ckan_conceptvocab');
-
-		if ($term = taxonomy_get_term_by_name($cp)) {
-			$terms_array = array_keys($term);
-			if($terms_array['0']<>'')$node->field_concept[LANGUAGE_NONE][0]['tid'] = $terms_array['0'];
-		} else {
-			$term = new stdClass();
-			$term->name = $cp;
-			$term->vid = $ckanvocabcp;
-			if (!empty($term->name)) {
-				$test = taxonomy_term_save($term);
-				$term = taxonomy_get_term_by_name($cp);
-				if($term){$tid = key($term);
-				if($tid<>'')$node->field_concept[LANGUAGE_NONE][0]['tid'] = $tid;
-				}
-			}
-		}
+		$cp =$ckan_data->themeTaxonomy[0];
+		if($cp<>'' && ckan_taxonomy_get_term_by_value($cp)<>'')$node->field_concept[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_term_by_value($cp);
 	}
-
-	///////////managing categorie
+ // managing categories
 	if($ckan_data->theme_available){
-	$ca =$ckan_data->theme_available[0];
-	$ckanvocabca=variable_get('ckan_categorievocab');
-
-		if ($term = taxonomy_get_term_by_name($ca)) {
-			$terms_array = array_keys($term);
-			if($terms_array['0']<>'')$node->field_categorie[LANGUAGE_NONE][0]['tid'] = $terms_array['0'];
-		} else {
-			$term = new stdClass();
-			$term->name = $ca;
-			$term->vid = $ckanvocabca;
-			if (!empty($term->name)) {
-				$test = taxonomy_term_save($term);
-				$term = taxonomy_get_term_by_name($ca);
-				if($term){$tid = key($term);
-				if($tid<>'')$node->field_categorie[LANGUAGE_NONE][0]['tid'] = $tid;
-				}
-			}
-		}
+		$ca =$ckan_data->theme_available[0];
+		echo "ttttttti".$ca."/".ckan_taxonomy_get_term_by_value($ca)."<br/>";
+		if($ca<>''&& ckan_taxonomy_get_term_by_value($ca)<>'')$node->field_categorie[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_term_by_value($ca);
 	}
+
+
 
 
 	//adding or editingextra fields in content type ckan_extrafields/////////////////////////
