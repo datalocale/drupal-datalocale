@@ -131,7 +131,6 @@ function ckan_create_node($ckan_data,$licenses){
  // managing categories
 	if($ckan_data->theme_available){
 		$ca =$ckan_data->theme_available[0];
-		echo "ttttttti".$ca."/".ckan_taxonomy_get_term_by_value($ca)."<br/>";
 		if($ca<>''&& ckan_taxonomy_get_term_by_value($ca)<>'')$node->field_categorie[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_term_by_value($ca);
 	}
 
