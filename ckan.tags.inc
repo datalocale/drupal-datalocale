@@ -10,7 +10,7 @@ ckan_tagsq();
 ckan_tagsg();
 ckan_tagsf();
 ckan_tagst();
-//ckan_tagscat();
+ckan_tagscat();
 }
 /**
  * check if the tag already exists
