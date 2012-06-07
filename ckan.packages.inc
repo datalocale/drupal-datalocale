@@ -73,7 +73,7 @@ print_r($ckan_data);
   if(isset($ckan_data->groups))$node->field_groupe[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id($ckan_data->groups[0]->id);
 
  $arrextra=array();
-	if($ckan_data->extras)foreach($ckan_data->extras as $ext)$arrextra[$ext->key]=$ext->value;
+	if(isset($ckan_data->extras))foreach($ckan_data->extras as $ext)$arrextra[$ext->key]=$ext->value;
 
   if($arrextra){
 	if(isset($arrextra['dct:contributor']))$node->field_contributor[LANGUAGE_NONE][0]['value'] = json_decode($arrextra['dct:contributor']);
@@ -85,18 +85,18 @@ print_r($ckan_data);
 		$node->field_maj[LANGUAGE_NONE][0]['format'] ='filtered_html';
 	}
 
-	if(isset($arrextra['dct:contributor']))$node->field_source[LANGUAGE_NONE][0]['value'] = json_decode($arrextra['dc:source']);
+	if(isset($arrextra['dc:source']))$node->field_source[LANGUAGE_NONE][0]['value'] = json_decode($arrextra['dc:source']);
 	if(isset($arrextra['dcterms:references']))$node->field_reference[LANGUAGE_NONE][0]['value'] = json_decode($arrextra['dcterms:references']);
   }
 
 
 
 	// managing tags :adding tags as taonomies terms
-	if($ckan_data->tags){
+	if(isset($ckan_data->tags)){
 		$tags =$ckan_data->tags;
 	  $arrtids=array();
 	  $arrtags=array();
-		foreach($tags as $t)$arrtags[]=ckantag_tid_from_id($t->id);
+		if($tags)foreach($tags as $t)$arrtags[]=ckantag_tid_from_id($t->id);
 		if(isset($node->field_tagsckan[LANGUAGE_NONE]))foreach($node->field_tagsckan[LANGUAGE_NONE] as $k=>$v){
 		$arrtids[]=$v['tid'];if(!in_array($v['tid'],$arrtags))unset($node->field_tagsckan[LANGUAGE_NONE][$k]['tid']);}
 	  if($arrtags)foreach($arrtags as $k=> $v)if(!in_array($v,$arrtids))$node->field_tagsckan[LANGUAGE_NONE][$k]['tid']=$v;
@@ -106,31 +106,31 @@ print_r($ckan_data);
 
 
 	// managing frequencies
-	if($ckan_data->frequencies){
+	if(isset($ckan_data->frequencies)){
 		$fre =$ckan_data->frequencies[0];
 		$tidf=key(taxonomy_term_load_multiple(array(), array('name' => $fre, 'vid' => variable_get('ckan_frequencevocab'))));
 		if($fre<>''&& $tidf<>'')$node->field_frequence[LANGUAGE_NONE][0]['tid']=$tidf;
 	}
 
 	// managing qualite
-	if($ckan_data->dataQuality){
+	if(isset($ckan_data->dataQuality)){
 		$ql =$ckan_data->dataQuality[0];
 			$tidq=key(taxonomy_term_load_multiple(array(), array('name' => $ql, 'vid' => variable_get('ckan_qualitevocab'))));
 		if($ql<>''&& $tidq<>'')$node->field_qualite[LANGUAGE_NONE][0]['tid']=$tidq;
 	}
 	// managing granualite
-	if($ckan_data->granularity){
+	if(isset($ckan_data->granularity)){
 		$gr =$ckan_data->granularity[0];
 			$tidg=key(taxonomy_term_load_multiple(array(), array('name' => $gr, 'vid' => variable_get('ckan_granularitevocab'))));
 		if($gr<>''&& $tidg<>'')$node->field_granularite[LANGUAGE_NONE][0]['tid']=$tidg;
 	}
 	// managing concept
-	if($ckan_data->themeTaxonomy){
+	if(isset($ckan_data->themeTaxonomy)){
 		$cp =$ckan_data->themeTaxonomy[0];
 		if($cp<>'' && ckan_taxonomy_get_term_by_value($cp)<>'')$node->field_concept[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_term_by_value($cp);
 	}
  // managing categories
-	if($ckan_data->theme_available){
+	if(isset($ckan_data->theme_available)){
 		$ca =$ckan_data->theme_available[0];
 		if($ca<>''&& ckan_taxonomy_get_term_by_value($ca)<>'')$node->field_categorie[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_term_by_value($ca);
 	}
@@ -160,7 +160,8 @@ print_r($ckan_data);
 	/////////////////////////// fin fields extras///////////////////////////////////////////
 
 	//adding or editing ressources fields in content type ckan_resoources/////////////////////////
-	$ressources=array();
+	if(isset($ckan_data->resources){
+		$ressources=array();
 	$ressources=(array) $ckan_data->resources;
 	if(isset($node->field_ressources[LANGUAGE_NONE]))foreach($node->field_ressources[LANGUAGE_NONE] as $k=>$ext)if(!in_array($ext,$ressources))unset($node->field_ressources[LANGUAGE_NONE][$k]['nid']);
 	foreach ($ressources as $res) {
@@ -176,7 +177,7 @@ print_r($ckan_data);
 			$node->field_ressources[LANGUAGE_NONE][]['nid']=$nidressource;
 		}
 	}
-
+	}
 	/////////////////////////// fin fields ressources///////////////////////////////////////////
 //print_r($node);
 	$node=node_submit($node);
@@ -261,8 +262,8 @@ function ckan_createnoderessource($res,$nidres=''){
 		$nd->field_ressourceid[LANGUAGE_NONE][0]['value'] = $res->id;
 
 	}
-	$nd->created =strtotime(str_replace("T"," ",$res->created));
-	$nd->changed=strtotime(str_replace("T"," ",$res->last_modified));
+	if(isset($res->created))$nd->created =strtotime(str_replace("T"," ",$res->created));
+	if(isset($res->last_modified))$nd->changed=strtotime(str_replace("T"," ",$res->last_modified));
 	$nd->title = $res->name;
 	$nd->uid = 1;
 	$nd->language = LANGUAGE_NONE;
