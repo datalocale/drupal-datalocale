@@ -81,7 +81,7 @@ print_r($ckan_data);
 	if(isset($arrextra['dct:publisher']))$node->field_publisher[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(trim($arrextra['dct:publisher'],'"'));
 	if(isset($arrextra['dct:temporal']))$node->field_temporal[LANGUAGE_NONE][0]['value'] = trim($arrextra['dct:temporal'],'"');
 	if(isset($arrextra['maj'])){
-		$node->field_maj[LANGUAGE_NONE][0]['value'] = $arrextra['maj'];
+		$node->field_maj[LANGUAGE_NONE][0]['value'] = json_encode($arrextra['maj']);
 		$node->field_maj[LANGUAGE_NONE][0]['format'] ='filtered_html';
 	}
 
