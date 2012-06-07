@@ -26,7 +26,7 @@ function ckan_taxonomy_get_term_by_value($v){
 function ckan_create_node($ckan_data,$licenses){
 	$ckan_data=$ckan_data->result;
 	$nid=ckanpackage_nid_from_id($ckan_data->id);
-//print_r($ckan_data);
+print_r($ckan_data);
 	// if packaage exists then ->edit package ( creation of a new node revision)
 	if($nid){
 		$node=node_load($nid);
