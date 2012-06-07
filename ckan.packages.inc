@@ -106,31 +106,31 @@ print_r($ckan_data);
 
 
 	// managing frequencies
-	if(isset($ckan_data->frequencies)){
+	if(isset($ckan_data->frequencies[0])){
 		$fre =$ckan_data->frequencies[0];
 		$tidf=key(taxonomy_term_load_multiple(array(), array('name' => $fre, 'vid' => variable_get('ckan_frequencevocab'))));
 		if($fre<>''&& $tidf<>'')$node->field_frequence[LANGUAGE_NONE][0]['tid']=$tidf;
 	}
 
 	// managing qualite
-	if(isset($ckan_data->dataQuality)){
+	if(isset($ckan_data->dataQuality[0])){
 		$ql =$ckan_data->dataQuality[0];
 			$tidq=key(taxonomy_term_load_multiple(array(), array('name' => $ql, 'vid' => variable_get('ckan_qualitevocab'))));
 		if($ql<>''&& $tidq<>'')$node->field_qualite[LANGUAGE_NONE][0]['tid']=$tidq;
 	}
 	// managing granualite
-	if(isset($ckan_data->granularity)){
+	if(isset($ckan_data->granularity[0])){
 		$gr =$ckan_data->granularity[0];
 			$tidg=key(taxonomy_term_load_multiple(array(), array('name' => $gr, 'vid' => variable_get('ckan_granularitevocab'))));
 		if($gr<>''&& $tidg<>'')$node->field_granularite[LANGUAGE_NONE][0]['tid']=$tidg;
 	}
 	// managing concept
-	if(isset($ckan_data->themeTaxonomy)){
+	if(isset($ckan_data->themeTaxonomy[0])){
 		$cp =$ckan_data->themeTaxonomy[0];
 		if($cp<>'' && ckan_taxonomy_get_term_by_value($cp)<>'')$node->field_concept[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_term_by_value($cp);
 	}
  // managing categories
-	if(isset($ckan_data->theme_available)){
+	if(isset($ckan_data->theme_available[0])){
 		$ca =$ckan_data->theme_available[0];
 		if($ca<>''&& ckan_taxonomy_get_term_by_value($ca)<>'')$node->field_categorie[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_term_by_value($ca);
 	}
