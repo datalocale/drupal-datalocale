@@ -48,8 +48,7 @@ if(!$uid){
 $account->is_new = TRUE;
 $account->status = TRUE;
 $account->name = $u->name;
- //if($u->openid=='')
-$account->pass = user_hash_password($u->name);
+if($u->openid=='')$account->pass = user_hash_password($u->name);
 $account->mail = $u->email;
 $account->init = $u->email;
 //$account->roles[5] = 'some role';

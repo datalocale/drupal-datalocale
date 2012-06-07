@@ -70,22 +70,23 @@ function ckan_create_node($ckan_data,$licenses){
 	if($licenses){$node->field_license[LANGUAGE_NONE][0]['title'] = $licenses[$ckan_data->license_id]['title'];
 	$node->field_license[LANGUAGE_NONE][0]['url'] = $licenses[$ckan_data->license_id]['url'];
 	}
-  if($ckan_data->groups)$node->field_groupe[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id($ckan_data->groups[0]->id);
+  if(isset($ckan_data->groups))$node->field_groupe[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id($ckan_data->groups[0]->id);
 
  $arrextra=array();
-	foreach($ckan_data->extras as $ext)$arrextra[$ext->key]=$ext->value;
+	if($ckan_data->extras)foreach($ckan_data->extras as $ext)$arrextra[$ext->key]=$ext->value;
 
   if($arrextra){
-	if($arrextra['dct:contributor'])$node->field_contributor[LANGUAGE_NONE][0]['value'] = trim($arrextra['dct:contributor'],'"');
-	if($arrextra['dct:creator'])$node->field_creator[LANGUAGE_NONE][0]['value'] = trim($arrextra['dct:creator'],'"');
-	if($arrextra['dct:publisher'])$node->field_publisher[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(trim($arrextra['dct:publisher'],'"'));
-	if($arrextra['dct:temporal'])$node->field_temporal[LANGUAGE_NONE][0]['value'] = trim($arrextra['dct:temporal'],'"');
-	if($arrextra['maj']){
-		$node->field_maj[LANGUAGE_NONE][0]['value'] = trim($arrextra['maj'],'"');
+	if(isset($arrextra['dct:contributor']))$node->field_contributor[LANGUAGE_NONE][0]['value'] = trim($arrextra['dct:contributor'],'"');
+	if(isset($arrextra['dct:creator']))$node->field_creator[LANGUAGE_NONE][0]['value'] = trim($arrextra['dct:creator'],'"');
+	if(isset($arrextra['dct:publisher']))$node->field_publisher[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(trim($arrextra['dct:publisher'],'"'));
+	if(isset($arrextra['dct:temporal']))$node->field_temporal[LANGUAGE_NONE][0]['value'] = trim($arrextra['dct:temporal'],'"');
+	if(isset($arrextra['maj'])){
+		$node->field_maj[LANGUAGE_NONE][0]['value'] = utf8_encode(trim($arrextra['maj'],'"'));
+		$node->field_maj[LANGUAGE_NONE][0]['format'] ='filtered_html';
 	}
-	$node->field_maj[LANGUAGE_NONE][0]['format'] ='filtered_html';
-	if($arrextra['dct:contributor'])$node->field_source[LANGUAGE_NONE][0]['value'] = trim($arrextra['dc:source'],'"');
-	if($arrextra['dcterms:references'])$node->field_reference[LANGUAGE_NONE][0]['value'] = trim($arrextra['dcterms:references'],'"');
+
+	if(isset($arrextra['dct:contributor']))$node->field_source[LANGUAGE_NONE][0]['value'] = trim($arrextra['dc:source'],'"');
+	if(isset($arrextra['dcterms:references']))$node->field_reference[LANGUAGE_NONE][0]['value'] = trim($arrextra['dcterms:references'],'"');
   }
 
 
@@ -265,24 +266,26 @@ function ckan_createnoderessource($res,$nidres=''){
 	$nd->title = $res->name;
 	$nd->uid = 1;
 	$nd->language = LANGUAGE_NONE;
+	if(isset($res->description)){
 	$nd->body[LANGUAGE_NONE][0]['value']   = $res->description;
 	$nd->body[LANGUAGE_NONE][0]['summary'] = text_summary($res->description);
 	$nd->body[LANGUAGE_NONE][0]['format']  = 'filtered_html';
-	$nd->field_size[LANGUAGE_NONE][0]['value'] = $res->size;
-	$nd->field_ressourceurl[LANGUAGE_NONE][0]['value'] = $res->url;
-	$nd->field_webstore_url[LANGUAGE_NONE][0]['value'] = $res->webstore_url;
-	$nd->field_resource_type[LANGUAGE_NONE][0]['value'] = $res->resource_type;
-	$nd->field_position[LANGUAGE_NONE][0]['value'] = $res->position;
-	$nd->field_mimetype[LANGUAGE_NONE][0]['value'] = $res->mimetype;
-	$nd->field_mimetype_inner[LANGUAGE_NONE][0]['value'] = $res->mimetype_inner;
+	}
+	if(isset( $res->size))$nd->field_size[LANGUAGE_NONE][0]['value'] = $res->size;
+	if(isset( $res->url))$nd->field_ressourceurl[LANGUAGE_NONE][0]['value'] = $res->url;
+	if(isset( $res->webstore_url))$nd->field_webstore_url[LANGUAGE_NONE][0]['value'] = $res->webstore_url;
+	if(isset( $res->resource_type))$nd->field_resource_type[LANGUAGE_NONE][0]['value'] = $res->resource_type;
+	if(isset( $res->position))$nd->field_position[LANGUAGE_NONE][0]['value'] = $res->position;
+	if(isset( $res->mimetype))$nd->field_mimetype[LANGUAGE_NONE][0]['value'] = $res->mimetype;
+	if(isset( $res->mimetype_inner))$nd->field_mimetype_inner[LANGUAGE_NONE][0]['value'] = $res->mimetype_inner;
 
 	/////////adding fields extra////////////////////////////////
-	foreach($res as $k =>$v)if(!in_array($k,$arrbasicfields))$extras[$k]=$v;
+	if($res)foreach($res as $k =>$v)if(!in_array($k,$arrbasicfields))$extras[$k]=$v;
 	if(isset($nd->field_ressourceextras[LANGUAGE_NONE]))foreach($nd->field_ressourceextras[LANGUAGE_NONE] as $k=>$ext)if(!in_array($ext,$extras))unset($nd->field_ressourceextras[LANGUAGE_NONE][$k]['nid']);
 	if(isset($extras))foreach ($extras as $name => $value) {
 		/// check if the field exists
 		$nidextra=ckan_checkextra($name,$value);
-		if($nidextra && $nidextra<>'' && !in_array($nidextra,$nd->field_ressourceextras[LANGUAGE_NONE]))$nd->field_ressourceextras[LANGUAGE_NONE][]['nid']=$nidextra;
+		if($nidextra && $nidextra<>'' && is_array($nd->field_ressourceextras[LANGUAGE_NONE]))if(!in_array($nidextra,$nd->field_ressourceextras[LANGUAGE_NONE]))$nd->field_ressourceextras[LANGUAGE_NONE][]['nid']=$nidextra;
 		else{
 			/// create a field node
 			$nidextra=ckan_createnodeextra($name,$value);
