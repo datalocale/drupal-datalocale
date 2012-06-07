@@ -87,7 +87,7 @@ class Ckan {
         return json_decode($result);
     }
 
-    private function actiontransfer($url,$data){
+private function actiontransfer($url,$data){
 
 $data_string = json_encode($data);
 
@@ -102,6 +102,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 );
 
 $result = curl_exec($ch);
+print_r($result);
 
  $info = curl_getinfo($ch);
         curl_close($ch);

@@ -5,12 +5,12 @@
  */
 
 function ckan_tags(){
-ckan_tagslist();
-ckan_tagsq();
-ckan_tagsg();
-ckan_tagsf();
-ckan_tagst();
-ckan_tagscat();
+	ckan_tagslist();
+	ckan_tagsq();
+	ckan_tagsg();
+	ckan_tagsf();
+	ckan_tagst();
+	ckan_tagscat();
 }
 /**
  * check if the tag already exists
@@ -41,10 +41,10 @@ function ckantag_tid_from_id($pid){
  *
  */
 function ckan_tagslist(){
-$ckanvocab=variable_get('ckan_tagsvocab');
+	$ckanvocab=variable_get('ckan_tagsvocab');
 	$ckan = ckan_ckan();
-	 try {
-	 		$data['all_fields']=1;
+	try {
+		$data['all_fields']=1;
 		$tags = $ckan->gettags($data);
 		if($tags->result)foreach($tags->result as $k=>$tg){
 			$tid=ckan_checktag($tg->id);
@@ -82,9 +82,9 @@ function ckan_tagsq(){
 	$ckan = ckan_ckan();
 	try {
 		$data['all_fields']=1;
-			$data['vocabulary_id']="dcat:dataQuality";
+		$data['vocabulary_id']="dcat:dataQuality";
 		$tags = $ckan->gettags($data);
-			if($tags->result)foreach($tags->result as $k=>$tg){
+		if($tags->result)foreach($tags->result as $k=>$tg){
 			$tid=ckan_checktag($tg->id);
 			if($tid){
 				$term=taxonomy_term_load($tid);
@@ -119,9 +119,9 @@ function ckan_tagsq(){
 function ckan_tagsg(){
 	$ckanvocab=variable_get('ckan_granularitevocab');
 	$ckan = ckan_ckan();
-	 try {
-			$data['all_fields']=1;
-			$data['vocabulary_id']="dcat:granularity";
+	try {
+		$data['all_fields']=1;
+		$data['vocabulary_id']="dcat:granularity";
 		$tags = $ckan->gettags($data);
 		if($tags->result)foreach($tags->result as $k=>$tg){
 			$tid=ckan_checktag($tg->id);
@@ -159,9 +159,9 @@ function ckan_tagsg(){
 function ckan_tagsf(){
 	$ckanvocab=variable_get('ckan_frequencevocab');
 	$ckan = ckan_ckan();
-	 try {
-			$data['all_fields']=1;
-			$data['vocabulary_id']="dct:accrualPeriodicity";
+	try {
+		$data['all_fields']=1;
+		$data['vocabulary_id']="dct:accrualPeriodicity";
 		$tags = $ckan->gettags($data);
 		if($tags->result)foreach($tags->result as $k=>$tg){
 			$tid=ckan_checktag($tg->id);
@@ -198,9 +198,9 @@ function ckan_tagsf(){
 function ckan_tagst(){
 	$ckanvocab=variable_get('ckan_conceptvocab');
 	$ckan = ckan_ckan();
-	 try {
-			$data['all_fields']=1;
-			$data['vocabulary_id']="dcat:themeTaxonomy";
+	try {
+		$data['all_fields']=1;
+		$data['vocabulary_id']="dcat:themeTaxonomy";
 		$tags = $ckan->gettagsdatalocale($data);
 		if($tags->result)foreach($tags->result as $k=>$tg){
 			$tid=ckan_checktag($tg->id);
@@ -237,42 +237,42 @@ function ckan_tagst(){
 function ckan_tagscat(){
 	$ckanvocab=variable_get('ckan_categorievocab');
 	$ckan = ckan_ckan();
-	 try {
-			$data['id']="dcat:themeTaxonomy";
-			$data['recursive']=1;
-			$data['all_fields']=1;
+	try {
+		$data['id']="dcat:themeTaxonomy";
+		$data['recursive']=1;
+		$data['all_fields']=1;
 		$tags = $ckan->tagscat($data);
 		//print_r($tags);
 
 	 if($tags->result)foreach($tags->result as $tgs){
 	 	foreach($tgs as $tg){
 
-	 	//$term = taxonomy_get_term_by_name($tg[1]);
+	 		//$term = taxonomy_get_term_by_name($tg[1]);
 
-$term =taxonomy_term_load_multiple(array(), array('name' => $tg[1], 'vid' => $ckanvocab));
-	 	$tid=key($term);
-	 if($tid){
-				$term=taxonomy_term_load($tid);
-				$term->name = $tg[1];
-				$term->vid = $ckanvocab;
-				$term->field_value[LANGUAGE_NONE][0]['value']=$tg[0];
-				drupal_set_message(t("Tag @title edited",array("@title"=>$tg[1])));
-				echo t("Tag @title edited",array("@title"=>$tg[1]))."<br/>";
+	 		$term =taxonomy_term_load_multiple(array(), array('name' => $tg[1], 'vid' => $ckanvocab));
+	 		$tid=key($term);
+	 		if($tid){
+	 			$term=taxonomy_term_load($tid);
+	 			$term->name = $tg[1];
+	 			$term->vid = $ckanvocab;
+	 			$term->field_value[LANGUAGE_NONE][0]['value']=$tg[0];
+	 			drupal_set_message(t("Tag @title edited",array("@title"=>$tg[1])));
+	 			echo t("Tag @title edited",array("@title"=>$tg[1]))."<br/>";
 
-			}else{
-				$term = new stdClass();
-				$term->name = $tg[1];
-				$term->vid = $ckanvocab; // ‘1’ is a vocabulary id you wish this term to assign to
-				//$term->field_tagid[LANGUAGE_NONE][0]['value']=$tg->id;
-				$term->field_value[LANGUAGE_NONE][0]['value']=$tg[0];
-				drupal_set_message(t("Tag @title added",array("@title"=>$tg[1])));
-				echo t("Tag @title added",array("@title"=>$tg[1]))."<br/>";
+	 		}else{
+	 			$term = new stdClass();
+	 			$term->name = $tg[1];
+	 			$term->vid = $ckanvocab; // ‘1’ is a vocabulary id you wish this term to assign to
+	 			//$term->field_tagid[LANGUAGE_NONE][0]['value']=$tg->id;
+	 			$term->field_value[LANGUAGE_NONE][0]['value']=$tg[0];
+	 			drupal_set_message(t("Tag @title added",array("@title"=>$tg[1])));
+	 			echo t("Tag @title added",array("@title"=>$tg[1]))."<br/>";
 
-			}
-			taxonomy_term_save($term);
-		}
+	 		}
+	 		taxonomy_term_save($term);
+	 	}
 	 }
-	 }
+	}
 	catch (CkanException $e){
 		drupal_set_message($e->getMessage(), "error cat tags");
 		drupal_set_title("error cat tags");
