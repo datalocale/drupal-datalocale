@@ -160,7 +160,7 @@ print_r($ckan_data);
 	/////////////////////////// fin fields extras///////////////////////////////////////////
 
 	//adding or editing ressources fields in content type ckan_resoources/////////////////////////
-	if(isset($ckan_data->resources){
+	if(isset($ckan_data->resources)){
 		$ressources=array();
 	$ressources=(array) $ckan_data->resources;
 	if(isset($node->field_ressources[LANGUAGE_NONE]))foreach($node->field_ressources[LANGUAGE_NONE] as $k=>$ext)if(!in_array($ext,$ressources))unset($node->field_ressources[LANGUAGE_NONE][$k]['nid']);
