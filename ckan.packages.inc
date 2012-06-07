@@ -76,17 +76,17 @@ print_r($ckan_data);
 	if($ckan_data->extras)foreach($ckan_data->extras as $ext)$arrextra[$ext->key]=$ext->value;
 
   if($arrextra){
-	if(isset($arrextra['dct:contributor']))$node->field_contributor[LANGUAGE_NONE][0]['value'] = trim($arrextra['dct:contributor'],'"');
-	if(isset($arrextra['dct:creator']))$node->field_creator[LANGUAGE_NONE][0]['value'] = trim($arrextra['dct:creator'],'"');
-	if(isset($arrextra['dct:publisher']))$node->field_publisher[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(trim($arrextra['dct:publisher'],'"'));
-	if(isset($arrextra['dct:temporal']))$node->field_temporal[LANGUAGE_NONE][0]['value'] = trim($arrextra['dct:temporal'],'"');
+	if(isset($arrextra['dct:contributor']))$node->field_contributor[LANGUAGE_NONE][0]['value'] = json_decode($arrextra['dct:contributor']);
+	if(isset($arrextra['dct:creator']))$node->field_creator[LANGUAGE_NONE][0]['value'] = json_decode($arrextra['dct:creator']);
+	if(isset($arrextra['dct:publisher']))$node->field_publisher[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(trim($arrextra['dct:publisher']));
+	if(isset($arrextra['dct:temporal']))$node->field_temporal[LANGUAGE_NONE][0]['value'] = json_decode($arrextra['dct:temporal']);
 	if(isset($arrextra['maj'])){
 		$node->field_maj[LANGUAGE_NONE][0]['value'] = json_decode($arrextra['maj']);
 		$node->field_maj[LANGUAGE_NONE][0]['format'] ='filtered_html';
 	}
 
-	if(isset($arrextra['dct:contributor']))$node->field_source[LANGUAGE_NONE][0]['value'] = trim($arrextra['dc:source'],'"');
-	if(isset($arrextra['dcterms:references']))$node->field_reference[LANGUAGE_NONE][0]['value'] = trim($arrextra['dcterms:references'],'"');
+	if(isset($arrextra['dct:contributor']))$node->field_source[LANGUAGE_NONE][0]['value'] = json_decode($arrextra['dc:source']);
+	if(isset($arrextra['dcterms:references']))$node->field_reference[LANGUAGE_NONE][0]['value'] = json_decode($arrextra['dcterms:references']);
   }
 
 
