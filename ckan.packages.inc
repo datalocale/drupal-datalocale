@@ -26,7 +26,7 @@ function ckan_taxonomy_get_term_by_value($v){
 function ckan_create_node($ckan_data,$licenses){
 	$ckan_data=$ckan_data->result;
 	$nid=ckanpackage_nid_from_id($ckan_data->id);
-print_r($ckan_data);
+//print_r($ckan_data);
 	// if packaage exists then ->edit package ( creation of a new node revision)
 	if($nid){
 		$node=node_load($nid);
@@ -56,8 +56,6 @@ print_r($ckan_data);
 	$node->body[LANGUAGE_NONE][0]['value']   = $body_text;
 	$node->body[LANGUAGE_NONE][0]['summary'] = text_summary($body_text);
 	$node->body[LANGUAGE_NONE][0]['format']  = 'filtered_html';
-	$node->field_notes[LANGUAGE_NONE][0]['value'] = $ckan_data->notes;
-	$node->field_notes[LANGUAGE_NONE][0]['format'] ='filtered_html';
 	}
 	if($ckan_data->name)$node->field_name[LANGUAGE_NONE][0]['value'] = $ckan_data->name;
 	if($ckan_data->url){$node->field_url[LANGUAGE_NONE][0]['url'] = $ckan_data->url;

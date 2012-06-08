@@ -117,7 +117,7 @@ function ckan_cron(){
 	ckan_users();
 	echo "fin users import<br/>";
 	echo "Debut groupes import<br/>";
-	ckan_groups();
+  ckan_groups();
 	echo "fin groupes import<br/>";
 	echo "Debut packages import<br/>";
   ckan_list();

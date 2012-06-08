@@ -342,7 +342,7 @@ function contenttypeckanpackage_field_default_fields() {
       'label' => 'creator',
       'required' => 0,
       'settings' => array(
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -1054,15 +1054,16 @@ function contenttypeckanpackage_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_maj',
       'label' => 'maj',
-      'required' => FALSE,
+      'required' => 0,
       'settings' => array(
-        'text_processing' => 0,
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'text',
         'settings' => array(
-          'rows' => 5,
+          'rows' => '5',
         ),
         'type' => 'text_textarea',
         'weight' => '20',
@@ -1134,72 +1135,6 @@ function contenttypeckanpackage_field_default_fields() {
         ),
         'type' => 'text_textfield',
         'weight' => '3',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-ckan_package-field_notes'
-  $fields['node-ckan_package-field_notes'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_notes',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(),
-      'translatable' => '0',
-      'type' => 'text_long',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ckan_package',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '5',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_notes',
-      'label' => 'Notes',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '1',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'rows' => '5',
-        ),
-        'type' => 'text_textarea',
-        'weight' => '5',
       ),
     ),
   );
@@ -1412,7 +1347,7 @@ function contenttypeckanpackage_field_default_fields() {
       'label' => 'reference',
       'required' => 0,
       'settings' => array(
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -1632,7 +1567,7 @@ function contenttypeckanpackage_field_default_fields() {
       'label' => 'source',
       'required' => 0,
       'settings' => array(
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -1770,7 +1705,7 @@ function contenttypeckanpackage_field_default_fields() {
       'label' => 'temporal',
       'required' => 0,
       'settings' => array(
-        'text_processing' => '0',
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
@@ -2370,7 +2305,6 @@ function contenttypeckanpackage_field_default_fields() {
   t('ID');
   t('Id');
   t('Name');
-  t('Notes');
   t('Organisation');
   t('Tag id');
   t('Tags');
