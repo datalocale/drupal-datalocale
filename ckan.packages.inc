@@ -212,8 +212,10 @@ function ckan_new($ckan_name,$datelastimport){
 	$datecreated=strtotime($datecreated);
 	$datemodified=strtotime($datemodified);
 	//if($datelastimport && ($datecreated>=$datelastimport || $datemodified>=$datelastimport) ){
+		if(!$ckan_data->error){
 		echo "<br/>Package Added or edited Since last import :".$ckan_data->result->name;
 		$node = ckan_create_node($ckan_data,$licenses);
+		}
 	//}
 	return 1;
 }
