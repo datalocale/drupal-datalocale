@@ -201,7 +201,7 @@ function ckan_new($ckan_name,$datelastimport){
 	try {
 	$data['id']=$ckan_name;
 			$ckan_data = $ckan->getPackage($data);
-		//print_r($ckan_data);
+		print_r($ckan_data);
 			} catch (CkanException $e){
 		drupal_set_message($e->getMessage(),  "error node package creation");
 		drupal_set_title( "error node package creation");
@@ -229,9 +229,9 @@ function ckan_list(){
 	$ckan = ckan_ckan();
 	try {
 		$ckan_list = $ckan->getPackageList();
-
+print_r($ckan_list);
 		if($ckan_list)foreach($ckan_list as $k=>$ck){
-			print_r($ckan_list);
+			
 			ckan_new($ck,$datelastimport);
 
 		}
