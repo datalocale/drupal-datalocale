@@ -231,7 +231,7 @@ function ckan_list(){
 		$ckan_list = $ckan->getPackageList();
 
 		if($ckan_list)foreach($ckan_list as $k=>$ck){
-			//print_r($ckan_list);
+			print_r($ckan_list);
 			ckan_new($ck,$datelastimport);
 
 		}
