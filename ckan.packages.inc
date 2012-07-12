@@ -40,13 +40,14 @@ print_r($ckan_data);
 	else {
 		$node = new stdClass();
 		$node->uid = 1;
-		$node->promote = 1;
+		$node->promote = 0;
 		$node->sticky = 0;
 		$node->type = "ckan_package";
 		$node->language= LANGUAGE_NONE;
 	}
 
 	// common part for add andd edit  setting up the fields
+	$node->status =$ckan_data->state;
 	$node->title = $ckan_data->title;
 	$node->field_id[LANGUAGE_NONE][0]['value'] = $ckan_data->id;
 	$node->created =strtotime(str_replace("T"," ",$ckan_data-> metadata_created));

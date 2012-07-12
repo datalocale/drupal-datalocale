@@ -53,8 +53,82 @@ function ckan_menu(){
     'type' => MENU_NORMAL_ITEM,
     'file' => 'ckan.admin.inc',
 	);
+	$items['recline'] = array(
+    'title' => 'Ckan',
+    'description' => 'Configure Ckan',
+    'page callback' => 'ckan_display_recline',
+    'access arguments' => array('administer Ckan'),
+    'type' => MENU_NORMAL_ITEM,
+    );
 
 	return $items;
+}
+/**
+ * reclien
+ *
+ *
+ */
+function ckan_display_recline(){
+	
+$path = drupal_get_path('module', 'ckan');
+drupal_add_js($path . '/js/vendor/backbone/0.5.1/backbone.js', array('weight' => 1));
+drupal_add_js($path . '/js/vendor/moment/1.6.2/moment.js', array('weight' => 1));
+drupal_add_js($path . '/js/vendor/jquery.flot/0.7/jquery.flot.js', array('weight' => 1));
+drupal_add_js($path . '/js/vendor/mustache/0.5.0-dev/mustache.js', array('weight' => 1));
+drupal_add_js($path . '/js/vendor/bootstrap/2.0.2/bootstrap.js', array('weight' => 1));
+drupal_add_js($path . '/js/vendor/leaflet/0.3.1/leaflet.js', array('weight' => 1));
+drupal_add_js($path . '/js/vendor/slickgrid/2.0.1/jquery-ui-1.8.16.custom.min.js', array('weight' => 1));
+drupal_add_js($path . '/js/vendor/slickgrid/2.0.1/jquery.event.drag-2.0.min.js', array('weight' => 1));
+drupal_add_js($path . '/js/vendor/slickgrid/2.0.1/slick.grid.min.js', array('weight' => 1));
+drupal_add_js($path . '/js/vendor/timeline/20120520/js/timeline.js', array('weight' => 1));
+
+drupal_add_js($path . '/js/src/costco.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/model.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/backend/base.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/backend/memory.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/backend/dataproxy.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/backend/elasticsearch.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/backend/gdocs.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/backend/csv.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/view.grid.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/view.slickgrid.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/view.transform.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/view.graph.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/view.map.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/view.timeline.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/widget.pager.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/widget.queryeditor.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/widget.filtereditor.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/widget.fields.js', array('weight' => 1));
+drupal_add_js($path . '/js/src/view.multiview.js', array('weight' => 1));
+drupal_add_js($path . '/js/app.js', array('weight' => 1));
+
+drupal_add_css($path . '/js/vendor/bootstrap/2.0.2/css/bootstrap.css', array('weight' => 1));
+drupal_add_css($path . '/js/vendor/leaflet/0.3.1/leaflet.css', array('weight' => 1));
+drupal_add_css($path . '/js/vendor/slickgrid/2.0.1/slick.grid.css', array('weight' => 1));
+drupal_add_css($path . '/js/vendor/timeline/20120520/css/timeline.css', array('weight' => 1));
+drupal_add_css($path . '/css/grid.css', array('weight' => 1));
+drupal_add_css($path . '/css/slickgrid.css', array('weight' => 1));
+drupal_add_css($path . '/css/graph.css', array('weight' => 1));
+drupal_add_css($path . '/css/map.css', array('weight' => 1));
+drupal_add_css($path . '/css/multiview.css', array('weight' => 1));
+drupal_add_css($path . '/css/site/site.css', array('weight' => 1));
+drupal_add_css($path . '/css/style/demo.css', array('weight' => 1));
+drupal_add_css($path . '/js/vendor/bootstrap/2.0.2/css/bootstrap-responsive.css', array('weight' => 1));
+
+}
+
+/**
+ * theme
+ *
+ *
+ */
+function ckan_theme() {
+	return array(
+	'recline' => array(
+	'template' => 'recline',
+	),
+	);
 }
 
 /**
