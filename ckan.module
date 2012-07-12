@@ -71,6 +71,7 @@ function ckan_menu(){
 function ckan_display_recline(){
 	
 $path = drupal_get_path('module', 'ckan');
+drupal_add_js($path . '/js/vendor/underscore/1.1.6/underscore.js', array('weight' => 1));
 drupal_add_js($path . '/js/vendor/backbone/0.5.1/backbone.js', array('weight' => 1));
 drupal_add_js($path . '/js/vendor/moment/1.6.2/moment.js', array('weight' => 1));
 drupal_add_js($path . '/js/vendor/jquery.flot/0.7/jquery.flot.js', array('weight' => 1));
