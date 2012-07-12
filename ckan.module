@@ -115,6 +115,7 @@ drupal_add_css($path . '/css/multiview.css', array('weight' => 1));
 drupal_add_css($path . '/css/site/site.css', array('weight' => 1));
 drupal_add_css($path . '/css/style/demo.css', array('weight' => 1));
 drupal_add_css($path . '/js/vendor/bootstrap/2.0.2/css/bootstrap-responsive.css', array('weight' => 1));
+return theme("recline");
 
 }
 
