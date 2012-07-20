@@ -73,7 +73,7 @@ class Ckan {
       $ch_options[CURLOPT_CUSTOMREQUEST] = 'POST';
     }
         $result = curl_exec($ch);
-print_r($result);
+
 
         $info = curl_getinfo($ch);
 //print_r($info);
@@ -102,7 +102,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 );
 
 $result = curl_exec($ch);
-
+print_r($result);
  $info = curl_getinfo($ch);
         curl_close($ch);
 
