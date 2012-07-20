@@ -162,7 +162,7 @@ $result = curl_exec($ch);
 	  return $users;
 	}
     public function getPackageList(){
-        $list =  $this->transfer('api/rest/package/');
+        $list =  $this->transfer('api/action/datalocale_package_list');
         if (!is_array($list)){
             throw new CkanException("Package List Error");
         }
