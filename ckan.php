@@ -89,11 +89,11 @@ class Ckan {
 
 private function actiontransfer($url,$data){
 
-if($data)$data_string = json_encode($data);
+$data_string = json_encode($data);
 
 $ch = curl_init($this->url. $url);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-if($data_string)curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) ;
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
