@@ -88,7 +88,6 @@ class Ckan {
     }
 
 private function actiontransfer($url,$data){
-
 $data_string = json_encode($data);
 
 $ch = curl_init($this->url. $url);
@@ -161,8 +160,8 @@ print_r($result);
 	  }
 	  return $users;
 	}
-    public function getPackageList(){
-        $list =  $this->actiontransfer('api/action/datalocale_package_list','');
+    public function getPackageList($data){
+        $list =  $this->actiontransfer('api/action/datalocale_package_list',$data);
         if (!is_array($list)){
             throw new CkanException("Package List Error");
         }
