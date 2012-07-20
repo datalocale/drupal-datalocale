@@ -234,6 +234,7 @@ function ckan_list(){
 		$data['all_fields']=1;
 		$ckan_list = $ckan->getPackageList($data);
 print_r($ckan_list);
+$ckan_list=$ckan_list->result;
 		if($ckan_list)foreach($ckan_list as $k=>$ck){
 			
 			ckan_new($ck,$datelastimport);
