@@ -22,5 +22,7 @@ function ckan_uninstall() {
 	variable_del('ckan_frequencevocab');
 	variable_del('ckan_conceptvocab');
 	variable_del('ckan_categorievocab');
+	variable_del('ckan_geographicvocab');
+	variable_del('ckan_licencevocab');
 }
 

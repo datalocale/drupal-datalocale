@@ -101,7 +101,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 );
 
 $result = curl_exec($ch);
-print_r($result);
+//print_r($result);
  $info = curl_getinfo($ch);
         curl_close($ch);
 
@@ -119,10 +119,11 @@ print_r($result);
     }
 
     public function getPackage($data){
-        $package =  $this->actiontransfer('api/action/package_show',$data);
+        $package =  $this->actiontransfer('api/action/datalocale_package_show',$data);
+       // print_r($package);
 
         if (!is_array($package) && !is_object($package)){
-            throw new CkanException("Package Load Error");
+            throw new CkanException("Package Load Error".$data['id']);
         }
         return $package;
     }
@@ -160,9 +161,27 @@ print_r($result);
 	  }
 	  return $users;
 	}
+public function getckanuserrole($data){
+	  $role =  $this->actiontransfer('api/action/datalocale_role_user',$data);
+	  if (!is_array($role) && !is_object($role)){
+	    throw new CkanException("User List Error");
+	  }
+	  return $users;
+	}
+	
+public function getckanpackagerole($data){
+	  $role =  $this->actiontransfer('api/action/datalocale_show_roles',$data);
+	  if (!is_array($role) && !is_object($role)){
+	    throw new CkanException("User List Error");
+	  }
+	  return $users;
+	}	
+	
     public function getPackageList($data){
-        $list =  $this->actiontransfer('api/action/datalocale_package_list',$data);
-        if (!is_array($list)){
+      // $list =  $this->actiontransfer('api/action/datalocale_package_list',$data);
+      $list =  $this->actiontransfer('api/action/package_list',$data);
+     // print_r($list);
+        if (!is_array($list) && !is_object($list)){
             throw new CkanException("Package List Error");
         }
         return $list;

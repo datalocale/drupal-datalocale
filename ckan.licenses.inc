@@ -26,3 +26,4 @@ function ckan_licenses(){
 	}
 
 }
+

@@ -31,6 +31,28 @@ function ckan_users(){
 	}
 
 }
+/**
+ * get ckan role
+ *
+ */
+
+function ckan_userrole($username){
+
+	$ckan = ckan_ckan();
+	try {
+		$data['id']=$username;
+	$role = $ckan->getckanuserrole($data);
+	return $role;
+
+		cache_clear_all();
+	}
+	catch (CkanException $e){
+		drupal_set_message($e->getMessage(), "error list users");
+		drupal_set_title("error list users");
+		return "error list users";
+	}
+
+}
 
 /**
  * add ckan users in drupal

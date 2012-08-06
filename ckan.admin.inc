@@ -6,7 +6,6 @@ $arrvoc=getallvocabularies();
     '#title' => t('Url'),
     '#type' => 'textfield',
     '#default_value' => variable_get('ckan_url'),
-
     '#required' => TRUE,
 
   );
@@ -30,7 +29,6 @@ $arrvoc=getallvocabularies();
     '#type' => 'select',
     '#title' => t('frequence'),
     '#options' => $arrvoc,
-
 	'#default_value' => variable_get('ckan_frequencevocab')
 
   );
@@ -38,7 +36,6 @@ $arrvoc=getallvocabularies();
     '#type' => 'select',
     '#title' => t('qualite'),
     '#options' => $arrvoc,
-
 	'#default_value' => variable_get('ckan_qualitevocab')
 
   );
@@ -46,7 +43,6 @@ $arrvoc=getallvocabularies();
     '#type' => 'select',
     '#title' => t('granualite'),
     '#options' => $arrvoc,
-
 	'#default_value' => variable_get('ckan_granularitevocab')
 
   );
@@ -54,7 +50,6 @@ $arrvoc=getallvocabularies();
     '#type' => 'select',
     '#title' => t('categorie'),
     '#options' => $arrvoc,
-
 	'#default_value' => variable_get('ckan_categorievocab')
 
   );
@@ -62,8 +57,21 @@ $arrvoc=getallvocabularies();
     '#type' => 'select',
     '#title' => t('concept'),
     '#options' => $arrvoc,
-
 	'#default_value' => variable_get('ckan_conceptvocab')
+
+  );
+  $form['geo'] = array(
+    '#type' => 'select',
+    '#title' => t('Geographical granularity'),
+    '#options' => $arrvoc,
+	'#default_value' => variable_get('ckan_geographicvocab')
+
+  );
+   $form['licence'] = array(
+    '#type' => 'select',
+    '#title' => t('Licence'),
+    '#options' => $arrvoc,
+	'#default_value' => variable_get('ckan_licencevocab')
 
   );
   $form['#submit'][] = 'ckan_admin_settings_form_submit';
@@ -81,7 +89,9 @@ return $arrvoc;
 function ckan_admin_settings_form_validate($form, &$form_state) {
 
 }
-
+/**
+ * Implements _form_submit().
+ */
 function ckan_admin_settings_form_submit($form, &$form_state) {
 
 $url=$form_state['values']['url'];
@@ -99,6 +109,13 @@ variable_set('ckan_categorievocab', $categorie);
 
 $qualite=$form_state['values']['qualite'];
 variable_set('ckan_qualitevocab', $qualite);
+
 $granularite=$form_state['values']['granularite'];
 variable_set('ckan_granularitevocab', $granularite);
+
+$geo=$form_state['values']['geo'];
+variable_set('ckan_geographicvocab', $geo);
+
+$geo=$form_state['values']['licence'];
+variable_set('ckan_licencevocab', $geo);
 }
