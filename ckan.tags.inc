@@ -7,12 +7,12 @@
 function ckan_tags(){
 	ckan_licence();
 	ckan_tagslist();
-	//ckan_tagsq();
-	//ckan_tagsg();
-	//ckan_tagsf();
-	//ckan_tagst();
-	//ckan_tagscat();
-	//ckan_tagsgeo();
+	ckan_tagsq();
+	ckan_tagsg();
+	ckan_tagsf();
+	ckan_tagst();
+	ckan_tagscat();
+	ckan_tagsgeo();
 }
 /**
  * check if the tag already exists
