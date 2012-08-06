@@ -78,9 +78,55 @@ function contenttypeckanpackage_taxonomy_default_vocabularies() {
         ),
       ),
     ),
+    'geographical_granularity' => array(
+      'name' => 'geographical granularity',
+      'machine_name' => 'geographical_granularity',
+      'description' => '',
+      'hierarchy' => '0',
+      'module' => 'taxonomy',
+      'weight' => '0',
+      'rdf_mapping' => array(
+        'rdftype' => array(
+          0 => 'skos:ConceptScheme',
+        ),
+        'name' => array(
+          'predicates' => array(
+            0 => 'dc:title',
+          ),
+        ),
+        'description' => array(
+          'predicates' => array(
+            0 => 'rdfs:comment',
+          ),
+        ),
+      ),
+    ),
     'granularit_' => array(
       'name' => 'Granularité',
       'machine_name' => 'granularit_',
+      'description' => '',
+      'hierarchy' => '0',
+      'module' => 'taxonomy',
+      'weight' => '0',
+      'rdf_mapping' => array(
+        'rdftype' => array(
+          0 => 'skos:ConceptScheme',
+        ),
+        'name' => array(
+          'predicates' => array(
+            0 => 'dc:title',
+          ),
+        ),
+        'description' => array(
+          'predicates' => array(
+            0 => 'rdfs:comment',
+          ),
+        ),
+      ),
+    ),
+    'licence' => array(
+      'name' => 'Licence',
+      'machine_name' => 'licence',
       'description' => '',
       'hierarchy' => '0',
       'module' => 'taxonomy',
