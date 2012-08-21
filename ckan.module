@@ -161,11 +161,11 @@ function ckan_ckan(){
  * create a node extrafield
  *
  */
-function ckan_createnodeextra($name,$value){
+function ckan_createnodeextra($name,$value,$uid=1){
 	$nd = new stdClass(); // We create a new node object
 	$nd->type = "ckan_extrafields"; // Or any other content type you want
 	$nd->title = "Extra field  ".$name;
-	$node->uid = 1;
+	$nd->uid = $uid;
 	$nd->language = LANGUAGE_NONE;
 	//$nd->created =strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
 	//$nd->changed=strtotime(str_replace("T"," ",$ckan_data-> metadata_last_modified));

@@ -8,6 +8,7 @@ function ckan_checkuser($id){
 	$query = db_select('field_data_field_idutilisateur', 'u');
 	$query->fields('u', array('entity_id'))->condition('field_idutilisateur_value', $id, '=');
 	$result = $query->execute();
+	//print_r($result);
 	return key($result->fetchAllAssoc('entity_id'));
 }
 /**

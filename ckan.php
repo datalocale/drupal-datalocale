@@ -161,6 +161,13 @@ $result = curl_exec($ch);
 	  }
 	  return $users;
 	}
+	public function getUser($data){
+	  $users =  $this->actiontransfer('api/action/user_show',$data);
+	  if (!is_array($users) && !is_object($users)){
+	    throw new CkanException("User show Error");
+	  }
+	  return $users;
+	}
 public function getckanuserrole($data){
 	  $role =  $this->actiontransfer('api/action/datalocale_role_user',$data);
 	  if (!is_array($role) && !is_object($role)){
@@ -187,9 +194,9 @@ public function getckanpackagerole($data){
         return $list;
     }
 
-    public function getGroup($group){
-        $group = $this->transfer('api/rest/group/' . urlencode($group) );
-        if (!$group->name){
+    public function getGroup($data){
+        $group = $this->actiontransfer('api/action/datalocale_group_show' , $data );
+         if (!is_array($group) && !is_object($group)){
             throw new CkanException("Group Error");
         }
         return $group;
@@ -197,6 +204,7 @@ public function getckanpackagerole($data){
 
     public function getGroupList(){
         $groupList = $this->transfer('api/rest/group/');
+        print_r($groupList);
         if (!is_array($groupList)){
             throw new CkanException("Group List Error");
         }

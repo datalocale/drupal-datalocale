@@ -46,8 +46,11 @@ $arrextra=array();
 	$arrextraad=array();
 	if(isset($ckan_data->additional_extras))foreach($ckan_data->additional_extras as $ext)$arrextraad[$ext->key]=$ext->value;
 	//print_r($arrextra);
-	if(isset($ckan_data->ckan_author))$uid=ckan_checkuser(json_decode($ckan_data->ckan_author));
+	echo "test:".$ckan_data->ckan_author."enddd <br/>";
+	if(isset($ckan_data->ckan_author)&& json_decode($ckan_data->ckan_author)<>'')
+		$uid=ckan_checkuser(json_decode($ckan_data->ckan_author));
 	if(!isset($uid) ||$uid=='')$uid=1;
+	echo $uid."uiddddddddd";
 	// if packaage exists then ->edit package ( creation of a new node revision)
 	if($nid){
 		$node=node_load($nid);
@@ -203,57 +206,32 @@ $arrextra=array();
 		
 		
 		
-	/*	
+		
 	// managing image url 
-	if($ckan_data->image_url){
+	if(isset($ckan_data->image_url) && json_decode($ckan_data->image_url)<>''){
 	$imgpath=json_decode($ckan_data->image_url);
-	//$managed = TRUE; // Whether or not to create a Drupal file record
-//$path = system_retrieve_file($url, 'public://my_files/', $managed);
 
-//If you want to get the file object immediately after you've done this, the following is the only way I've found so far:
 
-//$file = file_load(db_query('SELECT MAX(id) FROM {file_managed}'));
-$url = "http://datalift.si.fr.atosorigin.com/img/logo_64px_wide.png";
-$url=$imgpath;
-$image = file_get_contents($url);
-file_put_contents('/images/image.jpg', $image);
-
-  $directory = file_build_uri('custom_directory');
+  $directory = file_build_uri('packages');
   if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY)) {
     // If our directory doesn't exist and can't be created, use the default.
     $directory = NULL;
   }
-  $file = system_retrieve_file($url, $directory, TRUE); break;
-	
-	
-	echo $imgpath;
-	if (!copy($imgpath, "/sites/default/files/ttt.jpg")) {
-    echo "failed to copy ...\n";
-}
-	
-$file_path = drupal_realpath($imgpath);
-echo "<br/>ggg".$file_path ;
-$file = (object) array(
-            'uid' => 1,
-            'uri' => $imgpath,
-            'filemime' => file_get_mimetype($imgpath),
-            'status' => 1,
-);
-print_r($file);
-// You can specify a subdirectory, e.g. public://foo/
-$file = file_copy($file, '/sites/default/files/tst.jpg');
-$node->field_image[LANGUAGE_NONE][0] = (array) $file;
+  $file = system_retrieve_file($imgpath, $directory, TRUE,FILE_EXISTS_REPLACE);
+  print_r($file);
 
-	}	*/
+if($file->fid<>'')$node->field_image[LANGUAGE_NONE][0] = (array) $file;
+
+	}	
 		
 		
 		
 		
 	//adding or editingextra fields in content type ckan_extrafields/////////////////////////
 		$extras=array();
-		/*$arrex=array();
-	$arrex=array("dct:creator","dct:publisher","dct:temporal","maj","dct:contributor","dcterms:references","dc:source");
-	if($arrextra){*/
+		//$arrex=array();
+	//$arrex=array("dct:creator","dct:publisher","dct:temporal","maj","dct:contributor","dcterms:references","dc:source");
+	//if($arrextra){
 	$extras=$arrextraad;
 	if(isset($node->field_extras[LANGUAGE_NONE]))foreach($node->field_extras[LANGUAGE_NONE] as $k=>$ext)if(!in_array($ext,$extras))unset($node->field_extras[LANGUAGE_NONE][$k]);
 	foreach ($extras as $name => $value) {
@@ -263,7 +241,7 @@ $node->field_image[LANGUAGE_NONE][0] = (array) $file;
 		if($nidextra && $nidextra<>'' && (isset($node->field_extras) && !in_array($nidextra,$node->field_extras[LANGUAGE_NONE])))$node->field_extras[LANGUAGE_NONE][]['nid']=$nidextra;
 		else{
 			/// create a field node
-			$nidextra=ckan_createnodeextra($name,$value);
+			$nidextra=ckan_createnodeextra($name,$value,$uid);
 			if($nidextra && $nidextra<>'')$node->field_extras[LANGUAGE_NONE][]['nid']=$nidextra;
 			}
 
@@ -271,6 +249,7 @@ $node->field_image[LANGUAGE_NONE][0] = (array) $file;
 	//}
 	/////////////////////////// fin fields extras///////////////////////////////////////////
 
+	
 	//adding or editing ressources fields in content type ckan_resoources/////////////////////////
 	if(isset($ckan_data->resources)){
 		$ressources=array();
@@ -281,11 +260,10 @@ $node->field_image[LANGUAGE_NONE][0] = (array) $file;
 		$nidressource=ckan_checkressource($res->id);
 		if($nidressource && $nidressource<>''){
 			if( !in_array($nidressource,$node->field_ressources[LANGUAGE_NONE])&& $nidressource && $nidressource<>'')$node->field_ressources[LANGUAGE_NONE][]['nid']=$nidressource;
-			ckan_createnoderessource($res,$nidressource);
 		}
 		else{
 			/// create a field node
-			$nidressource=ckan_createnoderessource($res);
+			$nidressource=ckan_createnoderessource($res,'',$uid);
 			if($nidressource && $nidressource<>'')$node->field_ressources[LANGUAGE_NONE][]['nid']=$nidressource;
 		}
 	}
@@ -370,7 +348,7 @@ function ckan_list(){
  * create or edit a node ckan_ressources
  *
  */
-function ckan_createnoderessource($res,$nidres=''){
+function ckan_createnoderessource($res,$nidres='',$uid=''){
 	$arrbasicfields=array("resource_group_id","cache_last_updated","package_id","webstore_last_updated","id","size","last_modified","hash","description","format","tracking_summary",
 "mimetype_inner","mimetype","cache_url","name","created","url","webstore_url","position","resource_type","owner","cache_url_updated");
 	if($nidres<>''){$nd=node_load($nidres);$nd->revision=1;$nd->log="updatedddddd";}
@@ -383,7 +361,7 @@ function ckan_createnoderessource($res,$nidres=''){
 	if(isset($res->created))$nd->created =strtotime(str_replace("T"," ",$res->created));
 	if(isset($res->last_modified))$nd->changed=strtotime(str_replace("T"," ",$res->last_modified));
 	$nd->title = $res->name;
-	$nd->uid = 1;
+	$nd->uid = $uid;
 	$nd->language = LANGUAGE_NONE;
 	if(isset($res->description)){
 	$nd->body[LANGUAGE_NONE][0]['value']   = $res->description;
@@ -407,7 +385,7 @@ function ckan_createnoderessource($res,$nidres=''){
 		if($nidextra && $nidextra<>'' && is_array($nd->field_ressourceextras[LANGUAGE_NONE]))if(!in_array($nidextra,$nd->field_ressourceextras[LANGUAGE_NONE]))$nd->field_ressourceextras[LANGUAGE_NONE][]['nid']=$nidextra;
 		else{
 			/// create a field node
-			$nidextra=ckan_createnodeextra($name,$value);
+			$nidextra=ckan_createnodeextra($name,$value,$uid);
 			$nd->field_extras[LANGUAGE_NONE][]['nid']=$nidextra;
 		}
 	}
