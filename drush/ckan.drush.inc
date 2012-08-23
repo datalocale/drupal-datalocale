@@ -27,7 +27,7 @@ function ckan_drush_command() {
     'description' => dt('import vocabs'),
   );
   $items['importgroups'] = array(
-    'callback' => 'ckan_drush_importvocabs',
+    'callback' => 'ckan_drush_importgroups',
         'description' => dt('Import groups'),
      );
   $items['importusers'] = array(
