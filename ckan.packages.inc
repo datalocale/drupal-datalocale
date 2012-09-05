@@ -349,6 +349,7 @@ function ckan_list(){
  *
  */
 function ckan_createnoderessource($res,$nidres='',$uid=''){
+	print_r($res);
 	$arrbasicfields=array("resource_group_id","cache_last_updated","package_id","webstore_last_updated","id","size","last_modified","hash","description","format","tracking_summary",
 "mimetype_inner","mimetype","cache_url","name","created","url","webstore_url","position","resource_type","owner","cache_url_updated");
 	if($nidres<>''){$nd=node_load($nidres);$nd->revision=1;$nd->log="updatedddddd";}
@@ -375,6 +376,29 @@ function ckan_createnoderessource($res,$nidres='',$uid=''){
 	if(isset( $res->position))$nd->field_position[LANGUAGE_NONE][0]['value'] = $res->position;
 	if(isset( $res->mimetype))$nd->field_mimetype[LANGUAGE_NONE][0]['value'] = $res->mimetype;
 	if(isset( $res->mimetype_inner))$nd->field_mimetype_inner[LANGUAGE_NONE][0]['value'] = $res->mimetype_inner;
+	
+		// managing image url 
+	if(isset($res->url) && $res->url<>''){
+	$filepath=$res->url;
+
+
+  $directory = file_build_uri('ressources');
+  if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY)) {
+    // If our directory doesn't exist and can't be created, use the default.
+    $directory = NULL;
+  }
+  $file = system_retrieve_file($filepath, $directory, TRUE,FILE_EXISTS_REPLACE);
+
+if($file->fid<>'')$nd->field_ressourcefile[LANGUAGE_NONE][0] = (array) $file;
+
+	}	
+		
+		
+		
+	
+	
+	
+	
 
 	/////////adding fields extra////////////////////////////////
 	if($res)foreach($res as $k =>$v)if(!in_array($k,$arrbasicfields))$extras[$k]=$v;

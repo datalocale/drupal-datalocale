@@ -49,7 +49,7 @@ function contenttyperessource_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 0,
+          'weight' => '0',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -121,7 +121,7 @@ function contenttyperessource_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 8,
+          'weight' => '8',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -189,7 +189,7 @@ function contenttyperessource_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 9,
+          'weight' => '9',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -257,7 +257,7 @@ function contenttyperessource_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 7,
+          'weight' => '7',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -325,7 +325,7 @@ function contenttyperessource_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 6,
+          'weight' => '6',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -412,7 +412,7 @@ function contenttyperessource_field_default_fields() {
           'module' => 'node_reference',
           'settings' => array(),
           'type' => 'node_reference_default',
-          'weight' => 2,
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -434,6 +434,69 @@ function contenttyperessource_field_default_fields() {
         'settings' => array(),
         'type' => 'options_select',
         'weight' => '33',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-ckan_ressources-field_ressourcefile'
+  $fields['node-ckan_ressources-field_ressourcefile'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_ressourcefile',
+      'foreign keys' => array(),
+      'indexes' => array(
+        'fid' => array(
+          0 => 'fid',
+        ),
+      ),
+      'module' => 'recline',
+      'settings' => array(
+        'uri_scheme' => 'public',
+      ),
+      'translatable' => '0',
+      'type' => 'recline_field',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ckan_ressources',
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'above',
+          'module' => 'recline',
+          'settings' => array(),
+          'type' => 'recline_default_formatter',
+          'weight' => 11,
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_ressourcefile',
+      'label' => 'ressourcefile',
+      'required' => FALSE,
+      'settings' => array(
+        'alt_field' => 0,
+        'file_directory' => '',
+        'file_extensions' => 'csv, xml',
+        'max_filesize' => '',
+        'title_field' => 0,
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'module' => 'recline',
+        'settings' => array(
+          'progress_indicator' => 'throbber',
+        ),
+        'type' => 'recline_widget',
+        'weight' => '42',
       ),
     ),
   );
@@ -477,7 +540,7 @@ function contenttyperessource_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 1,
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -545,7 +608,7 @@ function contenttyperessource_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 4,
+          'weight' => '4',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -613,7 +676,7 @@ function contenttyperessource_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 3,
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -680,7 +743,7 @@ function contenttyperessource_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 5,
+          'weight' => '5',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -717,6 +780,7 @@ function contenttyperessource_field_default_fields() {
   t('position');
   t('resource_type');
   t('ressourceextras');
+  t('ressourcefile');
   t('ressourceid');
   t('ressourceurl');
   t('size');
