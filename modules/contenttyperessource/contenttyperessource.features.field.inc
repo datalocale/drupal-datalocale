@@ -481,16 +481,18 @@ function contenttyperessource_field_default_fields() {
       'entity_type' => 'node',
       'field_name' => 'field_ressourcefile',
       'label' => 'ressourcefile',
-      'required' => FALSE,
+      'required' => 0,
       'settings' => array(
         'alt_field' => 0,
+        'description_field' => 0,
         'file_directory' => '',
-        'file_extensions' => 'csv, xml',
+        'file_extensions' => 'csv xml',
         'max_filesize' => '',
         'title_field' => 0,
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 0,
         'module' => 'recline',
         'settings' => array(
           'progress_indicator' => 'throbber',
