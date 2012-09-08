@@ -80,7 +80,7 @@ $account->field_idutilisateur[LANGUAGE_NONE][0]['value'] = $u->id;
 $account->field_fullname[LANGUAGE_NONE][0]['value'] = $u->fullname;
 $account->field_about[LANGUAGE_NONE][0]['value'] = $u->about;
 $account->timezone = variable_get('date_default_timezone', '');
-print_r($account);
+//print_r($account);
   $usr = user_save($account);
     if($u->openid<>''){
     	  $authmaps=array();
