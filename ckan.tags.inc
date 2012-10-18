@@ -7,22 +7,49 @@
 function ckan_tags(){
 	//ckan_licence();
 	//ckan_tagslist();
-	//ckan_tagsq();
+	////ckan_tagsq();
 	//ckan_tagsg();
 	//ckan_tagsf();
 	ckan_tagst();
 	//ckan_tagscat();
 	//ckan_tagsgeo();
+
 }
 /**
  * check if the tag already exists
  *
  */
+function ckan_soustags($id){
+	$ckan = ckan_ckan();
+	try {
+		$data['all_fields']=1;
+		$data['id']=$id;;
+		$tags = $ckan->getsoustags($data);
+		return $tags;
 
+	}
+	catch (CkanException $e){
+		drupal_set_message($e->getMessage(), "error list tags");
+		drupal_set_title("error list tags");
+		return "error list tags";
+	}
+
+}
 function ckan_checktag($id){
 	$query = db_select('field_data_field_tagid', 'c');
 	$query->join('taxonomy_term_data ', 't', 'c.entity_id = t.tid');
 	$query->fields('c', array('entity_id'))->condition('c.field_tagid_value', $id, '=');
+	$result = $query->execute();
+	$tid=key($result->fetchAllAssoc('entity_id'));
+	return $tid;
+	
+}
+
+
+function ckan_checktagvalue($id){
+	$query = db_select('field_data_field_value', 'c');
+	$query->join('taxonomy_term_data ', 't', 'c.entity_id = t.tid');
+	$query->fields('c', array('entity_id'))->condition('c.field_value_value', $id, '=');
 	$result = $query->execute();
 	$tid=key($result->fetchAllAssoc('entity_id'));
 	return $tid;
@@ -215,6 +242,8 @@ function ckan_tagst(){
 				$term->vid = $ckanvocab;
 				drupal_set_message(t("Tag @title edited",array("@title"=>$tg->display_name)));
 				echo t("Tag @title edited",array("@title"=>$tg->display_name))."<br/>";
+			
+				
 
 			}else{
 				$term = new stdClass();
@@ -224,9 +253,15 @@ function ckan_tagst(){
 				$term->field_value[LANGUAGE_NONE][0]['value']=$tg->name;
 				drupal_set_message(t("Tag @title added",array("@title"=>$tg->display_name)));
 				echo t("Tag @title added",array("@title"=>$tg->display_name))."<br/>";
+			
+			
 
 			}
 			taxonomy_term_save($term);
+			$childs=ckan_soustags($tg->name);
+				//print_r($childs);
+			ckan_childs($childs->result->tags,$tid);
+			
 		}
 	}
 	catch (CkanException $e){
@@ -237,7 +272,48 @@ function ckan_tagst(){
 
 
 }
+function ckan_childs($childs,$parent){
+	echo "111111111";
+	$ckanvocab=variable_get('ckan_conceptvocab');
+	//print_r($childs);
+	 	foreach($childs as $tg){
+	 		echo "joseph";
+	 	$tid=ckan_checktagvalue($tg->name);
+	 	echo $tid."tid<br/>";
+			if($tid){
+				$tm=taxonomy_term_load($tid);
+				$tm->name = $tg->display_name;
+				$tm->parent = $parent;
+				$tm->vid = $ckanvocab;
+				$tm->field_value[LANGUAGE_NONE][0]['value']=$tg->name;
+				taxonomy_term_save($tm);
+				drupal_set_message(t("Tag @title edited",array("@title"=>$tg->display_name)));
+				echo t("Tag @title edited",array("@title"=>$tg->display_name))."<br/>";
 
+				
+
+			}else{
+
+				$trm = new stdClass();
+				$trm->name = $tg->display_name;
+				$trm->vid = $ckanvocab; 
+				$trm->parent = $parent;
+				//$trm->field_tagid[LANGUAGE_NONE][0]['value']=$tg->id;
+				$trm->field_value[LANGUAGE_NONE][0]['value']=$tg->name;
+				print_r($trm);
+				taxonomy_term_save($trm);
+				drupal_set_message(t("Tag @title added",array("@title"=>$tg->display_name)));
+				echo t("Tag @title added",array("@title"=>$tg->display_name))."<br/>";
+
+
+
+			}
+		//	print_r($trm);
+	 		//taxonomy_term_save($trm);
+	 	}
+
+
+}
 
 function ckan_tagscat(){
 	$ckanvocab=variable_get('ckan_categorievocab');
@@ -247,7 +323,7 @@ function ckan_tagscat(){
 		$data['recursive']=1;
 		$data['all_fields']=1;
 		$tags = $ckan->tagscat($data);
-		//print_r($tags);break;
+
 
 	 if($tags->result)foreach($tags->result as $tgs){
 	 	foreach($tgs as $tg){
