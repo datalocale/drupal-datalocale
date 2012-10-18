@@ -260,7 +260,7 @@ function ckan_tagst(){
 			taxonomy_term_save($term);
 			$childs=ckan_soustags($tg->name);
 				//print_r($childs);
-			ckan_childs($childs->result->tags,$tid);
+			ckan_childs($childs->result->tags,$term->tid);
 			
 		}
 	}
