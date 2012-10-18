@@ -135,7 +135,14 @@ $result = curl_exec($ch);
         }
         return $tags;
     }
+   public function getsoustags($data){
+            $tags =  $this->actiontransfer('api/action/datalocale_vocabulary_show',$data);
 
+        if (!is_array($tags) && !is_object($tags)){
+            throw new CkanException("Tags Load Error");
+        }
+        return $tags;
+    }
     public function gettagsdatalocale($data){
             $tags =  $this->actiontransfer('api/action/datalocale_tag_list',$data);
 
