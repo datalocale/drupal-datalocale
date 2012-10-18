@@ -278,7 +278,7 @@ function ckan_childs($childs,$parent){
 	//print_r($childs);
 	 	foreach($childs as $tg){
 	 		echo "joseph";
-	 	$tid=ckan_checktagvalue($tg->name);
+	 	$tid=ckan_checktag($tg->id);
 	 	echo $tid."tid<br/>";
 			if($tid){
 				$tm=taxonomy_term_load($tid);
@@ -298,7 +298,7 @@ function ckan_childs($childs,$parent){
 				$trm->name = $tg->display_name;
 				$trm->vid = $ckanvocab; 
 				$trm->parent = $parent;
-				//$trm->field_tagid[LANGUAGE_NONE][0]['value']=$tg->id;
+				$trm->field_tagid[LANGUAGE_NONE][0]['value']=$tg->id;
 				$trm->field_value[LANGUAGE_NONE][0]['value']=$tg->name;
 				print_r($trm);
 				taxonomy_term_save($trm);
