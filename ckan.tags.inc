@@ -273,20 +273,17 @@ function ckan_tagst(){
 
 }
 function ckan_childs($childs,$parent){
-	echo "111111111";
 	$ckanvocab=variable_get('ckan_conceptvocab');
 	//print_r($childs);
 	 	foreach($childs as $tg){
-	 		echo "joseph";
+
 	 	$tid=ckan_checktag($tg->id);
-	 	echo $tid."tid<br/>";
 			if($tid){
-				$tm=taxonomy_term_load($tid);
-				$tm->name = $tg->display_name;
-				$tm->parent = $parent;
-				$tm->vid = $ckanvocab;
-				$tm->field_value[LANGUAGE_NONE][0]['value']=$tg->name;
-				taxonomy_term_save($tm);
+				$trm=taxonomy_term_load($tid);
+				$trm->name = $tg->display_name;
+				$trm->parent = $parent;
+				$trm->vid = $ckanvocab;
+				$trm->field_value[LANGUAGE_NONE][0]['value']=$tg->name;
 				drupal_set_message(t("Tag @title edited",array("@title"=>$tg->display_name)));
 				echo t("Tag @title edited",array("@title"=>$tg->display_name))."<br/>";
 
@@ -300,8 +297,6 @@ function ckan_childs($childs,$parent){
 				$trm->parent = $parent;
 				$trm->field_tagid[LANGUAGE_NONE][0]['value']=$tg->id;
 				$trm->field_value[LANGUAGE_NONE][0]['value']=$tg->name;
-				print_r($trm);
-				taxonomy_term_save($trm);
 				drupal_set_message(t("Tag @title added",array("@title"=>$tg->display_name)));
 				echo t("Tag @title added",array("@title"=>$tg->display_name))."<br/>";
 
@@ -309,7 +304,7 @@ function ckan_childs($childs,$parent){
 
 			}
 		//	print_r($trm);
-	 		//taxonomy_term_save($trm);
+	 		taxonomy_term_save($trm);
 	 	}
 
 
