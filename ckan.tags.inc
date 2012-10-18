@@ -5,14 +5,14 @@
  */
 
 function ckan_tags(){
-	//ckan_licence();
-	//ckan_tagslist();
-	////ckan_tagsq();
-	//ckan_tagsg();
-	//ckan_tagsf();
+	ckan_licence();
+	ckan_tagslist();
+	ckan_tagsq();
+	ckan_tagsg();
+	ckan_tagsf();
 	ckan_tagst();
-	//ckan_tagscat();
-	//ckan_tagsgeo();
+	ckan_tagscat();
+	ckan_tagsgeo();
 
 }
 /**
@@ -35,6 +35,10 @@ function ckan_soustags($id){
 	}
 
 }
+/**
+ * Check if tag exists by id
+ *
+ */
 function ckan_checktag($id){
 	$query = db_select('field_data_field_tagid', 'c');
 	$query->join('taxonomy_term_data ', 't', 'c.entity_id = t.tid');
@@ -45,7 +49,10 @@ function ckan_checktag($id){
 	
 }
 
-
+/**
+ * Check if tag exists by value
+ *
+ */
 function ckan_checktagvalue($id){
 	$query = db_select('field_data_field_value', 'c');
 	$query->join('taxonomy_term_data ', 't', 'c.entity_id = t.tid');
@@ -272,6 +279,11 @@ function ckan_tagst(){
 
 
 }
+
+/**
+ * get categories (childs of concept)
+ *
+ */
 function ckan_childs($childs,$parent){
 	$ckanvocab=variable_get('ckan_conceptvocab');
 	//print_r($childs);
@@ -309,7 +321,9 @@ function ckan_childs($childs,$parent){
 
 
 }
-
+/**
+ * get categorie non plus utilisee
+ */
 function ckan_tagscat(){
 	$ckanvocab=variable_get('ckan_categorievocab');
 	$ckan = ckan_ckan();
