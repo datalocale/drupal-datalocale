@@ -101,8 +101,8 @@ function ckan_create_node($ckan_data,$licenses){
 	if(isset($ckan_data->{'geographic_granularity-other'}))$node->field_autreg[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'geographic_granularity-other'});
 
 
-	if(isset($ckan_data->{'temporal_coverage-from'}))$node->field_couverturetemporelle[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'temporal_coverage-from'});
-	if(isset($ckan_data->{'temporal_coverage-to'}))$node->field_couverturetemporelle[LANGUAGE_NONE][0]['value2'] = json_decode($ckan_data->{'temporal_coverage-to'});
+	if(isset($ckan_data->{'temporal_coverage-from'})&& json_decode($ckan_data->{'temporal_coverage-from'})<>'')$node->field_couverturetemporelle[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'temporal_coverage-from'});
+	if(isset($ckan_data->{'temporal_coverage-to'})&& json_decode($ckan_data->{'temporal_coverage-to'})<>'')$node->field_couverturetemporelle[LANGUAGE_NONE][0]['value2'] = json_decode($ckan_data->{'temporal_coverage-to'});
 	if(isset($ckan_data->license_id))$node->field_license_id[LANGUAGE_NONE][0]['value'] = $ckan_data->license_id;
 	if(isset($ckan_data->revision_id))$node->field_revision_id[LANGUAGE_NONE][0]['value'] = $ckan_data->revision_id;
 	/*if($licenses){$node->field_license[LANGUAGE_NONE][0]['title'] = $licenses[$ckan_data->license_id]['title'];
