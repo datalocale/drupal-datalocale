@@ -39,6 +39,7 @@ function ckan_taxonomy_get_termid_by_ckanid($v){
 function ckan_create_node($ckan_data,$licenses){
 
 	$ckan_data=$ckan_data->result;
+	print_r($ckan_data);
 	$nid=ckanpackage_nid_from_id($ckan_data->id);
 	//print_r($ckan_data);
 	$arrextra=array();
