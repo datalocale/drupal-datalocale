@@ -73,7 +73,7 @@ function ckan_create_node($ckan_data,$licenses){
 
 	// common part for add andd edit  setting up the fields
 	$node->uid = $uid;
-
+    $node->comment = 1;
 	if($ckan_data->state=="active")$state=1; else $state=0;
 	$node->status =$state;
 	$node->title = $ckan_data->title;
@@ -194,7 +194,8 @@ function ckan_create_node($ckan_data,$licenses){
 	if(isset($ckan_data->theme_available)){
 		$caar=(array)$ckan_data->theme_available;
 		$ca =key($caar); //echo "taxo".ckan_taxonomy_get_term_by_value($ca)."fintest<br/>";
-		if($ca<>''&& ckan_taxonomy_get_term_by_value($ca)<>''){$node->field_categorie[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_term_by_value($ca);
+		if($ca<>''&& ckan_taxonomy_get_term_by_value($ca)<>''){
+			//$node->field_categorie[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_term_by_value($ca);
 		$node->field_concept[LANGUAGE_NONE][1]['tid']=ckan_taxonomy_get_term_by_value($ca);}
 	}
 

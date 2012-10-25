@@ -46,13 +46,13 @@ $arrvoc=getallvocabularies();
 	'#default_value' => variable_get('ckan_granularitevocab')
 
   );
-      $form['categorie'] = array(
+/*      $form['categorie'] = array(
     '#type' => 'select',
     '#title' => t('categorie'),
     '#options' => $arrvoc,
 	'#default_value' => variable_get('ckan_categorievocab')
 
-  );
+  );*/
       $form['concept'] = array(
     '#type' => 'select',
     '#title' => t('concept'),
@@ -104,8 +104,9 @@ $frequence=$form_state['values']['frequence'];
 variable_set('ckan_frequencevocab', $frequence);
 $concept=$form_state['values']['concept'];
 variable_set('ckan_conceptvocab', $concept);
-$categorie=$form_state['values']['categorie'];
-variable_set('ckan_categorievocab', $categorie);
+
+//$categorie=$form_state['values']['categorie'];
+//variable_set('ckan_categorievocab', $categorie);
 
 $qualite=$form_state['values']['qualite'];
 variable_set('ckan_qualitevocab', $qualite);
