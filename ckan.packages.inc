@@ -79,7 +79,7 @@ function ckan_create_node($ckan_data,$licenses){
 	$node->title = $ckan_data->title;
 	$node->field_id[LANGUAGE_NONE][0]['value'] = $ckan_data->id;
 	$node->created =strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
-	$node->path = array('alias' => 'dataset/'.$ckan_data->name);
+	$node->path ['alias'] = 'dataset/'.$ckan_data->name;
 	if($ckan_data->notes){
 		$body_text = $ckan_data->notes;
 		$node->body[LANGUAGE_NONE][0]['value']   = $body_text;
