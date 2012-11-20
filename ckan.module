@@ -142,12 +142,7 @@ function ckan_cron(){
 }
 
 
-function ckan_presave($node) {
-    // Set the URL alias
-    if ($node->type=="ckan_package") {
-        $node->path['alias'] = 'dataset/' . $node->title;
-    }
-}
+
 
 
 
