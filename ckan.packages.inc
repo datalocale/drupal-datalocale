@@ -73,7 +73,7 @@ function ckan_create_node($ckan_data,$licenses){
 
 	// common part for add andd edit  setting up the fields
 	$node->uid = $uid;
-    $node->comment = 1;
+    $node->comment = 2;
 	if($ckan_data->state=="active")$state=1; else $state=0;
 	$node->status =$state;
 	$node->title = $ckan_data->title;
