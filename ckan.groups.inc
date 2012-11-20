@@ -121,11 +121,13 @@ function ckan_create_group($group_data){
 	$node->title = $group_data->title;
 	$node->field_grid[LANGUAGE_NONE][0]['value'] = $group_data->id;
 	//$node->created =strtotime(str_replace("T"," ",$group_data-> created));
-	$node->path = array('alias' => 'groupe/'.$group_data->name);
+	//$node->path = array('alias' => 'groupe/'.$group_data->name);
 	$body_text = $group_data->description;
 	$node->body[LANGUAGE_NONE][0]['value']   = $body_text;
 	$node->body[LANGUAGE_NONE][0]['summary'] = text_summary($body_text);
 	$node->body[LANGUAGE_NONE][0]['format']  = 'filtered_html';
+	if($group_data->type=="service")$node->path = array('alias' => 'producteur/'.$group_data->name);
+	elseif($group_data->type=="organization")$node->path = array('alias' => 'diffuseur/'.$group_data->name);
 	if(isset($group_data->revision_id))$node->field_grrevision_id[LANGUAGE_NONE][0]['value'] = $group_data->revision_id;
 	if(isset($group_data->name))$node->field_grname[LANGUAGE_NONE][0]['value'] = $group_data->name;
 	if(isset($group_data->type))$node->field_type[LANGUAGE_NONE][0]['value'] = $group_data->type;

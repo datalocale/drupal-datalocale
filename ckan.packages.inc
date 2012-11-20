@@ -392,10 +392,10 @@ function ckan_createnoderessource($res,$nidres='',$uid=''){
 		}
 		$file = system_retrieve_file($filepath, $directory, TRUE,FILE_EXISTS_REPLACE);
 		$file->grid=1;
-        $file->graph = 1;
+        $file->graph = 0;
         $file->map = 1;
         $file->timeline = 1;
-        $file->transform =1;
+        $file->transform =0;
 
 		if($file->fid<>'')$nd->field_ressourcefile[LANGUAGE_NONE][0] = (array) $file;
 
