@@ -128,16 +128,16 @@ function ckan_checkextra($name,$value){
  */
 function ckan_cron(){
 	echo "Debut tags import<br/>";
-	//ckan_tags();
+	ckan_tags();
 	echo "fin tags import<br/>";
 	echo "Debut users import<br/>";
-	//ckan_users();
+	ckan_users();
 	echo "fin users import<br/>";
 	echo "Debut groupes import<br/>";
- // ckan_groups();
+  ckan_groups();
 	echo "fin groupes import<br/>";
 	echo "Debut packages import<br/>";
-  //ckan_list();
+  ckan_list();
 	echo "fin packages import<br/>";
 }
 
