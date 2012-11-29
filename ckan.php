@@ -163,7 +163,6 @@ $result = curl_exec($ch);
 
 	public function getckanusers($data){
 	  $users =  $this->actiontransfer('api/action/user_list',$data);
-	  print_r($users);break;
 	  if (!is_array($users) && !is_object($users)){
 	    throw new CkanException("User List Error");
 	  }
