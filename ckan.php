@@ -89,10 +89,11 @@ class Ckan {
 
 private function actiontransfer($url,$data){
 $data_string = json_encode($data);
-
+echo $this->url. $url;
 $ch = curl_init($this->url. $url);
 echo "innnnnnnnnnnnnnn";
 echo $ch;
+echo "2222222";
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -165,6 +166,7 @@ print_r($info);
 
 	public function getckanusers($data){
 	  $users =  $this->actiontransfer('api/action/user_list',$data);
+	  print_r($users);
 	  if (!is_array($users) && !is_object($users)){
 	    throw new CkanException("User List Error");
 	  }
