@@ -91,6 +91,7 @@ private function actiontransfer($url,$data){
 $data_string = json_encode($data);
 
 $ch = curl_init($this->url. $url);
+echo "innnnnnnnnnnnnnn";
 echo $ch;
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
@@ -105,7 +106,7 @@ $result = curl_exec($ch);
 print_r($result);
  $info = curl_getinfo($ch);
         curl_close($ch);
-
+print_r($info);
         return json_decode($result);
 
     }
