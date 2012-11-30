@@ -58,29 +58,21 @@ class Ckan {
 
         $ch = curl_init($this->url . $url);
 
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLINFO_HEADER_OUT, TRUE);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) ;
-		curl_setopt($ch, CURLINFO_HEADER_OUT, TRUE);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) ;
         if (in_array($method, array('POST','PUT'))) {
       if (!$this->api_key) {throw new CkanException("No API KEY.");}
 
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-  'Authorization: ' .$apikey));
-     /* $ch_options[CURLOPT_HTTPHEADER] =  array(
-      	'Authorization: '.$this->api_key,
-        //'Accept: application/json',
-      );*/
-      $ch_options[CURLOPT_POSTFIELDS] = $data;
-      $ch_options[CURLOPT_CUSTOMREQUEST] = 'POST';
+    'Content-Type: application/json',
+'Authorization: ' .$this->api_key)
+);
+
+     
     }
         $result = curl_exec($ch);
 
-print_r($ch);
         $info = curl_getinfo($ch);
-print_r($info);
         curl_close($ch);
         if ($info['http_code'] != 200){
             throw new CkanException($this->error_codes["$info[http_code]"]);
@@ -114,19 +106,6 @@ $result = curl_exec($ch);
 
     }
 
-	private function set_user_agent()
-{
-if ('80' === @$_SERVER['SERVER_PORT'])
-{
-$server_name = 'http://' . $_SERVER['SERVER_NAME'];
-}
-else
-{
-$server_name = '';
-}
-$this->user_agent = sprintf($this->user_agent, $this->version) .
-' (' . $server_name . $_SERVER['PHP_SELF'] . ')';
-}
     public function search($keyword){
         $results = $this->transfer('api/search/package/?all_fields=1&q=' . urlencode($keyword));
         if (!$results->count){
