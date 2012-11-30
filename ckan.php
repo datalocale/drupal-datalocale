@@ -60,6 +60,7 @@ class Ckan {
 
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, TRUE);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) ;
 		curl_setopt($ch, CURLINFO_HEADER_OUT, TRUE);
@@ -77,7 +78,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     }
         $result = curl_exec($ch);
 
-
+print_r($ch);
         $info = curl_getinfo($ch);
 print_r($info);
         curl_close($ch);
