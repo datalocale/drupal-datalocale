@@ -68,7 +68,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         $result = curl_exec($ch);
 
         $info = curl_getinfo($ch);
-        print_r($info);
+       // print_r($info);
         curl_close($ch);
         if ($info['http_code'] != 200){
             throw new CkanException($this->error_codes["$info[http_code]"]);
