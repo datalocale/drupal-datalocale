@@ -1,7 +1,7 @@
 <?php
 class Ckan {
-    private  $url = 'http://datalift.si.fr.atosorigin.com/';
-    private $apikey = 'a37d3691-312e-4d87-b95b-349f0ff31558';
+    private  $url = 'http://www.ckan.net/';
+   private $apikey = 'a37d3691-312e-4d87-b95b-349f0ff31558';
 
 
   private $debugmode = FALSE;
@@ -51,7 +51,7 @@ class Ckan {
 
   public function __construct($url=null, $apikey=null){
     if ($url){ $this->url=$url; }
-    if ($apikey) { $this->apikey = $apikey; }
+    if ($apikey) { $this->api_key = $apikey; }
   }
 
     private function transfer($url, $method='GET', $data=null){
@@ -62,13 +62,16 @@ class Ckan {
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) ;
+		curl_setopt($ch, CURLINFO_HEADER_OUT, TRUE);
         if (in_array($method, array('POST','PUT'))) {
-      if (!$this->apikey) {throw new CkanException("No API KEY.");}
+      if (!$this->api_key) {throw new CkanException("No API KEY.");}
 
-      $ch_options[CURLOPT_HTTPHEADER] =  array(
-      	'Authorization: '.$this->apikey,
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+  'Authorization: ' .$apikey));
+     /* $ch_options[CURLOPT_HTTPHEADER] =  array(
+      	'Authorization: '.$this->api_key,
         //'Accept: application/json',
-      );
+      );*/
       $ch_options[CURLOPT_POSTFIELDS] = $data;
       $ch_options[CURLOPT_CUSTOMREQUEST] = 'POST';
     }
@@ -89,11 +92,8 @@ class Ckan {
 
 private function actiontransfer($url,$data){
 $data_string = json_encode($data);
-echo $this->url. $url;
+
 $ch = curl_init($this->url. $url);
-echo "innnnnnnnnnnnnnn";
-echo $ch;
-echo "2222222";
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -104,10 +104,10 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 );
 
 $result = curl_exec($ch);
-print_r($result);
+//print_r($result);
  $info = curl_getinfo($ch);
         curl_close($ch);
-print_r($info);
+
         return json_decode($result);
 
     }
@@ -166,7 +166,6 @@ print_r($info);
 
 	public function getckanusers($data){
 	  $users =  $this->actiontransfer('api/action/user_list',$data);
-	  print_r($users);
 	  if (!is_array($users) && !is_object($users)){
 	    throw new CkanException("User List Error");
 	  }
