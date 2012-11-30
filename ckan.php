@@ -57,19 +57,14 @@ class Ckan {
     private function transfer($url, $method='GET', $data=null){
 
         $ch = curl_init($this->url . $url);
-
+curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) ;
-        if (in_array($method, array('POST','PUT'))) {
-      if (!$this->api_key) {throw new CkanException("No API KEY.");}
-
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Content-Type: application/json',
 'Authorization: ' .$this->api_key)
 );
 
-     
-    }
         $result = curl_exec($ch);
 
         $info = curl_getinfo($ch);
