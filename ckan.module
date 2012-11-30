@@ -84,6 +84,8 @@ function ckan_ckan(){
 	static $ckan=null;
 	if (!$ckan){
 		require_once(dirname(__FILE__) . '/ckan.php');
+		
+		echo variable_get('ckan_api', '')."testtttttttttt";
 		$ckan=new Ckan(variable_get('ckan_url', 'http://datalift.si.fr.atosorigin.com/'),variable_get('ckan_api', ''));
 	}
 	return $ckan;
