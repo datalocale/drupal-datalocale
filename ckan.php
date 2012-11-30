@@ -101,7 +101,8 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) ;
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     'Content-Type: application/json',
-    'Content-Length: ' . strlen($data_string))
+    'Content-Length: ' . strlen($data_string),
+'Authorization: ' .$this->api_key)
 );
 
 $result = curl_exec($ch);
@@ -113,7 +114,19 @@ $result = curl_exec($ch);
 
     }
 
-
+	private function set_user_agent()
+{
+if ('80' === @$_SERVER['SERVER_PORT'])
+{
+$server_name = 'http://' . $_SERVER['SERVER_NAME'];
+}
+else
+{
+$server_name = '';
+}
+$this->user_agent = sprintf($this->user_agent, $this->version) .
+' (' . $server_name . $_SERVER['PHP_SELF'] . ')';
+}
     public function search($keyword){
         $results = $this->transfer('api/search/package/?all_fields=1&q=' . urlencode($keyword));
         if (!$results->count){
