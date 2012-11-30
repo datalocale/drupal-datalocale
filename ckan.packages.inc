@@ -297,7 +297,7 @@ function ckan_new($ckan_name,$datelastimport){
 		$data['id']=$ckan_name;
 		$data['all_fields']=1;
 		$ckan_data = $ckan->getPackage($data);
-		//print_r($ckan_data);
+		print_r($ckan_data);
 	} catch (CkanException $e){
 		drupal_set_message($e->getMessage(),  "error node package creation");
 		drupal_set_title( "error node package creation");
