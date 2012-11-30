@@ -1,6 +1,6 @@
 <?php
 class Ckan {
-    private  $url = 'http://www.ckan.net/';
+    private  $url = 'http://datalift.si.fr.atosorigin.com/';
    private $apikey = 'a37d3691-312e-4d87-b95b-349f0ff31558';
 
 
@@ -57,7 +57,7 @@ class Ckan {
     private function transfer($url, $method='GET', $data=null){
 
         $ch = curl_init($this->url . $url);
-curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+//curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) ;
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
