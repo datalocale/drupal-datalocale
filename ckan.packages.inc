@@ -88,7 +88,7 @@ function ckan_create_node($ckan_data,$licenses){
 		$node->body[LANGUAGE_NONE][0]['summary'] = text_summary($body_text);
 		$node->body[LANGUAGE_NONE][0]['format']  = 'filtered_html';
 	}
-	$node->field_createdckan[LANGUAGE_NONE][0]['value']=strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
+	//$node->field_createdckan[LANGUAGE_NONE][0]['value']=strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
 	if($ckan_data->name)$node->field_name[LANGUAGE_NONE][0]['value'] = $ckan_data->name;
 	if($ckan_data->url){$node->field_url[LANGUAGE_NONE][0]['url'] = $ckan_data->url;
 	$node->field_url[LANGUAGE_NONE][0]['title'] = $ckan_data->name;
