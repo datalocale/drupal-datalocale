@@ -69,6 +69,7 @@ function ckan_create_node($ckan_data,$licenses){
 		$node->sticky = 0;
 		$node->type = "ckan_package";
 		$node->language= LANGUAGE_NONE;
+		$node->created =strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
 	}
 
 	// common part for add andd edit  setting up the fields
@@ -79,7 +80,7 @@ function ckan_create_node($ckan_data,$licenses){
 	$node->title = $ckan_data->title;
 	$node->field_id[LANGUAGE_NONE][0]['value'] = $ckan_data->id;
 	echo $ckan_data-> metadata_created;// break;
-	$node->created =strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
+	
 	$node->path ['alias'] = 'dataset/'.$ckan_data->name;
 	if($ckan_data->notes){
 		$body_text = $ckan_data->notes;
@@ -87,6 +88,7 @@ function ckan_create_node($ckan_data,$licenses){
 		$node->body[LANGUAGE_NONE][0]['summary'] = text_summary($body_text);
 		$node->body[LANGUAGE_NONE][0]['format']  = 'filtered_html';
 	}
+	$node->field_createdckan[LANGUAGE_NONE][0]['value']=strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
 	if($ckan_data->name)$node->field_name[LANGUAGE_NONE][0]['value'] = $ckan_data->name;
 	if($ckan_data->url){$node->field_url[LANGUAGE_NONE][0]['url'] = $ckan_data->url;
 	$node->field_url[LANGUAGE_NONE][0]['title'] = $ckan_data->name;
@@ -274,9 +276,9 @@ function ckan_create_node($ckan_data,$licenses){
 	}
 	
 	/////////////////////////// fin fields ressources///////////////////////////////////////////
-	print_r($node);break;
+	
 	$node=node_submit($node);
-	node_save($node);
+	node_save($node);print_r($node);break;
 	if($nid){drupal_set_message(t("Package @title edited",array("@title"=>$ckan_data->title)));
 	echo t("Package @title edited",array("@title"=>$ckan_data->title));
 	}
