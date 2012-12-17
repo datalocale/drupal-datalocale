@@ -78,6 +78,7 @@ function ckan_create_node($ckan_data,$licenses){
 	$node->status =$state;
 	$node->title = $ckan_data->title;
 	$node->field_id[LANGUAGE_NONE][0]['value'] = $ckan_data->id;
+	echo $ckan_data-> metadata_created;// break;
 	$node->created =strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
 	$node->path ['alias'] = 'dataset/'.$ckan_data->name;
 	if($ckan_data->notes){
@@ -271,8 +272,9 @@ function ckan_create_node($ckan_data,$licenses){
 			}
 		}
 	}
+	
 	/////////////////////////// fin fields ressources///////////////////////////////////////////
-	//print_r($node);
+	print_r($node);break;
 	$node=node_submit($node);
 	node_save($node);
 	if($nid){drupal_set_message(t("Package @title edited",array("@title"=>$ckan_data->title)));
