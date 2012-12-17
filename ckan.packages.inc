@@ -96,6 +96,7 @@ function ckan_create_node($ckan_data,$licenses){
       'timezone_db' => 'UTC',
   );
 	$node->created=strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
+	$node->changed=strtotime(str_replace("T"," ",$ckan_data-> metadata_modified));
 	if($ckan_data->name)$node->field_name[LANGUAGE_NONE][0]['value'] = $ckan_data->name;
 	if($ckan_data->url){$node->field_url[LANGUAGE_NONE][0]['url'] = $ckan_data->url;
 	$node->field_url[LANGUAGE_NONE][0]['title'] = $ckan_data->name;
