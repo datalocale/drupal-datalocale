@@ -88,7 +88,12 @@ function ckan_create_node($ckan_data,$licenses){
 		$node->body[LANGUAGE_NONE][0]['summary'] = text_summary($body_text);
 		$node->body[LANGUAGE_NONE][0]['format']  = 'filtered_html';
 	}
-	//$node->field_createdckan[LANGUAGE_NONE][0]['value']=strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
+	$arrdate=array(
+    'value' => date('Y-m-d H:i:s', strtotime(str_replace("T"," ",$ckan_data-> metadata_created))),
+      'timezone' => 'UTC',
+      'timezone_db' => 'UTC',
+  );
+	$node->field_createdckan[LANGUAGE_NONE][0]['value']=$arrdate;
 	if($ckan_data->name)$node->field_name[LANGUAGE_NONE][0]['value'] = $ckan_data->name;
 	if($ckan_data->url){$node->field_url[LANGUAGE_NONE][0]['url'] = $ckan_data->url;
 	$node->field_url[LANGUAGE_NONE][0]['title'] = $ckan_data->name;
@@ -279,6 +284,7 @@ function ckan_create_node($ckan_data,$licenses){
 	
 	$node=node_submit($node);
 	node_save($node);
+	print_r($node);break;
 	if($nid){drupal_set_message(t("Package @title edited",array("@title"=>$ckan_data->title)));
 	echo t("Package @title edited",array("@title"=>$ckan_data->title));
 	}
