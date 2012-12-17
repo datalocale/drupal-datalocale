@@ -278,7 +278,7 @@ function ckan_create_node($ckan_data,$licenses){
 	/////////////////////////// fin fields ressources///////////////////////////////////////////
 	
 	$node=node_submit($node);
-	node_save($node);print_r($node);break;
+	node_save($node);
 	if($nid){drupal_set_message(t("Package @title edited",array("@title"=>$ckan_data->title)));
 	echo t("Package @title edited",array("@title"=>$ckan_data->title));
 	}
