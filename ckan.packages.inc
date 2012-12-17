@@ -39,7 +39,7 @@ function ckan_taxonomy_get_termid_by_ckanid($v){
 function ckan_create_node($ckan_data,$licenses){
 
 	$ckan_data=$ckan_data->result;
-	print_r($ckan_data);
+	//print_r($ckan_data);
 	$nid=ckanpackage_nid_from_id($ckan_data->id);
 	//print_r($ckan_data);
 	$arrextra=array();
@@ -283,11 +283,9 @@ function ckan_create_node($ckan_data,$licenses){
 	
 	$node=node_submit($node);
 	node_save($node);
-	print_r($node);
 	 db_update('node')->fields(array('changed' => strtotime(str_replace("T"," ",$ckan_data-> metadata_modified))))
   ->condition('nid',$node->nid, '=')
   ->execute();
-	break;
 	if($nid){drupal_set_message(t("Package @title edited",array("@title"=>$ckan_data->title)));
 	echo t("Package @title edited",array("@title"=>$ckan_data->title));
 	}
@@ -375,8 +373,12 @@ function ckan_createnoderessource($res,$nidres='',$uid=''){
 		$nd->field_ressourceid[LANGUAGE_NONE][0]['value'] = $res->id;
 
 	}
-	if(isset($res->created))$nd->created =strtotime(str_replace("T"," ",$res->created));
-	if(isset($res->last_modified))$nd->changed=strtotime(str_replace("T"," ",$res->last_modified));
+	
+	$s=explode("T",$res-> metadata_created);
+	$nd->date=$s[0];
+	if(isset($res->created))$nd->created=strtotime(str_replace("T"," ",$res-> metadata_created));
+	//if(isset($res->created))$nd->created =strtotime(str_replace("T"," ",$res->created));
+	//if(isset($res->last_modified))$nd->changed=strtotime(str_replace("T"," ",$res->last_modified));
 	$nd->title = $res->name;
 	$nd->uid = $uid;
 	$nd->language = LANGUAGE_NONE;
@@ -438,6 +440,9 @@ function ckan_createnoderessource($res,$nidres='',$uid=''){
 	$ndres = node_submit($nd); // Prepare node for a submit
 	node_save($ndres);
 	$nidres=$ndres->nid;
+	 db_update('node')->fields(array('changed' => strtotime(str_replace("T"," ",$res-> last_modified))))
+  ->condition('nid',$nidres, '=')
+  ->execute();
 	return $nidres;
 }
 
