@@ -88,12 +88,14 @@ function ckan_create_node($ckan_data,$licenses){
 		$node->body[LANGUAGE_NONE][0]['summary'] = text_summary($body_text);
 		$node->body[LANGUAGE_NONE][0]['format']  = 'filtered_html';
 	}
+	$s=explode("T",$ckan_data-> metadata_created);
+	$node->date=$s[0];
 	$arrdate=array(
     'value' => date('Y-m-d H:i:s', strtotime(str_replace("T"," ",$ckan_data-> metadata_created))),
       'timezone' => 'UTC',
       'timezone_db' => 'UTC',
   );
-	$node->field_createdckan[LANGUAGE_NONE][0]['value']=$arrdate;
+	$node->created=strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
 	if($ckan_data->name)$node->field_name[LANGUAGE_NONE][0]['value'] = $ckan_data->name;
 	if($ckan_data->url){$node->field_url[LANGUAGE_NONE][0]['url'] = $ckan_data->url;
 	$node->field_url[LANGUAGE_NONE][0]['title'] = $ckan_data->name;
