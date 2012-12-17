@@ -91,7 +91,7 @@ function ckan_create_node($ckan_data,$licenses){
 	$s=explode("T",$ckan_data-> metadata_created);
 	$node->date=$s[0];
 	$node->created=strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
-	$node->changed=strtotime(str_replace("T"," ",$ckan_data-> metadata_modified));
+	//$node->changed=strtotime(str_replace("T"," ",$ckan_data-> metadata_modified));
 	
 	if($ckan_data->name)$node->field_name[LANGUAGE_NONE][0]['value'] = $ckan_data->name;
 	if($ckan_data->url){$node->field_url[LANGUAGE_NONE][0]['url'] = $ckan_data->url;
@@ -281,9 +281,13 @@ function ckan_create_node($ckan_data,$licenses){
 	
 	/////////////////////////// fin fields ressources///////////////////////////////////////////
 	
-	//$node=node_submit($node);
+	$node=node_submit($node);
 	node_save($node);
-	print_r($node);break;
+	print_r($node);
+	 db_update('node')->fields(array('changed' => strtotime(str_replace("T"," ",$ckan_data-> metadata_modified))))
+  ->condition('nid',$node->nid, '=')
+  ->execute();
+	break;
 	if($nid){drupal_set_message(t("Package @title edited",array("@title"=>$ckan_data->title)));
 	echo t("Package @title edited",array("@title"=>$ckan_data->title));
 	}
