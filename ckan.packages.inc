@@ -47,7 +47,7 @@ function ckan_create_node($ckan_data,$licenses){
 	$arrextraad=array();
 	if(isset($ckan_data->additional_extras))foreach($ckan_data->additional_extras as $ext)$arrextraad[$ext->key]=$ext->value;
 	//print_r($arrextra);
-	//echo "test:".$ckan_data->ckan_author."enddd <br/>";
+	echo "test:".$ckan_data->ckan_author."enddd <br/>";
 	if(isset($ckan_data->ckan_author)&& json_decode($ckan_data->ckan_author)<>'')
 	$uid=ckan_checkuser(json_decode($ckan_data->ckan_author));
 	if(!isset($uid) ||$uid=='')$uid=1;
