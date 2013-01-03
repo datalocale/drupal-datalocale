@@ -47,7 +47,7 @@ function ckan_create_node($ckan_data,$licenses){
 	$arrextraad=array();
 	if(isset($ckan_data->additional_extras))foreach($ckan_data->additional_extras as $ext)$arrextraad[$ext->key]=$ext->value;
 	//print_r($arrextra);
-	echo "test:".$ckan_data->ckan_author."enddd <br/>";
+	echo "test:".json_decode($ckan_data->ckan_author)."enddd <br/>";
 	if(isset($ckan_data->ckan_author)&& json_decode($ckan_data->ckan_author)<>'')
 	$uid=ckan_checkuser(json_decode($ckan_data->ckan_author));
 	if(!isset($uid) ||$uid=='')$uid=1;
@@ -79,7 +79,7 @@ function ckan_create_node($ckan_data,$licenses){
 	$node->status =$state;
 	$node->title = $ckan_data->title;
 	$node->field_id[LANGUAGE_NONE][0]['value'] = $ckan_data->id;
-	echo $ckan_data-> metadata_created;// break;
+	//echo $ckan_data-> metadata_created;// break;
 	
 	$node->path ['alias'] = 'dataset/'.$ckan_data->name;
 	if($ckan_data->notes){
@@ -308,7 +308,7 @@ function ckan_new($ckan_name,$datelastimport){
 		$data['id']=$ckan_name;
 		$data['all_fields']=1;
 		$ckan_data = $ckan->getPackage($data);
-		print_r($ckan_data);
+		//print_r($ckan_data);
 	} catch (CkanException $e){
 		drupal_set_message($e->getMessage(),  "error node package creation");
 		drupal_set_title( "error node package creation");
