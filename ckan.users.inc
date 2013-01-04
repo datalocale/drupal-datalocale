@@ -19,7 +19,7 @@ function ckan_checkuser($id){
 function ckan_users(){
 
 	$ckan = ckan_ckan();
-	print_r($ckan);
+	//print_r($ckan);
 	try {
 		$data['id']='';
 	$users = $ckan->getckanusers($data);
