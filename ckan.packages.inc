@@ -97,6 +97,7 @@ function ckan_create_node($ckan_data,$licenses){
 	if($ckan_data->url){$node->field_url[LANGUAGE_NONE][0]['url'] = $ckan_data->url;
 	$node->field_url[LANGUAGE_NONE][0]['title'] = $ckan_data->name;
 	}
+	/*
 	if(isset($ckan_data->maintainer))$node->field_maintainer[LANGUAGE_NONE][0]['value'] = $ckan_data->maintainer;
 	if(isset($ckan_data->maintainer_email))$node->field_maintainer_email[LANGUAGE_NONE][0]['email'] = $ckan_data->maintainer_email;
 	if(isset($ckan_data->author))$node->field_ckanauthor[LANGUAGE_NONE][0]['value'] = $ckan_data->author;
@@ -111,7 +112,7 @@ function ckan_create_node($ckan_data,$licenses){
 	if(isset($ckan_data->{'temporal_coverage-from'})&& json_decode($ckan_data->{'temporal_coverage-from'})<>'')$node->field_couverturetemporelle[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'temporal_coverage-from'});
 	if(isset($ckan_data->{'temporal_coverage-to'})&& json_decode($ckan_data->{'temporal_coverage-to'})<>'')$node->field_couverturetemporelle[LANGUAGE_NONE][0]['value2'] = json_decode($ckan_data->{'temporal_coverage-to'});
 	if(isset($ckan_data->license_id))$node->field_license_id[LANGUAGE_NONE][0]['value'] = $ckan_data->license_id;
-	if(isset($ckan_data->revision_id))$node->field_revision_id[LANGUAGE_NONE][0]['value'] = $ckan_data->revision_id;
+	if(isset($ckan_data->revision_id))$node->field_revision_id[LANGUAGE_NONE][0]['value'] = $ckan_data->revision_id;*/
 	/*if($licenses){$node->field_license[LANGUAGE_NONE][0]['title'] = $licenses[$ckan_data->license_id]['title'];
 	 $node->field_license[LANGUAGE_NONE][0]['url'] = $licenses[$ckan_data->license_id]['url'];
 	 }*/
@@ -119,7 +120,7 @@ function ckan_create_node($ckan_data,$licenses){
 
 
 	/// managing spatial elements//////////////////////
-	if(isset($ckan_data->spatial)){
+	/*if(isset($ckan_data->spatial)){
 		$geophp = geophp_load();
 		$sp=json_decode($ckan_data->spatial,true);
 		$arrspatial=json_decode($sp, true);
@@ -132,7 +133,7 @@ function ckan_create_node($ckan_data,$licenses){
 		//print_r($arrextent);
 
 		if(isset($ckan_data->spatial))$node->field_spatialextent[LANGUAGE_NONE][0] = $arrextent;
-	}
+	}*/
 	////////////////////////////////////
 
 
