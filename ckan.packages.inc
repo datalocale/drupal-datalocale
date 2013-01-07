@@ -217,7 +217,7 @@ function ckan_create_node($ckan_data,$licenses){
 
 
 
-
+/*
 	// managing image url
 	if(isset($ckan_data->image_url) && json_decode($ckan_data->image_url)<>''){
 		$imgpath=json_decode($ckan_data->image_url);
@@ -235,7 +235,7 @@ function ckan_create_node($ckan_data,$licenses){
 
 	}
 
-
+*/
 
 
 	//adding or editingextra fields in content type ckan_extrafields/////////////////////////
