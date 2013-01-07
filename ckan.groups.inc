@@ -96,7 +96,7 @@ function ckangroup_nid_from_id($pid){
  */
 
 function ckan_create_group($group_data){
-	$nid=ckangroup_nid_from_id($group_data->id);
+/*	$nid=ckangroup_nid_from_id($group_data->id);
  // print_r($group_data);
  echo $nid;
 	// if packaage exists then ->edit package ( creation of a new node revision)
@@ -109,14 +109,14 @@ function ckan_create_group($group_data){
 	}
 
 	// if package dont exist create a new one
-	else {
+	else {*/
 		$node = new stdClass();
 		$node->uid = 1;
 		$node->promote = 1;
 		$node->sticky = 0;
 		$node->type = "groupe";
 		$node->language= LANGUAGE_NONE;
-	}
+	//}
 
 	// common part for add andd edit  setting up the fields
 	$node->title = $group_data->title;
