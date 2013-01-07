@@ -69,7 +69,7 @@ function group_new($group_name){
 		$data['id']=$group_name;
 	$data['all_fields']=1;
 		$group_data = $ckan->getGroup($data);
-		//print_r($group_data);
+		print_r($group_data);
 	} catch (CkanException $e){
 		drupal_set_message($e->getMessage(),  "error getGroup creation");
 		drupal_set_title( "error getGroup creation");
