@@ -206,12 +206,12 @@ function ckan_create_node($ckan_data,$licenses){
 		$node->field_concept[LANGUAGE_NONE][1]['tid']=ckan_taxonomy_get_term_by_value($ca);}
 	}*/
 
-	// managing geographical granularity
+/*	// managing geographical granularity
 	if(isset($ckan_data->geographic_granularity)){
 		$gg=$ckan_data->geographic_granularity;
 		$tidgg=key(taxonomy_term_load_multiple(array(), array('name' => $gg, 'vid' => variable_get('ckan_geographicvocab'))));
 		if($gg<>''&& $tidgg<>'')$node->field_geogranularity[LANGUAGE_NONE][0]['tid']=$tidgg;
-	}
+	}*/
 
 
 
