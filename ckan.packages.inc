@@ -137,9 +137,9 @@ function ckan_create_node($ckan_data,$licenses){
 	////////////////////////////////////
 
 
-	if(isset($ckan_data->{"dct:contributor"}))$node->field_contributor[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{"dct:contributor"});
-	if(isset($ckan_data->{'dct:creator'}))$node->field_creator[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(json_decode($ckan_data->{'dct:creator'}));
-	if(isset($ckan_data->{'dct:publisher'}))$node->field_publisher[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(json_decode($ckan_data->{'dct:publisher'}));
+	//if(isset($ckan_data->{"dct:contributor"}))$node->field_contributor[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{"dct:contributor"});
+	//if(isset($ckan_data->{'dct:creator'}))$node->field_creator[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(json_decode($ckan_data->{'dct:creator'}));
+	//if(isset($ckan_data->{'dct:publisher'}))$node->field_publisher[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(json_decode($ckan_data->{'dct:publisher'}));
 	//if(isset($ckan_data->{'dct:publisher'}))$node->field_publisher[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(json_decode($arrextra['published_by']));
 	//if(isset($ckan_data->{'dct:temporal'}))$node->field_temporal[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'dct:temporal'});
 	/*if(isset($ckan_data->{'maj'})){
@@ -237,7 +237,7 @@ function ckan_create_node($ckan_data,$licenses){
 
 */
 
-
+/*
 	//adding or editingextra fields in content type ckan_extrafields/////////////////////////
 	$extras=array();
 	//$arrex=array();
@@ -256,11 +256,11 @@ function ckan_create_node($ckan_data,$licenses){
 			if($nidextra && $nidextra<>'')$node->field_extras[LANGUAGE_NONE][]['nid']=$nidextra;
 		}
 
-	}
+	}*/
 	//}
 	/////////////////////////// fin fields extras///////////////////////////////////////////
 
-
+/*
 	//adding or editing ressources fields in content type ckan_resoources/////////////////////////
 	if(isset($ckan_data->resources)){
 		$ressources=array();
@@ -279,7 +279,7 @@ function ckan_create_node($ckan_data,$licenses){
 			}
 		}
 	}
-	
+	*/
 	/////////////////////////// fin fields ressources///////////////////////////////////////////
 	
 	$node=node_submit($node);
