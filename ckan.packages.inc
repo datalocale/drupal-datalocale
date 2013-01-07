@@ -184,27 +184,27 @@ function ckan_create_node($ckan_data,$licenses){
 		if($fre<>''&& $tidf<>'')$node->field_frequence[LANGUAGE_NONE][0]['tid']=$tidf;
 	}*/
 
-	// managing qualite
+	/*// managing qualite
 	if(isset($ckan_data->dataQuality[0])){
 		$ql =$ckan_data->dataQuality[0];
 		$tidq=key(taxonomy_term_load_multiple(array(), array('name' => $ql, 'vid' => variable_get('ckan_qualitevocab'))));
 		if($ql<>''&& $tidq<>'')$node->field_qualite[LANGUAGE_NONE][0]['tid']=$tidq;
 	}
-
-	// managing concept
+*/
+	/*// managing concept
 	if(isset($ckan_data->themeTaxonomy)){
 		$cpar=(array)$ckan_data->themeTaxonomy;
 		$cp =key($cpar);
 		if($cp<>'' && ckan_taxonomy_get_term_by_value($cp)<>'')$node->field_concept[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_term_by_value($cp);
-	}
-	// managing categories
+	}*/
+	/*// managing categories
 	if(isset($ckan_data->theme_available)){
 		$caar=(array)$ckan_data->theme_available;
 		$ca =key($caar); //echo "taxo".ckan_taxonomy_get_term_by_value($ca)."fintest<br/>";
 		if($ca<>''&& ckan_taxonomy_get_term_by_value($ca)<>''){
 			//$node->field_categorie[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_term_by_value($ca);
 		$node->field_concept[LANGUAGE_NONE][1]['tid']=ckan_taxonomy_get_term_by_value($ca);}
-	}
+	}*/
 
 	// managing geographical granularity
 	if(isset($ckan_data->geographic_granularity)){
