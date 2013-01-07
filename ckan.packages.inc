@@ -41,7 +41,7 @@ function ckan_create_node($ckan_data,$licenses){
 	$ckan_data=$ckan_data->result;
 	//print_r($ckan_data);
 	$nid=ckanpackage_nid_from_id($ckan_data->id);
-	//print_r($ckan_data);
+	print_r($ckan_data);
 	$arrextra=array();
 	if(isset($ckan_data->extras))foreach($ckan_data->extras as $ext)$arrextra[$ext->key]=$ext->value;
 	$arrextraad=array();
