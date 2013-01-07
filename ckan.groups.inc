@@ -96,6 +96,7 @@ function ckangroup_nid_from_id($pid){
  */
 
 function ckan_create_group($group_data){
+	echo $group_data->id."pppp";
 	$nid=ckangroup_nid_from_id($group_data->id);
  // print_r($group_data);
  echo $nid."<br/>";
