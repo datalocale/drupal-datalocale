@@ -265,7 +265,7 @@ function ckan_create_node($ckan_data,$licenses){
 		$ressources=array();
 		$ressources=(array) $ckan_data->resources;
 		if(isset($node->field_ressources[LANGUAGE_NONE]))foreach($node->field_ressources[LANGUAGE_NONE] as $k=>$ext)if(!in_array($ext,$ressources))unset($node->field_ressources[LANGUAGE_NONE][$k]);
-		foreach ($ressources as $res) {
+		if($ressources)foreach ($ressources as $res) {
 			/// check if the field exists
 			$nidressource=ckan_checkressource($res->id);
 			if($nidressource && $nidressource<>''){
