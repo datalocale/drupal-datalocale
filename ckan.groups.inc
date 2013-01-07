@@ -98,10 +98,11 @@ function ckangroup_nid_from_id($pid){
 function ckan_create_group($group_data){
 	$nid=ckangroup_nid_from_id($group_data->id);
  // print_r($group_data);
+ echo $nid;
 	// if packaage exists then ->edit package ( creation of a new node revision)
 	if($nid){
 		$node=node_load($nid);
-		if( $node->field_grrevision_id[LANGUAGE_NONE][0]['value'] != $group_data->revision_id	){
+		if( isset($node->field_grrevision_id[LANGUAGE_NONE][0]['value'])&& $node->field_grrevision_id[LANGUAGE_NONE][0]['value'] != $group_data->revision_id	){
 			$node->revision = TRUE;
 			$node->log = "Updated programmatically from ckan @".date('Y-m-d h:i:s'); // Log message
 		}
