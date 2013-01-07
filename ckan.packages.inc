@@ -93,9 +93,9 @@ function ckan_create_node($ckan_data,$licenses){
 	$node->created=strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
 	//$node->changed=strtotime(str_replace("T"," ",$ckan_data-> metadata_modified));
 	
-	if($ckan_data->name)$node->field_name[LANGUAGE_NONE][0]['value'] = $ckan_data->name;
-	if($ckan_data->url){$node->field_url[LANGUAGE_NONE][0]['url'] = $ckan_data->url;
-	$node->field_url[LANGUAGE_NONE][0]['title'] = $ckan_data->name;
+	//if($ckan_data->name)$node->field_name[LANGUAGE_NONE][0]['value'] = $ckan_data->name;
+	//if($ckan_data->url){$node->field_url[LANGUAGE_NONE][0]['url'] = $ckan_data->url;
+	//$node->field_url[LANGUAGE_NONE][0]['title'] = $ckan_data->name;
 	}
 	/*
 	if(isset($ckan_data->maintainer))$node->field_maintainer[LANGUAGE_NONE][0]['value'] = $ckan_data->maintainer;
@@ -284,9 +284,9 @@ function ckan_create_node($ckan_data,$licenses){
 	
 	$node=node_submit($node);
 	node_save($node);
-	 db_update('node')->fields(array('changed' => strtotime(str_replace("T"," ",$ckan_data-> metadata_modified))))
-  ->condition('nid',$node->nid, '=')
-  ->execute();
+	// db_update('node')->fields(array('changed' => strtotime(str_replace("T"," ",$ckan_data-> metadata_modified))))
+  //->condition('nid',$node->nid, '=')
+ // ->execute();
 	if($nid){drupal_set_message(t("Package @title edited",array("@title"=>$ckan_data->title)));
 	echo t("Package @title edited",array("@title"=>$ckan_data->title));
 	}
