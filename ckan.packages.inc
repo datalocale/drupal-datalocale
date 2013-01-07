@@ -141,23 +141,23 @@ function ckan_create_node($ckan_data,$licenses){
 	if(isset($ckan_data->{'dct:publisher'}))$node->field_publisher[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(json_decode($ckan_data->{'dct:publisher'}));
 	//if(isset($ckan_data->{'dct:publisher'}))$node->field_publisher[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(json_decode($arrextra['published_by']));
 	//if(isset($ckan_data->{'dct:temporal'}))$node->field_temporal[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'dct:temporal'});
-	if(isset($ckan_data->{'maj'})){
+	/*if(isset($ckan_data->{'maj'})){
 		$node->field_maj[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'maj'});
 		$node->field_maj[LANGUAGE_NONE][0]['format'] ='filtered_html';
-	}
+	}*/
 
 	//if(isset($ckan_data->{'dc:source'}))$node->field_source[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'dc:source'});
 	//if(isset($ckan_data->{'dcterms:references'}))$node->field_reference[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'dcterms:references'});
 	//if(isset($ckan_data->{"dcat:granularity"}))$node->field_granularity[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'dcat:granularity'});
 	// managing scores////
 
-	if(isset($ckan_data->openness_score_html)){
+	/*if(isset($ckan_data->openness_score_html)){
 		$node->field_scorehtml[LANGUAGE_NONE][0]['format']  = 'fullhtml';
 		$node->field_scorehtml[LANGUAGE_NONE][0]['value'] = $ckan_data->openness_score_html;
 	}
 	if(isset($ckan_data->openness_score))$node->field_score[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->openness_score);
 	if(isset($ckan_data->openness_score))$node->field_scoref[LANGUAGE_NONE][0]['count'] = json_decode($ckan_data->openness_score);
-
+*/
 	// managing tags :adding tags as taonomies terms
 	/*if(isset($ckan_data->tags)){
 		$tags =$ckan_data->tags;
