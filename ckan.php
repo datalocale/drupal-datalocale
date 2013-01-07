@@ -94,7 +94,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 );
 
 $result = curl_exec($ch);
-//print_r($result);
+print_r($result);
  $info = curl_getinfo($ch);
  print_r($info);
         curl_close($ch);
