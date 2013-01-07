@@ -43,9 +43,9 @@ function ckan_create_node($ckan_data,$licenses){
 	$nid=ckanpackage_nid_from_id($ckan_data->id);
 	print_r($ckan_data);
 	$arrextra=array();
-	if(isset($ckan_data->extras))foreach($ckan_data->extras as $ext)$arrextra[$ext->key]=$ext->value;
+	//if(isset($ckan_data->extras))foreach($ckan_data->extras as $ext)$arrextra[$ext->key]=$ext->value;
 	$arrextraad=array();
-	if(isset($ckan_data->additional_extras))foreach($ckan_data->additional_extras as $ext)$arrextraad[$ext->key]=$ext->value;
+	//if(isset($ckan_data->additional_extras))foreach($ckan_data->additional_extras as $ext)$arrextraad[$ext->key]=$ext->value;
 	//print_r($arrextra);
 	echo "test:".json_decode($ckan_data->ckan_author)."enddd <br/>";
 	if(isset($ckan_data->ckan_author)&& json_decode($ckan_data->ckan_author)<>'')
@@ -75,7 +75,7 @@ function ckan_create_node($ckan_data,$licenses){
 	// common part for add andd edit  setting up the fields
 	$node->uid = $uid;
     $node->comment = 2;
-	if($ckan_data->state=="active")$state=1; else $state=0;
+	//if($ckan_data->state=="active")$state=1; else $state=0;
 	$node->status =$state;
 	$node->title = $ckan_data->title;
 	$node->field_id[LANGUAGE_NONE][0]['value'] = $ckan_data->id;
@@ -90,7 +90,7 @@ function ckan_create_node($ckan_data,$licenses){
 	}
 	$s=explode("T",$ckan_data-> metadata_created);
 	$node->date=$s[0];
-	$node->created=strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
+	//$node->created=strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
 	//$node->changed=strtotime(str_replace("T"," ",$ckan_data-> metadata_modified));
 	
 	//if($ckan_data->name)$node->field_name[LANGUAGE_NONE][0]['value'] = $ckan_data->name;
