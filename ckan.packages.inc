@@ -53,6 +53,7 @@ function ckan_create_node($ckan_data,$licenses){
 	if(!isset($uid) ||$uid=='')$uid=1;
 	//echo $uid."uiddddddddd";
 	// if packaage exists then ->edit package ( creation of a new node revision)
+	echo $nid;
 	if($nid){
 		$node=node_load($nid);
 		if( $node->field_revision_id[LANGUAGE_NONE][0]['value'] != $ckan_data->revision_id	){
@@ -374,9 +375,9 @@ function ckan_createnoderessource($res,$nidres='',$uid=''){
 
 	}
 	
-	$s=explode("T",$res-> metadata_created);
+	/*$s=explode("T",$res-> metadata_created);
 	$nd->date=$s[0];
-	if(isset($res->created))$nd->created=strtotime(str_replace("T"," ",$res-> metadata_created));
+	if(isset($res->created))$nd->created=strtotime(str_replace("T"," ",$res-> metadata_created));*/
 	//if(isset($res->created))$nd->created =strtotime(str_replace("T"," ",$res->created));
 	//if(isset($res->last_modified))$nd->changed=strtotime(str_replace("T"," ",$res->last_modified));
 	$nd->title = $res->name;
@@ -440,9 +441,9 @@ function ckan_createnoderessource($res,$nidres='',$uid=''){
 	$ndres = node_submit($nd); // Prepare node for a submit
 	node_save($ndres);
 	$nidres=$ndres->nid;
-	 db_update('node')->fields(array('changed' => strtotime(str_replace("T"," ",$res-> last_modified))))
+	/* db_update('node')->fields(array('changed' => strtotime(str_replace("T"," ",$res-> last_modified))))
   ->condition('nid',$nidres, '=')
-  ->execute();
+  ->execute();*/
 	return $nidres;
 }
 
