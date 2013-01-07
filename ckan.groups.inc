@@ -98,6 +98,7 @@ function ckangroup_nid_from_id($pid){
 function ckan_create_group($group_data){
 	$nid=ckangroup_nid_from_id($group_data->id);
  // print_r($group_data);
+ echo $nid."<br/>";
 	// if packaage exists then ->edit package ( creation of a new node revision)
 	if($nid){
 		$node=node_load($nid);
