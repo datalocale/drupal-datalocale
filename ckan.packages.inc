@@ -146,9 +146,9 @@ function ckan_create_node($ckan_data,$licenses){
 		$node->field_maj[LANGUAGE_NONE][0]['format'] ='filtered_html';
 	}
 
-	if(isset($ckan_data->{'dc:source'}))$node->field_source[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'dc:source'});
-	if(isset($ckan_data->{'dcterms:references'}))$node->field_reference[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'dcterms:references'});
-	if(isset($ckan_data->{"dcat:granularity"}))$node->field_granularity[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'dcat:granularity'});
+	//if(isset($ckan_data->{'dc:source'}))$node->field_source[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'dc:source'});
+	//if(isset($ckan_data->{'dcterms:references'}))$node->field_reference[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'dcterms:references'});
+	//if(isset($ckan_data->{"dcat:granularity"}))$node->field_granularity[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'dcat:granularity'});
 	// managing scores////
 
 	if(isset($ckan_data->openness_score_html)){
