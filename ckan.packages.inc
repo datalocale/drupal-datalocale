@@ -159,7 +159,7 @@ function ckan_create_node($ckan_data,$licenses){
 	if(isset($ckan_data->openness_score))$node->field_scoref[LANGUAGE_NONE][0]['count'] = json_decode($ckan_data->openness_score);
 
 	// managing tags :adding tags as taonomies terms
-	if(isset($ckan_data->tags)){
+	/*if(isset($ckan_data->tags)){
 		$tags =$ckan_data->tags;
 		$arrtids=array();
 		$arrtags=array();
@@ -168,7 +168,7 @@ function ckan_create_node($ckan_data,$licenses){
 			$arrtids[]=$v['tid'];if(!in_array($v['tid'],$arrtags))unset($node->field_tagsckan[LANGUAGE_NONE][$k]['tid']);}
 	  if($arrtags)foreach($arrtags as $k=> $v)if(!in_array($v,$arrtids)&& $v<>'')$node->field_tagsckan[LANGUAGE_NONE][$k]['tid']=$v;
 
-	}
+	}*/
 
 	// managing licence
 	if(isset($ckan_data->license_id)){
