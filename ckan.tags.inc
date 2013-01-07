@@ -209,6 +209,7 @@ function ckan_tagsf(){
 		$data['all_fields']=1;
 		$data['vocabulary_id']="dct:accrualPeriodicity";
 		$tags = $ckan->gettags($data);
+		print_R($tags);echo "frequence";
 		if($tags->result)foreach($tags->result as $k=>$tg){
 			if(isset($tg->packages))if(count($tg->packages)>0){
 				$tid=ckan_checktag($tg->id);
@@ -391,6 +392,7 @@ function ckan_tagsgeo(){
 		$data['all_fields']=1;
 		$data['vocabulary_id']="geographic_granularity";
 		$tags = $ckan->gettagsdatalocale($data);
+		print_r($tags);echo "geoooo";
 		if($tags->result)foreach($tags->result as $k=>$tg){
 			if(isset($tg->packages))if(count($tg->packages)>0){
 				$tid=ckan_checktag($tg->id);
