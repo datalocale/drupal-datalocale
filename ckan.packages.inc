@@ -170,19 +170,19 @@ function ckan_create_node($ckan_data,$licenses){
 
 	}*/
 
-	// managing licence
+	/*// managing licence
 	if(isset($ckan_data->license_id)){
 		$ll=$ckan_data->license_id;
 		if($ll<>'' && ckan_taxonomy_get_termid_by_ckanid($ll)<>'')$node->field_ckanlicence[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_termid_by_ckanid($ll);
 	}
+*/
 
-
-	// managing frequencies
+/*	// managing frequencies
 	if(isset($ckan_data->{"dct:accrualPeriodicity"})){
 		$fre =$ckan_data->{"dct:accrualPeriodicity"};
 		$tidf=key(taxonomy_term_load_multiple(array(), array('name' => $fre, 'vid' => variable_get('ckan_frequencevocab'))));
 		if($fre<>''&& $tidf<>'')$node->field_frequence[LANGUAGE_NONE][0]['tid']=$tidf;
-	}
+	}*/
 
 	// managing qualite
 	if(isset($ckan_data->dataQuality[0])){
