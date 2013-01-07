@@ -165,7 +165,7 @@ function ckan_tagsg(){
 		$data['all_fields']=1;
 		$data['vocabulary_id']="dcat:granularity";
 		$tags = $ckan->gettags($data);
-		//print_r($tags);
+		print_r($tags);echo "granuuuuul";
 		if($tags->result)foreach($tags->result as $k=>$tg){
 			if(isset($tg->packages))if(count($tg->packages)>0){
 				$tid=ckan_checktag($tg->id);
