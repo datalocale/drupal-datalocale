@@ -10,11 +10,11 @@
 function contenttypeckanpackage_node_info() {
   $items = array(
     'ckan_package' => array(
-      'name' => t('Ckan package'),
+      'name' => t('Fiche du jeu de données'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => t('Cette fiche décrit le jeu de données et permet d\'accéder aux ressources liées.'),
       'has_title' => '1',
-      'title_label' => t('Title'),
+      'title_label' => t('Titre'),
       'help' => '',
     ),
   );
