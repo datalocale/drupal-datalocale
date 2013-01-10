@@ -10,11 +10,11 @@
 function contenttypeckanextrafields_node_info() {
   $items = array(
     'ckan_extrafields' => array(
-      'name' => t('ckan_extrafields'),
+      'name' => t('champs additionnels'),
       'base' => 'node_content',
       'description' => '',
       'has_title' => '1',
-      'title_label' => t('Title'),
+      'title_label' => t('Titre'),
       'help' => '',
     ),
   );

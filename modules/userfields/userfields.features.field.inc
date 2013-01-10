@@ -18,6 +18,9 @@ function userfields_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_about',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -47,7 +50,7 @@ function userfields_field_default_fields() {
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 3,
+          'weight' => '1',
         ),
         'full' => array(
           'label' => 'above',
@@ -58,7 +61,7 @@ function userfields_field_default_fields() {
       ),
       'entity_type' => 'user',
       'field_name' => 'field_about',
-      'label' => 'about',
+      'label' => 'Description de la ressource',
       'required' => 0,
       'settings' => array(
         'text_processing' => '0',
@@ -112,10 +115,9 @@ function userfields_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 1,
+          'type' => 'hidden',
+          'weight' => '5',
         ),
         'full' => array(
           'label' => 'above',
@@ -152,6 +154,9 @@ function userfields_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_fullname',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -179,11 +184,11 @@ function userfields_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => 2,
+          'weight' => '0',
         ),
         'full' => array(
           'label' => 'above',
@@ -194,7 +199,7 @@ function userfields_field_default_fields() {
       ),
       'entity_type' => 'user',
       'field_name' => 'field_fullname',
-      'label' => 'fullname',
+      'label' => 'Nom de la ressource',
       'required' => 0,
       'settings' => array(
         'text_processing' => '0',
@@ -248,10 +253,9 @@ function userfields_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => 4,
+          'type' => 'hidden',
+          'weight' => '3',
         ),
         'full' => array(
           'label' => 'above',
@@ -288,6 +292,9 @@ function userfields_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_ugroupes',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'nid' => array(
           'columns' => array(
@@ -306,18 +313,20 @@ function userfields_field_default_fields() {
         'referenceable_types' => array(
           'application' => 0,
           'article' => 0,
+          'blog' => 0,
           'bonnepratique' => 0,
           'ckan_extrafields' => 0,
           'ckan_package' => 0,
-          'ckan_publisher' => 0,
           'ckan_ressources' => 0,
           'collectivite' => 0,
           'document' => 0,
           'faq' => 0,
+          'forum' => 0,
           'groupe' => 'groupe',
-          'opendata' => 0,
           'page' => 0,
+          'page_rubrique_initial' => 0,
           'service' => 0,
+          'webform' => 0,
         ),
         'view' => array(
           'args' => array(),
@@ -339,7 +348,7 @@ function userfields_field_default_fields() {
           'module' => 'node_reference',
           'settings' => array(),
           'type' => 'node_reference_default',
-          'weight' => 5,
+          'weight' => '2',
         ),
         'full' => array(
           'label' => 'above',
@@ -350,7 +359,7 @@ function userfields_field_default_fields() {
       ),
       'entity_type' => 'user',
       'field_name' => 'field_ugroupes',
-      'label' => 'User groupes',
+      'label' => 'Cette ressource est membre des groupes suivants',
       'required' => 0,
       'settings' => array(
         'user_register_form' => 0,
@@ -367,10 +376,10 @@ function userfields_field_default_fields() {
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('User groupes');
-  t('about');
+  t('Cette ressource est membre des groupes suivants');
+  t('Description de la ressource');
+  t('Nom de la ressource');
   t('display_name');
-  t('fullname');
   t('id');
 
   return $fields;

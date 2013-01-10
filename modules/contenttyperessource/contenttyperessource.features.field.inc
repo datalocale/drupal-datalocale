@@ -20,6 +20,9 @@ function contenttyperessource_field_default_fields() {
         0 => 'node',
       ),
       'field_name' => 'body',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -45,11 +48,11 @@ function contenttyperessource_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'hidden',
+          'label' => 'inline',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '0',
+          'weight' => '1',
         ),
         'teaser' => array(
           'label' => 'hidden',
@@ -63,21 +66,22 @@ function contenttyperessource_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'body',
-      'label' => 'Body',
-      'required' => FALSE,
+      'label' => 'Description',
+      'required' => 0,
       'settings' => array(
-        'display_summary' => TRUE,
-        'text_processing' => 1,
+        'display_summary' => 1,
+        'text_processing' => '1',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'text',
         'settings' => array(
-          'rows' => 20,
+          'rows' => '20',
           'summary_rows' => 5,
         ),
         'type' => 'text_textarea_with_summary',
-        'weight' => '31',
+        'weight' => '2',
       ),
     ),
   );
@@ -90,6 +94,9 @@ function contenttyperessource_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_mimetype',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -117,11 +124,11 @@ function contenttyperessource_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '8',
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -132,7 +139,7 @@ function contenttyperessource_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_mimetype',
-      'label' => 'mimetype',
+      'label' => 'Type mime ',
       'required' => 0,
       'settings' => array(
         'text_processing' => '0',
@@ -145,7 +152,7 @@ function contenttyperessource_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '39',
+        'weight' => '4',
       ),
     ),
   );
@@ -186,9 +193,8 @@ function contenttyperessource_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
+          'type' => 'hidden',
           'weight' => '9',
         ),
         'teaser' => array(
@@ -213,7 +219,7 @@ function contenttyperessource_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '40',
+        'weight' => '9',
       ),
     ),
   );
@@ -253,11 +259,10 @@ function contenttyperessource_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
-          'module' => 'text',
+          'label' => 'inline',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '7',
+          'type' => 'hidden',
+          'weight' => '8',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -281,7 +286,7 @@ function contenttyperessource_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '38',
+        'weight' => '7',
       ),
     ),
   );
@@ -322,10 +327,9 @@ function contenttyperessource_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '6',
+          'type' => 'hidden',
+          'weight' => '7',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -349,7 +353,7 @@ function contenttyperessource_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '37',
+        'weight' => '6',
       ),
     ),
   );
@@ -409,10 +413,9 @@ function contenttyperessource_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'node_reference',
           'settings' => array(),
-          'type' => 'node_reference_default',
-          'weight' => '2',
+          'type' => 'hidden',
+          'weight' => '5',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -433,7 +436,7 @@ function contenttyperessource_field_default_fields() {
         'module' => 'options',
         'settings' => array(),
         'type' => 'options_select',
-        'weight' => '33',
+        'weight' => '2',
       ),
     ),
   );
@@ -446,6 +449,9 @@ function contenttyperessource_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_ressourcefile',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(),
       'indexes' => array(
         'fid' => array(
@@ -469,7 +475,7 @@ function contenttyperessource_field_default_fields() {
           'module' => 'recline',
           'settings' => array(),
           'type' => 'recline_default_formatter',
-          'weight' => 11,
+          'weight' => '3',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -480,7 +486,7 @@ function contenttyperessource_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_ressourcefile',
-      'label' => 'ressourcefile',
+      'label' => 'Visualisation de la ressource',
       'required' => 0,
       'settings' => array(
         'alt_field' => 0,
@@ -498,7 +504,7 @@ function contenttyperessource_field_default_fields() {
           'progress_indicator' => 'throbber',
         ),
         'type' => 'recline_widget',
-        'weight' => '42',
+        'weight' => '5',
       ),
     ),
   );
@@ -511,6 +517,9 @@ function contenttyperessource_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_ressourceid',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -538,75 +547,7 @@ function contenttyperessource_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
-          'module' => 'text',
-          'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '1',
-        ),
-        'teaser' => array(
-          'label' => 'above',
-          'settings' => array(),
-          'type' => 'hidden',
-          'weight' => 0,
-        ),
-      ),
-      'entity_type' => 'node',
-      'field_name' => 'field_ressourceid',
-      'label' => 'ressourceid',
-      'required' => 0,
-      'settings' => array(
-        'text_processing' => '0',
-        'user_register_form' => FALSE,
-      ),
-      'widget' => array(
-        'active' => 1,
-        'module' => 'text',
-        'settings' => array(
-          'size' => '60',
-        ),
-        'type' => 'text_textfield',
-        'weight' => '32',
-      ),
-    ),
-  );
-
-  // Exported field: 'node-ckan_ressources-field_ressourceurl'
-  $fields['node-ckan_ressources-field_ressourceurl'] = array(
-    'field_config' => array(
-      'active' => '1',
-      'cardinality' => '1',
-      'deleted' => '0',
-      'entity_types' => array(),
-      'field_name' => 'field_ressourceurl',
-      'foreign keys' => array(
-        'format' => array(
-          'columns' => array(
-            'format' => 'format',
-          ),
-          'table' => 'filter_format',
-        ),
-      ),
-      'indexes' => array(
-        'format' => array(
-          0 => 'format',
-        ),
-      ),
-      'module' => 'text',
-      'settings' => array(
-        'max_length' => '255',
-      ),
-      'translatable' => '0',
-      'type' => 'text',
-    ),
-    'field_instance' => array(
-      'bundle' => 'ckan_ressources',
-      'default_value' => NULL,
-      'deleted' => '0',
-      'description' => '',
-      'display' => array(
-        'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
@@ -620,8 +561,8 @@ function contenttyperessource_field_default_fields() {
         ),
       ),
       'entity_type' => 'node',
-      'field_name' => 'field_ressourceurl',
-      'label' => 'ressourceurl',
+      'field_name' => 'field_ressourceid',
+      'label' => 'id de la ressource',
       'required' => 0,
       'settings' => array(
         'text_processing' => '0',
@@ -634,7 +575,77 @@ function contenttyperessource_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '35',
+        'weight' => '3',
+      ),
+    ),
+  );
+
+  // Exported field: 'node-ckan_ressources-field_ressourceurl'
+  $fields['node-ckan_ressources-field_ressourceurl'] = array(
+    'field_config' => array(
+      'active' => '1',
+      'cardinality' => '1',
+      'deleted' => '0',
+      'entity_types' => array(),
+      'field_name' => 'field_ressourceurl',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
+      'foreign keys' => array(
+        'format' => array(
+          'columns' => array(
+            'format' => 'format',
+          ),
+          'table' => 'filter_format',
+        ),
+      ),
+      'indexes' => array(
+        'format' => array(
+          0 => 'format',
+        ),
+      ),
+      'module' => 'text',
+      'settings' => array(
+        'max_length' => '255',
+      ),
+      'translatable' => '0',
+      'type' => 'text',
+    ),
+    'field_instance' => array(
+      'bundle' => 'ckan_ressources',
+      'default_value' => NULL,
+      'deleted' => '0',
+      'description' => '',
+      'display' => array(
+        'default' => array(
+          'label' => 'inline',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => '2',
+        ),
+        'teaser' => array(
+          'label' => 'above',
+          'settings' => array(),
+          'type' => 'hidden',
+          'weight' => 0,
+        ),
+      ),
+      'entity_type' => 'node',
+      'field_name' => 'field_ressourceurl',
+      'label' => 'Url de la ressource',
+      'required' => 0,
+      'settings' => array(
+        'text_processing' => '0',
+        'user_register_form' => FALSE,
+      ),
+      'widget' => array(
+        'active' => 1,
+        'module' => 'text',
+        'settings' => array(
+          'size' => '60',
+        ),
+        'type' => 'text_textfield',
+        'weight' => '3',
       ),
     ),
   );
@@ -647,6 +658,9 @@ function contenttyperessource_field_default_fields() {
       'deleted' => '0',
       'entity_types' => array(),
       'field_name' => 'field_size',
+      'field_permissions' => array(
+        'type' => '0',
+      ),
       'foreign keys' => array(
         'format' => array(
           'columns' => array(
@@ -674,11 +688,11 @@ function contenttyperessource_field_default_fields() {
       'description' => '',
       'display' => array(
         'default' => array(
-          'label' => 'above',
+          'label' => 'inline',
           'module' => 'text',
           'settings' => array(),
           'type' => 'text_default',
-          'weight' => '3',
+          'weight' => '2',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -689,19 +703,20 @@ function contenttyperessource_field_default_fields() {
       ),
       'entity_type' => 'node',
       'field_name' => 'field_size',
-      'label' => 'size',
-      'required' => FALSE,
+      'label' => 'Taille',
+      'required' => 0,
       'settings' => array(
-        'text_processing' => 0,
+        'text_processing' => '0',
         'user_register_form' => FALSE,
       ),
       'widget' => array(
+        'active' => 1,
         'module' => 'text',
         'settings' => array(
-          'size' => 60,
+          'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '34',
+        'weight' => '4',
       ),
     ),
   );
@@ -742,10 +757,9 @@ function contenttyperessource_field_default_fields() {
       'display' => array(
         'default' => array(
           'label' => 'above',
-          'module' => 'text',
           'settings' => array(),
-          'type' => 'text_default',
-          'weight' => '5',
+          'type' => 'hidden',
+          'weight' => '6',
         ),
         'teaser' => array(
           'label' => 'above',
@@ -769,23 +783,23 @@ function contenttyperessource_field_default_fields() {
           'size' => '60',
         ),
         'type' => 'text_textfield',
-        'weight' => '36',
+        'weight' => '4',
       ),
     ),
   );
 
   // Translatables
   // Included for use with string extractors like potx.
-  t('Body');
-  t('mimetype');
+  t('Description');
+  t('Taille');
+  t('Type mime ');
+  t('Url de la ressource');
+  t('Visualisation de la ressource');
+  t('id de la ressource');
   t('mimetype_inner');
   t('position');
   t('resource_type');
   t('ressourceextras');
-  t('ressourcefile');
-  t('ressourceid');
-  t('ressourceurl');
-  t('size');
   t('webstore_url');
 
   return $fields;

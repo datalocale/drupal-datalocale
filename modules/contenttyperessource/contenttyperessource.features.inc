@@ -10,11 +10,11 @@
 function contenttyperessource_node_info() {
   $items = array(
     'ckan_ressources' => array(
-      'name' => t('ckan ressources'),
+      'name' => t('fichiers open data'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => t('type de contenu permettant de présenter les fichiers à télécharger ou à prévisualiser'),
       'has_title' => '1',
-      'title_label' => t('Title'),
+      'title_label' => t('Titre'),
       'help' => '',
     ),
   );
