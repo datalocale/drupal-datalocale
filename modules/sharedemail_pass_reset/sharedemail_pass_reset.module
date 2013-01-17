@@ -1,0 +1,169 @@
+<?php
+// $Id: sharedemail_pass_reset.module,v 1.1 2010/06/10 12:02:55 qandeel Exp $ 
+
+/**
+ *  Implementation of hook_form_alter().
+ */
+function sharedemail_pass_reset_form_alter(&$form, $form_state, $form_id) {
+  if ($form_id == "user_pass") { 
+  	 	
+  	$form['email'] = array(
+      '#type' => 'textfield',
+      '#title' => t('User Email'),
+      '#required' => 1,
+      '#weight' => -1,
+    );
+    
+    $form['name']['#title'] = "User Name";
+    
+    unset($form['#validate']);
+    $form['#validate'][] = '_sharedemail_pass_reset_user_pass_validate';
+    
+    // unset($form['#submit']);
+    // $form['#submit'][] = '_sharedemail_pass_reset_submit';
+  }
+}
+
+/**
+ *  Form validate handler defined in form alter section
+ */
+function _sharedemail_pass_reset_user_pass_validate($form, &$form_state) {
+  $name = trim($form_state['values']['name']);
+  $email = trim($form_state['values']['email']);
+  
+  // Blocked accounts cannot request a new password,
+  // check provided username and email against access rules.
+  if (drupal_is_denied('user', $name)) {
+    form_set_error('name', t('%name is not allowed to request a new password.', array('%name' => $name)));
+  }
+  if (drupal_is_denied('mail', $email)) {
+    form_set_error('email', t('%email is not allowed to request a new password.', array('%email' => $email)));
+  }
+
+  /*
+   * Try to check if users have same email address, this only happens when sharedemail module is used
+   */  
+  
+  if (_sharedemail_pass_reset_check_multiple($email) == 2) {
+    		$query = db_select('users', 'u');
+	$query->fields('u', array('name'))->condition('mail', db_like($email), 'LIKE');
+	$accounts = $query->execute()->fetchAllAssoc('name');
+foreach ($accounts as $paccount){
+      // Mail login URL and instructions if username and email exists.      
+      if ($paccount->name == $name) {
+        $account = user_load_by_name($name);
+		print_r($account);
+        form_set_value(array('#parents' => array('account')), $account, $form_state);
+
+      }
+    }
+    if (!$account->uid) {
+      form_set_error('name', t('Sorry, %name is not recognized as a user name registered with %email.', array('%name' => $name, '%email' => $email)));
+    }
+  }
+  elseif (_sharedemail_pass_reset_check_multiple($email) == 1) {
+    $account = user_load_by_name($name);
+	print_r($account); echo "dddddd";
+    if ($account->name == $name) {
+      form_set_value(array('#parents' => array('account')), $account, $form_state);
+    }
+    else {
+      form_set_error('name', t('Sorry, %name is not recognized as a user name registered with %email.', array('%name' => $name, '%email' => $email)));
+    }
+  }
+  else {
+    form_set_error('email', t('Sorry, %email is not recognized as an e-mail address registered with %name.', array('%email' => $email, '%name' => $name)));  
+  }  
+}
+
+function _sharedemail_pass_reset_check_multiple($email) {
+     $r = db_select('users')
+      ->fields('users', array('uid'))
+      ->condition('mail', db_like($email), 'LIKE')
+      ->execute()
+      ->fetchCol();
+
+    $res = count($r);echo "counnnnnt".$res;
+  if ($res > 1) {
+    return 2;
+  }
+  elseif ($res == 1) {
+    return 1;
+  }
+  else {
+    return 0;
+  }
+}
+
+/**
+ * Please donot delete commented code, may be we can make use in future enhancements
+ */
+
+/**
+ *  Form submit handler defined in form alter section
+ */
+
+/*
+function _sharedemail_pass_reset_submit($form, &$form_state) {
+  global $base_url;
+  $name = $form_state['values']['name'];
+  $email = $form_state['values']['email'];
+
+  if (_sharedemail_pass_reset_check_multiple($email)) {
+    $accounts = db_query("SELECT * FROM {users} WHERE LOWER(mail) = LOWER('%s')", $email);
+
+    while ($account = db_fetch_object($accounts)) {
+      // Mail login URL and instructions if username and email exists.
+      if ($account->name == $name) {
+        _sharedemail_pass_reset_send_mail($account);
+      }
+    }
+  }
+  else { 
+     // Mail login URL and instructions for users with unique email address.
+     $account = $form_state['values']['account'];
+     _sharedemail_pass_reset_send_mail($account);
+  }
+    return 'user';
+}
+*/
+
+
+
+
+/*
+function sharedemail_pass_reset_mail($key, &$message, $params) {
+  $language = $message['language'];
+  $variables = user_mail_tokens($params['account'], $language);
+  switch ($key) {
+    case 'password_reset':
+    $message['subject'] = _user_mail_text($key.'_subject', user_preferred_language($account), $variables);
+    $message['body'][] = _user_mail_text($key.'_body', user_preferred_language($account), $variables);
+    break;
+  }
+}
+function _sharedemail_pass_reset_send_mail($account) {
+  $params['account'] = $account;
+  $language = $language ? $language : user_preferred_language($account);
+  $mail_success = drupal_mail('password_reset', 'password_reset', $account->mail, $language, $params, variable_get('site_mail', ini_get('sendmail_from')));
+  if ($mail_success) {
+   watchdog('user', t('Password reset instructions mailed to %name at %email.', array('%name' => $account->name, '%email' => $account->mail)));
+   drupal_set_message(t('Further instructions have been sent to your e-mail address.'));
+  }
+  else {
+   watchdog('user', t('Error mailing password reset instructions to %name at %email.', array('%name' => $account->name, '%email' => $account->mail)), WATCHDOG_ERROR);
+   drupal_set_message(t('Unable to send mail. Please contact the site admin.'));
+  }
+}
+*/
+
+function _sharedemail_pass_reset_load_user_by_mail($mail){
+$query = db_select('users', 'u');
+$uid = $query->fields('u', array('uid'))->condition('u.uid', $mail)->execute()->fetchField();
+  if($uid){
+    return user_load($uid);
+  }else{
+    return FALSE;
+  }
+}
+

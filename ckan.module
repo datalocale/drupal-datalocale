@@ -1,0 +1,150 @@
+<?php
+/**
+ * @file
+ *
+ * A Module to Integrate CKAN and Drupal.
+ *
+ *
+ */
+module_load_include('inc', 'ckan', 'ckan.tags');
+module_load_include('inc', 'ckan', 'ckan.users');
+module_load_include('inc', 'ckan', 'ckan.groups');
+module_load_include('inc', 'ckan', 'ckan.licenses');
+module_load_include('inc', 'ckan', 'ckan.packages');
+
+/**
+ *
+ *
+ * hook_menu
+ *
+ *
+ */
+
+function ckan_menu(){
+	$items = array();
+
+	$items['ckan/list'] = array(
+    'page callback'   => 'ckan_list',
+    'access arguments' => array('access content'),
+    'type'            => MENU_CALLBACK,
+		'file' => 'ckan.packages.inc',
+	);
+	$items['ckan/tags'] = array(
+    'page callback'   => 'ckan_tags',
+    'access arguments' => array('access content'),
+    'type'            => MENU_CALLBACK,
+			'file' => 'ckan.packages.inc',
+	);
+	$items['ckan/groups'] = array(
+    'page callback'   => 'ckan_groups',
+    'access arguments' => array('access content'),
+    'type'            => MENU_CALLBACK,
+	'file' => 'ckan.groups.inc',
+	);
+	$items['ckan/users'] = array(
+    'page callback'   => 'ckan_users',
+    'access arguments' => array('access content'),
+    'type'            => MENU_CALLBACK,
+	'file' => 'ckan.users.inc',
+	);
+	$items['ckan/licenses'] = array(
+    'page callback'   => 'ckan_licenses',
+    'access arguments' => array('access content'),
+    'type'            => MENU_CALLBACK,
+	'file' => 'ckan.licenses.inc',
+	);
+	$items['admin/config/system/ckan'] = array(
+    'title' => 'Ckan',
+    'description' => 'Configure Ckan',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('ckan_admin_settings_form'),
+    'access arguments' => array('administer Ckan'),
+    'type' => MENU_NORMAL_ITEM,
+    'file' => 'ckan.admin.inc',
+	);
+	$items['recline'] = array(
+    'title' => 'Ckan',
+    'description' => 'Configure Ckan',
+    'page callback' => 'ckan_display_recline',
+    'access arguments' => array('administer Ckan'),
+    'type' => MENU_NORMAL_ITEM,
+	);
+
+	return $items;
+}
+
+
+/**
+ * Initialize the ckan object
+ *
+ *
+ */
+
+function ckan_ckan(){
+	static $ckan=null;
+	if (!$ckan){
+		require_once(dirname(__FILE__) . '/ckan.php');
+
+		$ckan=new Ckan(variable_get('ckan_url', 'http://datalift.si.fr.atosorigin.com/'),variable_get('ckan_api', ''));
+	}
+	return $ckan;
+}
+
+/**
+ * create a node extrafield
+ *
+ */
+function ckan_createnodeextra($name,$value,$uid=1){
+	$nd = new stdClass(); // We create a new node object
+	$nd->type = "ckan_extrafields"; // Or any other content type you want
+	$nd->title = "Extra field  ".$name;
+	$nd->uid = $uid;
+	$nd->language = LANGUAGE_NONE;
+	//$nd->created =strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
+	//$nd->changed=strtotime(str_replace("T"," ",$ckan_data-> metadata_last_modified));
+	$nd->field_labelchamp[LANGUAGE_NONE][0]['value'] = $name;
+	$nd->field_valuechamp[LANGUAGE_NONE][0]['value'] = $value;
+	$ndextra = node_submit($nd); // Prepare node for a submit
+	node_save($ndextra);
+	$nidextra=$ndextra->nid;
+	return $nidextra;
+}
+/**
+ * check if a node extrafield exists already
+ *
+ */
+function ckan_checkextra($name,$value){
+	$query = db_select('field_data_field_labelchamp', 'l');
+	$query->join('field_data_field_valuechamp', 'v', 'l.entity_id = v.entity_id'); // inner_join file_usage table against file_managed
+	$query->fields('l', array('entity_id'))->condition('l.field_labelchamp_value', $name, '=')->condition("v.field_valuechamp_value",$value,'=');
+	$result = $query->execute();
+	$nidextra=key($result->fetchAllAssoc('entity_id'));
+	return $nidextra;
+}
+
+/**
+ * Th hook_cron
+ *
+ *
+ */
+function ckan_cron(){
+	echo "Debut tags import<br/>";
+	ckan_tags();
+	echo "fin tags import<br/>";
+	echo "Debut users import<br/>";
+	ckan_users();
+	echo "fin users import<br/>";
+	echo "Debut groupes import<br/>";
+	ckan_groups();
+	echo "fin groupes import<br/>";
+	echo "Debut packages import<br/>";
+	ckan_list();
+	echo "fin packages import<br/>";
+}
+
+
+
+
+
+
+

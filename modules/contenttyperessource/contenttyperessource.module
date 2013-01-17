@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the contenttyperessource feature.
+ */
+
+include_once 'contenttyperessource.features.inc';

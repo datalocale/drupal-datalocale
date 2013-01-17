@@ -1,0 +1,28 @@
+<?php
+/**
+ * hook install
+ *
+ */
+function ckan_install() {
+	variable_set('ckan_url', 'http://datalift.si.fr.atosorigin.com/');
+	variable_set('ckan_api', '');
+	//variable_set('ckan_tagsvocab', 'ebizproduction');
+	//variable_set('ckan_frequencevocab', 'ebizproduction');
+	//variable_set('ckan_conceptvocab', 'ebizproduction');
+	//variable_set('ckan_categorievocab', 'ebizproduction');
+}
+/**
+ * hook uninstall
+ *
+ */
+function ckan_uninstall() {
+	variable_del('ckan_url');
+	variable_del('ckan_api');
+	variable_del('ckan_tagsvocab');
+	variable_del('ckan_frequencevocab');
+	variable_del('ckan_conceptvocab');
+	variable_del('ckan_categorievocab');
+	variable_del('ckan_geographicvocab');
+	variable_del('ckan_licencevocab');
+}
+
