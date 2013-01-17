@@ -8,7 +8,6 @@ function ckan_checkuser($id){
 	$query = db_select('field_data_field_idutilisateur', 'u');
 	$query->fields('u', array('entity_id'))->condition('field_idutilisateur_value', $id, '=');
 	$result = $query->execute();
-	//print_r($result);
 	return key($result->fetchAllAssoc('entity_id'));
 }
 /**
@@ -17,9 +16,7 @@ function ckan_checkuser($id){
  */
 
 function ckan_users(){
-
 	$ckan = ckan_ckan();
-	//print_r($ckan);
 	try {
 		$data['id']='';
 		$users = $ckan->getckanusers($data);
@@ -81,14 +78,12 @@ function getusers($users){
 			$account->field_fullname[LANGUAGE_NONE][0]['value'] = $u->fullname;
 			$account->field_about[LANGUAGE_NONE][0]['value'] = $u->about;
 			$account->timezone = variable_get('date_default_timezone', '');
-			//print_r($account);
 			$usr = user_save($account);
 			if($u->openid<>''){
 				$authmaps=array();
 				$authmaps['auth_openid']=$u->openid;
 				user_set_authmaps($account,$authmaps);
 			}
-			//  $num_updated = db_update('users')->fields(array('pass' => user_hash_password("teston"),  ))->condition('uid', $usr->uid, '=')->execute();
 			_user_mail_notify("register_admin_created",$usr);
 			drupal_set_message(t("User @title added",array("title"=>$u->name)));
 			echo t("User @title added",array("@title"=>$u->name))."<br/>";
@@ -107,14 +102,11 @@ function getusers($users){
 			$edit['field_about']['und'][0]['value'] = $u->about;
 			user_save($existing, $edit);
 			$num_updated = db_update('users')
-			->fields(array(
-    'pass' => user_hash_password($u->name),
-			))
+			->fields(array('pass' => user_hash_password($u->name),))
 			->condition('uid', $uid, '=')
 			->execute();
 			drupal_set_message(t("User @title edited",array("@title"=>$u->name)));
 			echo t("User @title edited",array("@title"=>$u->name))."<br/>";
-
 	}
 	}
 	}
