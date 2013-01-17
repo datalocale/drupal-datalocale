@@ -75,13 +75,13 @@ function ckan_create_node($ckan_data,$licenses){
 
 	// common part for add andd edit  setting up the fields
 	$node->uid = $uid;
-    $node->comment = 2;
+	$node->comment = 2;
 	if($ckan_data->state=="active")$state=1; else $state=0;
 	$node->status =$state;
 	$node->title = $ckan_data->title;
 	$node->field_id[LANGUAGE_NONE][0]['value'] = $ckan_data->id;
 	//echo $ckan_data-> metadata_created;// break;
-	
+
 	$node->path ['alias'] = 'dataset/'.$ckan_data->name;
 	if($ckan_data->notes){
 		$body_text = $ckan_data->notes;
@@ -93,7 +93,7 @@ function ckan_create_node($ckan_data,$licenses){
 	$node->date=$s[0];
 	$node->created=strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
 	//$node->changed=strtotime(str_replace("T"," ",$ckan_data-> metadata_modified));
-	
+
 	if($ckan_data->name)$node->field_name[LANGUAGE_NONE][0]['value'] = $ckan_data->name;
 	if($ckan_data->url){$node->field_url[LANGUAGE_NONE][0]['url'] = $ckan_data->url;
 	$node->field_url[LANGUAGE_NONE][0]['title'] = $ckan_data->name;
@@ -204,7 +204,7 @@ function ckan_create_node($ckan_data,$licenses){
 		$ca =key($caar); //echo "taxo".ckan_taxonomy_get_term_by_value($ca)."fintest<br/>";
 		if($ca<>''&& ckan_taxonomy_get_term_by_value($ca)<>''){
 			//$node->field_categorie[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_term_by_value($ca);
-		$node->field_concept[LANGUAGE_NONE][1]['tid']=ckan_taxonomy_get_term_by_value($ca);}
+			$node->field_concept[LANGUAGE_NONE][1]['tid']=ckan_taxonomy_get_term_by_value($ca);}
 	}
 
 	// managing geographical granularity
@@ -234,10 +234,6 @@ function ckan_create_node($ckan_data,$licenses){
 		if($file->fid<>'')$node->field_image[LANGUAGE_NONE][0] = (array) $file;
 
 	}
-
-
-
-
 	//adding or editingextra fields in content type ckan_extrafields/////////////////////////
 	$extras=array();
 	//$arrex=array();
@@ -279,14 +275,14 @@ function ckan_create_node($ckan_data,$licenses){
 			}
 		}
 	}
-	
+
 	/////////////////////////// fin fields ressources///////////////////////////////////////////
-	
+
 	$node=node_submit($node);
 	node_save($node);
-	 db_update('node')->fields(array('changed' => strtotime(str_replace("T"," ",$ckan_data-> metadata_modified))))
-  ->condition('nid',$node->nid, '=')
-  ->execute();
+	db_update('node')->fields(array('changed' => strtotime(str_replace("T"," ",$ckan_data-> metadata_modified))))
+	->condition('nid',$node->nid, '=')
+	->execute();
 	if($nid){drupal_set_message(t("Package @title edited",array("@title"=>$ckan_data->title)));
 	echo t("Package @title edited",array("@title"=>$ckan_data->title));
 	}
@@ -344,7 +340,7 @@ function ckan_list(){
 		$ckan_list = $ckan->getPackageList($data);
 		$ckan_list=$ckan_list->result;
 		if($ckan_list)foreach($ckan_list as $k=>$ck){
-				
+
 			ckan_new($ck,$datelastimport);
 
 		}
@@ -374,10 +370,10 @@ function ckan_createnoderessource($res,$nidres='',$uid=''){
 		$nd->field_ressourceid[LANGUAGE_NONE][0]['value'] = $res->id;
 
 	}
-	
+
 	/*$s=explode("T",$res-> metadata_created);
-	$nd->date=$s[0];
-	if(isset($res->created))$nd->created=strtotime(str_replace("T"," ",$res-> metadata_created));*/
+	 $nd->date=$s[0];
+	 if(isset($res->created))$nd->created=strtotime(str_replace("T"," ",$res-> metadata_created));*/
 	//if(isset($res->created))$nd->created =strtotime(str_replace("T"," ",$res->created));
 	//if(isset($res->last_modified))$nd->changed=strtotime(str_replace("T"," ",$res->last_modified));
 	$nd->title = $res->name;
@@ -408,21 +404,14 @@ function ckan_createnoderessource($res,$nidres='',$uid=''){
 		}
 		$file = system_retrieve_file($filepath, $directory, TRUE,FILE_EXISTS_REPLACE);
 		$file->grid=1;
-        $file->graph = 0;
-        $file->map = 1;
-        $file->timeline = 1;
-        $file->transform =0;
+		$file->graph = 0;
+		$file->map = 1;
+		$file->timeline = 1;
+		$file->transform =0;
 
 		if($file->fid<>'')$nd->field_ressourcefile[LANGUAGE_NONE][0] = (array) $file;
 
 	}
-
-
-
-
-
-
-
 
 	/////////adding fields extra////////////////////////////////
 	if($res)foreach($res as $k =>$v)if(!in_array($k,$arrbasicfields))$extras[$k]=$v;
@@ -442,8 +431,8 @@ function ckan_createnoderessource($res,$nidres='',$uid=''){
 	node_save($ndres);
 	$nidres=$ndres->nid;
 	/* db_update('node')->fields(array('changed' => strtotime(str_replace("T"," ",$res-> last_modified))))
-  ->condition('nid',$nidres, '=')
-  ->execute();*/
+	 ->condition('nid',$nidres, '=')
+	 ->execute();*/
 	return $nidres;
 }
 

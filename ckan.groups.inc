@@ -8,15 +8,15 @@
 
 function ckan_groups(){
 
-$ckan = ckan_ckan();
-	 try {
+	$ckan = ckan_ckan();
+	try {
 	 $groups = $ckan->getGroupList();
 	 //print_r($groups);
- if($groups)foreach($groups as $k=>$g)
+	 if($groups)foreach($groups as $k=>$g)
 	 $groupe= group_new($g);
 
 	 global $arrgroups;
- 	 global $arrusers;
+	 global $arrusers;
 
 	 foreach($arrgroups as $idp=>$gr){
 	 	$nidparent=ckangroup_nid_from_id($idp);
@@ -29,7 +29,7 @@ $ckan = ckan_ckan();
 	 	}
 
 	 }
-	 	 foreach($arrusers as $nameu=>$grs){
+	 foreach($arrusers as $nameu=>$grs){
 	 	$usr=user_load_by_name($nameu);
 	 	$edit = (array) $usr;
 	 	unset($edit['field_ugroupes']['und']);
@@ -38,22 +38,22 @@ $ckan = ckan_ckan();
 
 	 		$nidgr=ckangroup_nid_from_id($gr);
 
-$edit['field_ugroupes']['und'][]['nid'] = $nidgr;
-//print_r($edit);
-user_save($usr, $edit);
+	 		$edit['field_ugroupes']['und'][]['nid'] = $nidgr;
+	 		//print_r($edit);
+	 		user_save($usr, $edit);
 	 	}
 
 	 }
 
 
 
-	 }
+	}
 
-	 catch (CkanException $e){
+	catch (CkanException $e){
 	 drupal_set_message($e->getMessage(), "error list groups");
 	 drupal_set_title("error list groups");
 	 return "error list groups";
-	 }
+	}
 
 }
 
@@ -67,7 +67,7 @@ function group_new($group_name){
 	$ckan = ckan_ckan();
 	try {
 		$data['id']=$group_name;
-	$data['all_fields']=1;
+		$data['all_fields']=1;
 		$group_data = $ckan->getGroup($data);
 		print_r($group_data);
 	} catch (CkanException $e){
@@ -98,8 +98,8 @@ function ckangroup_nid_from_id($pid){
 function ckan_create_group($group_data){
 	echo $group_data->id."pppp";
 	$nid=ckangroup_nid_from_id($group_data->id);
- // print_r($group_data);
- echo $nid."<br/>";
+	// print_r($group_data);
+	echo $nid."<br/>";
 	// if packaage exists then ->edit package ( creation of a new node revision)
 	if($nid){
 		$node=node_load($nid);
@@ -141,56 +141,53 @@ function ckan_create_group($group_data){
 	if(isset($group_data->phone))$node->field_gphone[LANGUAGE_NONE][0]['value'] = json_decode($group_data->phone);
 	if(isset($group_data->mail))$node->field_gemail[LANGUAGE_NONE][0]['email'] = json_decode($group_data->mail);
 	if(isset($group_data->{"street-address"}))$node->field_streetaddress[LANGUAGE_NONE][0]['value'] = json_decode($group_data->{"street-address"});
-	
 
-	
-	
-	// managing image url 
+
+
+
+	// managing image url
 	if($group_data->image_url<>''){
-	$imgpath=$group_data->image_url;
-  $directory = file_build_uri('groups');
-  if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY)) {
-    // If our directory doesn't exist and can't be created, use the default.
-    $directory = NULL;
-  }
-  $file = system_retrieve_file($imgpath, $directory, TRUE,FILE_EXISTS_REPLACE); 
-if($file->fid<>'' && $file)$node->field_gimage[LANGUAGE_NONE][0] = (array) $file;
+		$imgpath=$group_data->image_url;
+		$directory = file_build_uri('groups');
+		if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY)) {
+			// If our directory doesn't exist and can't be created, use the default.
+			$directory = NULL;
+		}
+		$file = system_retrieve_file($imgpath, $directory, TRUE,FILE_EXISTS_REPLACE);
+		if($file->fid<>'' && $file)$node->field_gimage[LANGUAGE_NONE][0] = (array) $file;
 
-	}	
+	}
 
 
 
 	//adding or editingextra fields in content type ckan_extrafields/////////////////////////
 	if($group_data->additional_extras){
-	$arrextra=array();
-	foreach($group_data->additional_extras as $ext)$arrextra[$ext->key]=$ext->value;
-if(isset($node->field_grextras[LANGUAGE_NONE]))foreach($node->field_grextras[LANGUAGE_NONE] as $k=>$ext)if(!in_array($ext,$arrextra))unset($node->field_grextras[LANGUAGE_NONE][$k]['nid']);
-	foreach ($arrextra as $name => $value) {
-		/// check if the field exists
-		$nidextra=ckan_checkextra($name,$value);
-		if($nidextra && $nidextra<>'' && (isset($node->field_grextras) && !in_array($nidextra,$node->field_grextras[LANGUAGE_NONE])))$node->field_grextras[LANGUAGE_NONE][]['nid']=$nidextra;
-		else{
-			/// create a field node
-			$nidextra=ckan_createnodeextra($name,$value,1);
-			if($nidextra && $nidextra<>'')$node->field_grextras[LANGUAGE_NONE][]['nid']=$nidextra;
+		$arrextra=array();
+		foreach($group_data->additional_extras as $ext)$arrextra[$ext->key]=$ext->value;
+		if(isset($node->field_grextras[LANGUAGE_NONE]))foreach($node->field_grextras[LANGUAGE_NONE] as $k=>$ext)if(!in_array($ext,$arrextra))unset($node->field_grextras[LANGUAGE_NONE][$k]['nid']);
+		foreach ($arrextra as $name => $value) {
+			/// check if the field exists
+			$nidextra=ckan_checkextra($name,$value);
+			if($nidextra && $nidextra<>'' && (isset($node->field_grextras) && !in_array($nidextra,$node->field_grextras[LANGUAGE_NONE])))$node->field_grextras[LANGUAGE_NONE][]['nid']=$nidextra;
+			else{
+				/// create a field node
+				$nidextra=ckan_createnodeextra($name,$value,1);
+				if($nidextra && $nidextra<>'')$node->field_grextras[LANGUAGE_NONE][]['nid']=$nidextra;
+			}
 		}
-	}
 	}
 
 	/////////////////////////// fin fields extras///////////////////////////////////////////
 
 	///////////////////////////groups////////////////////////////////////////////////
-		 global $arrgroups;
+	global $arrgroups;
 	$groups=$group_data->children;
 	if($groups)foreach($groups as $gr)$arrgroups[$group_data->id][]=$gr->id;
 
 	/////////////////// group users/////////////////
-	 global $arrusers;
+	global $arrusers;
 	$users=$group_data->users;
 	if($users)foreach($users as $ur)$arrusers[$ur->name][]=$group_data->id;
-
-
-
 	$node=node_submit($node);
 	node_save($node);
 	if($nid){drupal_set_message(t("Group @title edited",array("@title"=>$group_data->title)));

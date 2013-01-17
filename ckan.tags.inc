@@ -261,7 +261,7 @@ function ckan_tagst(){
 					$term->vid = $ckanvocab;
 					drupal_set_message(t("Tag @title edited",array("@title"=>$tg->display_name)));
 					echo t("Tag @title edited",array("@title"=>$tg->display_name))."<br/>";
-						
+
 
 
 				}else{
@@ -272,8 +272,8 @@ function ckan_tagst(){
 					$term->field_value[LANGUAGE_NONE][0]['value']=$tg->name;
 					drupal_set_message(t("Tag @title added",array("@title"=>$tg->display_name)));
 					echo t("Tag @title added",array("@title"=>$tg->display_name))."<br/>";
-						
-						
+
+
 
 				}
 				taxonomy_term_save($term);
@@ -281,7 +281,7 @@ function ckan_tagst(){
 				//print_r($childs);
 				ckan_childs($childs->result->tags,$term->tid);
 			}
-				
+
 		}
 	}
 	catch (CkanException $e){

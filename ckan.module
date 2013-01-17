@@ -13,7 +13,7 @@ module_load_include('inc', 'ckan', 'ckan.licenses');
 module_load_include('inc', 'ckan', 'ckan.packages');
 
 /**
- * 
+ *
  *
  * hook_menu
  *
@@ -23,13 +23,13 @@ module_load_include('inc', 'ckan', 'ckan.packages');
 function ckan_menu(){
 	$items = array();
 
-		$items['ckan/list'] = array(
+	$items['ckan/list'] = array(
     'page callback'   => 'ckan_list',
     'access arguments' => array('access content'),
     'type'            => MENU_CALLBACK,
 		'file' => 'ckan.packages.inc',
 	);
-			$items['ckan/tags'] = array(
+	$items['ckan/tags'] = array(
     'page callback'   => 'ckan_tags',
     'access arguments' => array('access content'),
     'type'            => MENU_CALLBACK,
@@ -68,7 +68,7 @@ function ckan_menu(){
     'page callback' => 'ckan_display_recline',
     'access arguments' => array('administer Ckan'),
     'type' => MENU_NORMAL_ITEM,
-    );
+	);
 
 	return $items;
 }
@@ -135,10 +135,10 @@ function ckan_cron(){
 	ckan_users();
 	echo "fin users import<br/>";
 	echo "Debut groupes import<br/>";
-  ckan_groups();
+	ckan_groups();
 	echo "fin groupes import<br/>";
 	echo "Debut packages import<br/>";
-  ckan_list();
+	ckan_list();
 	echo "fin packages import<br/>";
 }
 
