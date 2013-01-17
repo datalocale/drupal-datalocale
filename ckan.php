@@ -54,7 +54,7 @@ class Ckan {
 		if ($apikey) { $this->api_key = $apikey; }
 	}
 
-/*	private function transfer($url, $method='GET', $data=null){
+	private function transfer($url, $method='GET', $data=null){
 
 		$ch = curl_init($this->url . $url);
 		//curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -78,7 +78,7 @@ class Ckan {
 		}
 		return json_decode($result);
 	}
-*/
+
 	private function actiontransfer($url,$data){
 		$data_string = json_encode($data);
 
