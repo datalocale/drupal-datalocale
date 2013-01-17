@@ -37,21 +37,17 @@ function ckan_taxonomy_get_termid_by_ckanid($v){
 
 
 function ckan_create_node($ckan_data,$licenses){
-
 	$ckan_data=$ckan_data->result;
-	//print_r($ckan_data);
 	$nid=ckanpackage_nid_from_id($ckan_data->id);
 	print_r($ckan_data);
 	$arrextra=array();
 	if(isset($ckan_data->extras))foreach($ckan_data->extras as $ext)$arrextra[$ext->key]=$ext->value;
 	$arrextraad=array();
 	if(isset($ckan_data->additional_extras))foreach($ckan_data->additional_extras as $ext)$arrextraad[$ext->key]=$ext->value;
-	//print_r($arrextra);
 	echo "test:".json_decode($ckan_data->ckan_author)."enddd <br/>";
 	if(isset($ckan_data->ckan_author)&& json_decode($ckan_data->ckan_author)<>'')
 	$uid=ckan_checkuser(json_decode($ckan_data->ckan_author));
 	if(!isset($uid) ||$uid=='')$uid=1;
-	//echo $uid."uiddddddddd";
 	// if packaage exists then ->edit package ( creation of a new node revision)
 	echo $nid;
 	if($nid){
@@ -80,7 +76,6 @@ function ckan_create_node($ckan_data,$licenses){
 	$node->status =$state;
 	$node->title = $ckan_data->title;
 	$node->field_id[LANGUAGE_NONE][0]['value'] = $ckan_data->id;
-	//echo $ckan_data-> metadata_created;// break;
 
 	$node->path ['alias'] = 'dataset/'.$ckan_data->name;
 	if($ckan_data->notes){
@@ -92,8 +87,6 @@ function ckan_create_node($ckan_data,$licenses){
 	$s=explode("T",$ckan_data-> metadata_created);
 	$node->date=$s[0];
 	$node->created=strtotime(str_replace("T"," ",$ckan_data-> metadata_created));
-	//$node->changed=strtotime(str_replace("T"," ",$ckan_data-> metadata_modified));
-
 	if($ckan_data->name)$node->field_name[LANGUAGE_NONE][0]['value'] = $ckan_data->name;
 	if($ckan_data->url){$node->field_url[LANGUAGE_NONE][0]['url'] = $ckan_data->url;
 	$node->field_url[LANGUAGE_NONE][0]['title'] = $ckan_data->name;
@@ -113,12 +106,6 @@ function ckan_create_node($ckan_data,$licenses){
 	if(isset($ckan_data->{'temporal_coverage-to'})&& json_decode($ckan_data->{'temporal_coverage-to'})<>'')$node->field_couverturetemporelle[LANGUAGE_NONE][0]['value2'] = json_decode($ckan_data->{'temporal_coverage-to'});
 	if(isset($ckan_data->license_id))$node->field_license_id[LANGUAGE_NONE][0]['value'] = $ckan_data->license_id;
 	if(isset($ckan_data->revision_id))$node->field_revision_id[LANGUAGE_NONE][0]['value'] = $ckan_data->revision_id;
-	/*if($licenses){$node->field_license[LANGUAGE_NONE][0]['title'] = $licenses[$ckan_data->license_id]['title'];
-	 $node->field_license[LANGUAGE_NONE][0]['url'] = $licenses[$ckan_data->license_id]['url'];
-	 }*/
-	//if(isset($ckan_data->groups))$node->field_groupe[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id($ckan_data->groups[0]->id);
-
-
 	/// managing spatial elements//////////////////////
 	if(isset($ckan_data->spatial)){
 		$geophp = geophp_load();
@@ -140,8 +127,6 @@ function ckan_create_node($ckan_data,$licenses){
 	if(isset($ckan_data->{"dct:contributor"}))$node->field_contributor[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{"dct:contributor"});
 	if(isset($ckan_data->{'dct:creator'}))$node->field_creator[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(json_decode($ckan_data->{'dct:creator'}));
 	if(isset($ckan_data->{'dct:publisher'}))$node->field_publisher[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(json_decode($ckan_data->{'dct:publisher'}));
-	//if(isset($ckan_data->{'dct:publisher'}))$node->field_publisher[LANGUAGE_NONE][0]['nid'] = ckangroup_nid_from_id(json_decode($arrextra['published_by']));
-	//if(isset($ckan_data->{'dct:temporal'}))$node->field_temporal[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'dct:temporal'});
 	if(isset($ckan_data->{'maj'})){
 		$node->field_maj[LANGUAGE_NONE][0]['value'] = json_decode($ckan_data->{'maj'});
 		$node->field_maj[LANGUAGE_NONE][0]['format'] ='filtered_html';
@@ -201,9 +186,8 @@ function ckan_create_node($ckan_data,$licenses){
 	// managing categories
 	if(isset($ckan_data->theme_available)){
 		$caar=(array)$ckan_data->theme_available;
-		$ca =key($caar); //echo "taxo".ckan_taxonomy_get_term_by_value($ca)."fintest<br/>";
+		$ca =key($caar); 
 		if($ca<>''&& ckan_taxonomy_get_term_by_value($ca)<>''){
-			//$node->field_categorie[LANGUAGE_NONE][0]['tid']=ckan_taxonomy_get_term_by_value($ca);
 			$node->field_concept[LANGUAGE_NONE][1]['tid']=ckan_taxonomy_get_term_by_value($ca);}
 	}
 
@@ -214,23 +198,15 @@ function ckan_create_node($ckan_data,$licenses){
 		if($gg<>''&& $tidgg<>'')$node->field_geogranularity[LANGUAGE_NONE][0]['tid']=$tidgg;
 	}
 
-
-
-
-
 	// managing image url
 	if(isset($ckan_data->image_url) && json_decode($ckan_data->image_url)<>''){
 		$imgpath=json_decode($ckan_data->image_url);
-
-
 		$directory = file_build_uri('packages');
 		if (!file_prepare_directory($directory, FILE_CREATE_DIRECTORY)) {
 			// If our directory doesn't exist and can't be created, use the default.
 			$directory = NULL;
 		}
 		$file = system_retrieve_file($imgpath, $directory, TRUE,FILE_EXISTS_REPLACE);
-		//print_r($file);
-
 		if($file->fid<>'')$node->field_image[LANGUAGE_NONE][0] = (array) $file;
 
 	}

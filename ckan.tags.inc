@@ -14,7 +14,6 @@ function ckan_tags(){
 	ckan_tagsgeo();
 
 }
-//ckan_tagscat();
 /**
  * check if the tag already exists
  *
@@ -141,7 +140,6 @@ function ckan_tagsq(){
 					$term->field_tagid[LANGUAGE_NONE][0]['value']=$tg->id;
 					drupal_set_message(t("Tag @title added",array("@title"=>$tg->display_name)));
 					echo t("Tag @title added",array("@title"=>$tg->display_name))."<br/>";
-
 				}
 				taxonomy_term_save($term);
 			}
@@ -165,7 +163,6 @@ function ckan_tagsg(){
 		$data['all_fields']=1;
 		$data['vocabulary_id']="dcat:granularity";
 		$tags = $ckan->gettags($data);
-		print_r($tags);echo "granuuuuul";
 		if($tags->result)foreach($tags->result as $k=>$tg){
 			if(isset($tg->packages))if(count($tg->packages)>0){
 				$tid=ckan_checktag($tg->id);
@@ -209,7 +206,6 @@ function ckan_tagsf(){
 		$data['all_fields']=1;
 		$data['vocabulary_id']="dct:accrualPeriodicity";
 		$tags = $ckan->gettags($data);
-		print_R($tags);echo "frequence";
 		if($tags->result)foreach($tags->result as $k=>$tg){
 			if(isset($tg->packages))if(count($tg->packages)>0){
 				$tid=ckan_checktag($tg->id);
@@ -251,7 +247,6 @@ function ckan_tagst(){
 		$data['all_fields']=1;
 		$data['vocabulary_id']="dcat:themeTaxonomy";
 		$tags = $ckan->gettagsdatalocale($data);
-		//print_r($tags);
 		if($tags->result)foreach($tags->result as $k=>$tg){
 			if(isset($tg->packages))if(count($tg->packages)>0){
 				$tid=ckan_checktag($tg->id);
@@ -261,9 +256,6 @@ function ckan_tagst(){
 					$term->vid = $ckanvocab;
 					drupal_set_message(t("Tag @title edited",array("@title"=>$tg->display_name)));
 					echo t("Tag @title edited",array("@title"=>$tg->display_name))."<br/>";
-
-
-
 				}else{
 					$term = new stdClass();
 					$term->name = $tg->display_name;
@@ -272,13 +264,9 @@ function ckan_tagst(){
 					$term->field_value[LANGUAGE_NONE][0]['value']=$tg->name;
 					drupal_set_message(t("Tag @title added",array("@title"=>$tg->display_name)));
 					echo t("Tag @title added",array("@title"=>$tg->display_name))."<br/>";
-
-
-
 				}
 				taxonomy_term_save($term);
 				$childs=ckan_soustags($tg->name);
-				//print_r($childs);
 				ckan_childs($childs->result->tags,$term->tid);
 			}
 
@@ -299,7 +287,6 @@ function ckan_tagst(){
  */
 function ckan_childs($childs,$parent){
 	$ckanvocab=variable_get('ckan_conceptvocab');
-	//print_r($childs);
 	foreach($childs as $tg){
 		if(isset($tg->packages))if(count($tg->packages)>0){
 	 	$tid=ckan_checktag($tg->id);
@@ -322,7 +309,6 @@ function ckan_childs($childs,$parent){
 				drupal_set_message(t("Tag @title added",array("@title"=>$tg->display_name)));
 				echo t("Tag @title added",array("@title"=>$tg->display_name))."<br/>";
 			}
-			//	print_r($trm);
 			taxonomy_term_save($trm);
 		}
 	}
@@ -340,13 +326,8 @@ function ckan_tagscat(){
 		$data['recursive']=1;
 		$data['all_fields']=1;
 		$tags = $ckan->tagscat($data);
-
-
 	 if($tags->result)foreach($tags->result as $tgs){
 	 	foreach($tgs as $tg){
-
-	 		//$term = taxonomy_get_term_by_name($tg[1]);
-
 	 		$term =taxonomy_term_load_multiple(array(), array('name' => $tg[1], 'vid' => $ckanvocab));
 	 		$tid=key($term);
 	 		if($tid){
@@ -361,8 +342,6 @@ function ckan_tagscat(){
 	 			$term = new stdClass();
 	 			$term->name = $tg[1];
 	 			$term->vid = $ckanvocab;
-	 			// l 'id est eliminé dans cette categorie
-	 			//$term->field_tagid[LANGUAGE_NONE][0]['value']=$tg->id;
 	 			$term->field_value[LANGUAGE_NONE][0]['value']=$tg[0];
 	 			drupal_set_message(t("Tag @title added",array("@title"=>$tg[1])));
 	 			echo t("Tag @title added",array("@title"=>$tg[1]))."<br/>";
@@ -392,7 +371,6 @@ function ckan_tagsgeo(){
 		$data['all_fields']=1;
 		$data['vocabulary_id']="geographic_granularity";
 		$tags = $ckan->gettagsdatalocale($data);
-		print_r($tags);echo "geoooo";
 		if($tags->result)foreach($tags->result as $k=>$tg){
 			if(isset($tg->packages))if(count($tg->packages)>0){
 				$tid=ckan_checktag($tg->id);
@@ -436,11 +414,8 @@ function ckan_licence(){
 		$licenses = $ckan->getLicenseList();
 		// print_r($licenses);
 		if($licenses)foreach($licenses as $k=>$g){
-			//if($i<=10)
 			$arrlic[$g->id]['title']=$g->title;
 			$arrlic[$g->id]['url']=$g->url;
-			// echo ckan_create_license($g);$i++;
-
 		}
 		if($arrlic)foreach($arrlic as $k=>$tg){
 			$tid=ckan_checktag($k);
