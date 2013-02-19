@@ -1,7 +1,7 @@
 <?php
 class Ckan {
-	private  $url = 'http://datalift.si.fr.atosorigin.com/';
-	private $apikey = 'a37d3691-312e-4d87-b95b-349f0ff31558';
+	private  $url = 'CKAN_URL';
+	private $apikey = 'API_KEY';
 
 
 	private $debugmode = FALSE;

@@ -4,7 +4,7 @@
  *
  */
 function ckan_install() {
-	variable_set('ckan_url', 'http://datalift.si.fr.atosorigin.com/');
+	variable_set('ckan_url', '');
 	variable_set('ckan_api', '');
 	//variable_set('ckan_tagsvocab', 'ebizproduction');
 	//variable_set('ckan_frequencevocab', 'ebizproduction');
