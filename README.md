@@ -10,7 +10,7 @@ Ce module a été spécifiquement développé par [Bluedrop](http://www.bluedrop
 
 Il peut néanmoins constituer une bonne base de travail à adapter suivant vos besoins.
 
-Il est compatible avec Drupal 7.x et [CKAN 1.8](http://ckan.org/).
+Il est compatible avec Drupal 7.x et [CKAN 1.7.2](http://ckan.org/).
 
 ### Fonctionnalités
 
@@ -21,8 +21,6 @@ Module drupal permettant la récupération de données de l'entrepôt CKAN, nota
 * packages
 * tags
 * licences
-
-Plus un set de commandes drush pour import manuel du contenu (sans CRON).
 
 ### Installation
 
@@ -37,7 +35,7 @@ This module was developed by [Bluedrop](http://www.bluedrop.fr) / [Ebizproductio
 
 Nevertheless, it could be helpful to kickstart your next Drupal - Ckan project.
 
-It's compatible with Drupal 7.x and [CKAN 1.8](http://ckan.org/).
+It's compatible with Drupal 7.x and [CKAN 1.7.2](http://ckan.org/).
 
 ### Features
 
@@ -48,8 +46,6 @@ This Drupal 7 modules allows to retrieve data from the Ckan datastore :
 * packages
 * tags
 * licences
-
-Plus a set of drush command to import content manually (without CRON).
 
 ### Installation
 
